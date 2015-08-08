@@ -1,0 +1,10 @@
+name = rivers.org.nz Migrate
+description = Migrate users and content from Drupal 6 to Drupal 7.
+core = 7.x
+package = rivers
+version = 7.x-1.0-alpha1
+dependencies[] = migrate
+dependencies[] = migrate_d2d
+files[] = rivers_migrate.migrate.inc
+files[] = user.inc
+files[] = node.inc

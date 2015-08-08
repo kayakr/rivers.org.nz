@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @file rivers_migrate.module
+ */
+
+/**
+ * Intentionally left empty, see rivers_migrate.migrate.inc
+ * for the actual implementation.
+ *
+ * @link https://drupal.org/node/1006982
+ */
