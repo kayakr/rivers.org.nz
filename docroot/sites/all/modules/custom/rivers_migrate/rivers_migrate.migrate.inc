@@ -98,16 +98,15 @@ function rivers_migrate_migrate_api() {
     $api['migrations'][$migration_name] = $arguments;
   }
 
-  // Migrate Files.
+  // Migrate Files from legacy private to D7 public dir.
   // @todo: public & private files?
   $file_arguments = $common_arguments + array(
       'class_name' => 'DrupalFile6Migration',
       'description' => t('Import Drupal 6 files'),
       'user_migration' => 'RiversUser',
       'default_uid' => 1,
-      // Drupal root.
-      'source_dir' => '/Users/jonathan/Sites/drupal-6.36',
-      'destination_dir' => 'public://legacy_files',
+      'source_dir' => '', //'/Users/jonathan/Sites/drupal-6.36',
+      'destination_dir' => 'public://',
     );
   $api['migrations']['RiversFile'] = $file_arguments;
 

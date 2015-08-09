@@ -20,6 +20,9 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
       $this->addFieldMapping('field_mobile', 'profile_mobile');
       $this->addFieldMapping('field_bio', 'profile_bio');
 
+      $this->addFieldMapping('signature', 'signature')
+        ->callbacks(array($this, 'truncateSignature'));
+
 /*      $this->addFieldMapping('field_twitter', 'field_contact_twitter');
       $this->addFieldMapping('field_alternate_phone', 'field_contact_alternate_phone');
       $this->addfieldMapping('field_alternate_phone:language')
@@ -51,6 +54,10 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
 
   }
 
+  public function truncateSignature($value) {
+    return substr($value, 0, 255);
+  }
+
   public function prepareRow($row) {
     //flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
     //drush_print_r($row);
@@ -72,7 +79,9 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
     $row->profile_firstname = $profile_fields[2];
     $row->profile_region = $profile_fields[3];
     $row->profile_mobile = $profile_fields[4];
-    $row->profile_bio = $profile_fields[5];
+    if (!empty($profile_fields[5])) {
+      $row->profile_bio = $profile_fields[5];
+    }
 
     return TRUE;
   }

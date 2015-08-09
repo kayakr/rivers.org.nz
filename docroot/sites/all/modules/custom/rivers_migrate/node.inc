@@ -10,9 +10,6 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
     // Preserve the nids from D6.
     $this->addFieldMapping('field_legacy_nid', 'nid');
 
-    $this->addFieldMapping('field_id', 'field_id')
-      ->callbacks(array($this, 'alterId'));
-    $this->addFieldMapping('field_version', 'field_version');
 
     // Migrate from User reference field to Entity Reference field,
     // taking into account remapped user ids.
@@ -80,42 +77,9 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
 
     // Dates are off-by-one.
     //[field_date] => 2013-08-28T12:00:00
-    $row->field_date = str_replace('T12', 'T13', $row->field_date);
+    //$row->field_date = str_replace('T12', 'T13', $row->field_date);
 
     return TRUE;
-  }
-
-  /**
-   * Change Ids from AAA-BBB-CCC to AAA/BBB/CCC as hyphenation was D6 limitation.
-   * @param $value
-   */
-  public function alterId($value) {
-    return str_replace('-', '/', $value);
-  }
-
-  /**
-   * Map from Category term tid to text key for enumerated Category values.
-   * @param $value
-   * @return string
-   */
-  public function mapTermToTextKey($value) {
-    $tid = current($value);
-    switch ($tid) {
-      case 231:
-        return 'organisational-management';
-      case 232:
-        return 'care-manual';
-      case 233:
-        return 'health-safety';
-      case 234:
-        return 'human-resources';
-      case 235:
-        return 'self-learning-packages';
-      case 236:
-        return 'audit';
-      case 237:
-        return 'infection-prevention-control';
-    }
   }
 
 }
