@@ -12,11 +12,11 @@ include_once 'rivers_site.features.inc';
  *
  * Implements hook_menu()
  */
-function mto_menu() {
+function rivers_site_menu() {
 
   $items['home'] = array(
-    'title' => "Whitewater NZ",
-    'page callback' => 'rivers_home',
+    'title' => 'Whitewater NZ',
+    'page callback' => 'rivers_site_home',
     'access callback' => TRUE,
     'type' => MENU_NORMAL_ITEM,
   );
@@ -27,6 +27,6 @@ function mto_menu() {
 /**
  * During development, direct to appropriate homepage.
  */
-function rivers_home() {
+function rivers_site_home() {
   return '<p>{rivers homepage}</p>'; /* empty page */
 }
