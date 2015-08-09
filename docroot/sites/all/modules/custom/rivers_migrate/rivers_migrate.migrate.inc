@@ -63,6 +63,18 @@ function rivers_migrate_migrate_api() {
     $machine_name = str_replace(array('-', '&', '.'), '', $vocab['name']);
     $machine_name = str_replace(array('  '), ' ', $machine_name);
     $machine_name = str_replace(array(' '), '_', $machine_name);
+
+    switch ($vocab['name']) {
+      case 'Forums':
+        $destination_vocabulary = 'forums';
+        break;
+      case 'Tags':
+        $destination_vocabulary = 'tags';
+        break;
+      default:
+        $destination_vocabulary = 'rivers_' . strtolower($machine_name);
+    }
+
     $vocabulary_arguments[$name] = array(
       'description' => t('Migration of @vocab terms from Drupal 6', array(
         '@vocab' => $vocab['name'],
@@ -72,7 +84,7 @@ function rivers_migrate_migrate_api() {
       'source_hierarchy' => $vocab['hierarchy'],
       // D5 Vocabulary ID.
       'source_vocabulary' => $vocab['vid'],
-      'destination_vocabulary' => $vocab['name'] == 'Tags' ? 'tags' : 'rivers_' . strtolower($machine_name),
+      'destination_vocabulary' => $destination_vocabulary,
     );
   }
 
@@ -120,6 +132,12 @@ function rivers_migrate_migrate_api() {
       'description' => t('Migration of article nodes from Drupal 6'),
       'source_type' => 'article',
       'destination_type' => 'article',
+    ),
+    'RiversNodeForumTopic' => array(
+      'class_name' => 'RiversForumTopicDrupalNode6Migration',
+      'description' => t('Migration of forum topic nodes from Drupal 6'),
+      'source_type' => 'forum',
+      'destination_type' => 'forum',
     ),
     'RiversNodePage' => array(
       'class_name' => 'RiversPageDrupalNode6Migration',
