@@ -108,7 +108,7 @@ function rivers_accounts_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        '' => 'Not in New ZealandNot in New Zealand',
+        'Not in New Zealand' => 'Not in New Zealand',
         'Northland' => 'Northland',
         'Auckland' => 'Auckland',
         'Waikato' => 'Waikato',
