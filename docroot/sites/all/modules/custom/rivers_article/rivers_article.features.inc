@@ -18,7 +18,7 @@ function rivers_article_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function rivers_article_node_info() {
   $items = array(
-    'rivers_article' => array(
+    'article' => array(
       'name' => t('Article'),
       'base' => 'node_content',
       'description' => t('Articles include general articles, such as those published in NZ Canoeing, and also other documents.'),
