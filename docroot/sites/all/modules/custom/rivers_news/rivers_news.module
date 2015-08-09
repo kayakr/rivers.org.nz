@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers News feature.
+ */
+
+include_once 'rivers_news.features.inc';
