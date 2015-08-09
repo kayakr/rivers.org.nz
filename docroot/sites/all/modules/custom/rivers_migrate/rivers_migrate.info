@@ -8,3 +8,4 @@ dependencies[] = migrate_d2d
 files[] = rivers_migrate.migrate.inc
 files[] = user.inc
 files[] = node.inc
+files[] = node.page.inc
