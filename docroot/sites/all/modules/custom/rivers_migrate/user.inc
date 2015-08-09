@@ -10,15 +10,17 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
     $this->addFieldMapping('roles', 'roles')
       ->sourceMigration('RiversRole');
 
-    /*  $this->addFieldMapping('is_new')->defaultvalue(TRUE);
+      $this->addFieldMapping('is_new')->defaultvalue(TRUE);
       $this->addFieldMapping('uid', 'uid');
-      $this->addFieldMapping('field_first_name', 'field_firstname');
-      $this->addfieldMapping('field_first_name:language')->defaultValue('en');
-      $this->addFieldMapping('field_last_name', 'field_lastname');
-      $this->addfieldMapping('field_last_name:language')->defaultValue('en');
+      $this->addFieldMapping('field_first_name', 'profile_firstname');
+      //$this->addfieldMapping('field_first_name:language')->defaultValue('en');
+      $this->addFieldMapping('field_last_name', 'profile_lastname');
+      //$this->addfieldMapping('field_last_name:language')->defaultValue('en');
+      $this->addFieldMapping('field_person_region', 'profile_region');
+      $this->addFieldMapping('field_mobile', 'profile_mobile');
+      $this->addFieldMapping('field_bio', 'profile_bio');
 
-
-      $this->addFieldMapping('field_twitter', 'field_contact_twitter');
+/*      $this->addFieldMapping('field_twitter', 'field_contact_twitter');
       $this->addFieldMapping('field_alternate_phone', 'field_contact_alternate_phone');
       $this->addfieldMapping('field_alternate_phone:language')
         ->defaultValue('en');
@@ -59,9 +61,18 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
       return FALSE;
     }
 
-    if ($row->name == 'jonathan.hunt') {
-      //  return FALSE;
-    }
+    // We need to populate profile fields from legacy db.
+    $profile_fields = Database::getConnection('default', 'legacy')
+      ->select('profile_values', 'pv')
+      ->fields('pv', array('fid', 'value'))
+      ->condition('uid', $row->uid)
+      ->execute()
+      ->fetchAllKeyed();
+    $row->profile_lastname = $profile_fields[1];
+    $row->profile_firstname = $profile_fields[2];
+    $row->profile_region = $profile_fields[3];
+    $row->profile_mobile = $profile_fields[4];
+    $row->profile_bio = $profile_fields[5];
 
     return TRUE;
   }
