@@ -96,46 +96,6 @@ function rivers_article_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_tags'
-  $field_instances['node-article-field_tags'] = array(
-    'bundle' => 'article',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Enter a comma-separated list of words to describe your content.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_tags',
-    'label' => 'Tags',
-    'required' => FALSE,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'taxonomy',
-      'settings' => array(
-        'autocomplete_path' => 'taxonomy/autocomplete',
-        'size' => 60,
-      ),
-      'type' => 'taxonomy_autocomplete',
-      'weight' => 3,
-    ),
-  );
-
   // Exported field_instance: 'node-article-field_topic'
   $field_instances['node-article-field_topic'] = array(
     'bundle' => 'article',
@@ -176,9 +136,7 @@ function rivers_article_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Enter a comma-separated list of words to describe your content.');
   t('Files');
-  t('Tags');
   t('Topic');
 
   return $field_instances;
