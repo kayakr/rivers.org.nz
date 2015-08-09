@@ -5,3 +5,28 @@
  */
 
 include_once 'rivers_site.features.inc';
+
+
+/**
+ * Define handler for homepage.
+ *
+ * Implements hook_menu()
+ */
+function mto_menu() {
+
+  $items['home'] = array(
+    'title' => "Whitewater NZ",
+    'page callback' => 'rivers_home',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * During development, direct to appropriate homepage.
+ */
+function rivers_home() {
+  return '<p>{rivers homepage}</p>'; /* empty page */
+}
