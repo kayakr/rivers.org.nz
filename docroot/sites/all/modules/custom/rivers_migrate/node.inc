@@ -95,7 +95,7 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
       return FALSE;
     }
 
-    flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
+    //flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
 
     return TRUE;
   }
