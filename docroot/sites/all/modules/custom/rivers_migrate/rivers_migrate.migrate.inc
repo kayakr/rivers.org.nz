@@ -27,8 +27,8 @@ function rivers_migrate_migrate_api() {
     'format_mappings' => array(
       '0' => 'plain_text',
       '1' => 'filtered_html',
-      '2' => 'full_html',
-      '3' => 'foo',
+      //'2' => 'PHP',
+      '3' => 'full_html',
     ),
   );
 
@@ -72,7 +72,7 @@ function rivers_migrate_migrate_api() {
       'source_hierarchy' => $vocab['hierarchy'],
       // D5 Vocabulary ID.
       'source_vocabulary' => $vocab['vid'],
-      'destination_vocabulary' => 'rivers_' . strtolower($machine_name),
+      'destination_vocabulary' => $vocab['name'] == 'Tags' ? 'tags' : 'rivers_' . strtolower($machine_name),
     );
   }
 
@@ -115,11 +115,11 @@ function rivers_migrate_migrate_api() {
   // specifying its particular field mappings and transformations. source_type
   // and destination_type are required arguments.
   $node_arguments = array(
-    'RiversArticleNodeDocument' => array(
+    'RiversNodeArticle' => array(
       'class_name' => 'RiversArticleDrupalNode6Migration',
       'description' => t('Migration of article nodes from Drupal 6'),
       'source_type' => 'article',
-      'destination_type' => 'rivers_article',
+      'destination_type' => 'article',
     ),
  //   'EquitasNodeDocumentRevision' => array(
  //     'class_name' => 'EquitasDrupalNodeRevision6Migration',
@@ -127,13 +127,6 @@ function rivers_migrate_migrate_api() {
  //     'source_type' => 'document',
  //     'destination_type' => 'equitas_document',
  //   ),
-    /*'Article' => array(
-      'class_name' => 'ExampleArticleMigration',
-      'description' => t('Migration of article nodes from Drupal 6'),
-      'source_type' => 'my_article',
-      'destination_type' => 'new_article',
-      'dependencies' => array('Image', 'Countries', 'Topics'),
-    ),*/
   );
 
   // Tell the node migrations where the users are coming from, so they can
@@ -141,7 +134,7 @@ function rivers_migrate_migrate_api() {
   $common_node_arguments = $common_arguments + array(
       'user_migration' => 'RiversUser',
       'default_uid' => '1',
-      'dependencies' => array('RiversUser', 'RiversVocabTopic'),
+      'dependencies' => array('RiversUser', 'RiversVocabTopic', 'RiversFile'),
     );
 
   foreach ($node_arguments as $migration_name => $arguments) {
