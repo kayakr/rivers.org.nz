@@ -13,7 +13,7 @@ class RiversForumTopicDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
     $this->addFieldMapping('body:format', NULL, FALSE)
-      ->defaultValue('full_html');
+      ->defaultValue('filtered_html');
 
     // Preserve the paths from D6.
     $this->addFieldMapping('path', 'path');
@@ -48,7 +48,7 @@ class RiversForumTopicDrupalNode6Migration extends DrupalNode6Migration {
     //$this->addFieldMapping('field_image', 'image')
     //  ->sourceMigration('RiversFile');
 
-    // D6 Attachments (upload) to File field.
+    // D6 Attachments (files field) to File field.
     $this->addFieldMapping('field_files', 'upload')
       ->sourceMigration('RiversFile');
     $this->addFieldMapping('field_files:file_class')
@@ -57,7 +57,6 @@ class RiversForumTopicDrupalNode6Migration extends DrupalNode6Migration {
       ->defaultValue(TRUE);
     $this->addFieldMapping('field_files:description', 'upload:description');
     $this->addFieldMapping('field_files:display', 'upload:list');
-
 
     /* $this->addFieldMapping('field_my_image:title', 'image_copyright')
        ->defaultValue(t('(c) 2012 My Site'));
@@ -95,41 +94,9 @@ class RiversForumTopicDrupalNode6Migration extends DrupalNode6Migration {
       return FALSE;
     }
 
-    //flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
-
-    return TRUE;
-  }
-
-}
-
-/*
-class EquitasDrupalNodeRevision6Migration extends EquitasDrupalNode6Migration {
-
-  public function __construct(array $arguments) {
-    parent::__construct($arguments);
-
-    $this->destination = new MigrateDestinationNodeRevision($arguments['destination_type']);
-
-    //  $this->addFieldMapping('nid', 'nid');
-    $this->addFieldMapping('nid', 'nid')
-      ->description('Reuse the old NIDs');
-    $this->addFieldMapping('vid', 'vid')
-      ->description('Reuse the old VIDs');
-    $this->addFieldMapping('revision')
-      ->defaultValue(TRUE);
-
-  }
-
-  public function prepareRow($row) {
     flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
 
-    // Always include this fragment at the beginning of every prepareRow()
-    // implementation, so parent classes can ignore rows.
-    if (parent::prepareRow($row) === FALSE) {
-      return FALSE;
-    }
-
     return TRUE;
   }
+
 }
-*/
