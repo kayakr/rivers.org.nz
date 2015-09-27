@@ -173,5 +173,22 @@ function rivers_migrate_migrate_api() {
     $api['migrations'][$migration_name] = $arguments;
   }
 
+  // Comment migration.
+  $comment_arguments = $common_arguments + array(
+    'user_migration' => 'RiversUser',
+    'default_uid' => 1,
+  );
+  $forum_comment_arguments = $comment_arguments + array(
+    'machine_name' => 'RiversForumTopicComment',
+    'class_name' => 'RiversForumTopicDrupalComment6Migration',
+    'description' => t('Import Drupal 6 Forum comments'),
+    'source_type' => 'forum',
+    'destination_type' => 'forum',
+    'node_migration' => 'RiversNodeForumTopic',
+  );
+  $api['migrations']['RiversForumTopicComment'] = $forum_comment_arguments;
+//  Migration::registerMigration('RiversForumTopicComment',
+//    $forum_comment_arguments['machine_name'], $forum_comment_arguments);
+
   return $api;
 }

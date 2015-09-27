@@ -7,6 +7,7 @@ dependencies[] = migrate
 dependencies[] = migrate_d2d
 files[] = rivers_migrate.migrate.inc
 files[] = user.inc
+files[] = comment.forum_topic.inc
 files[] = node.article.inc
 files[] = node.forum_topic.inc
 files[] = node.page.inc
