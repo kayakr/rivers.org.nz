@@ -1,0 +1,79 @@
+<?php
+/**
+ * @file
+ * Update functions for RiversDB.
+ */
+define('RIVERDB_REGION_VID', 4); // Vocab id for regions.
+define('RIVERDB_TAG_VID', 3); // Vocab id for tags.
+
+/**
+ * Move Section region values from taxonomy to Region field.
+ * Implements hook_update_N().
+ */
+/*function riversdb_update_7000(&$sandbox) {
+  $output;
+  $result = db_query("SELECT nid FROM node n WHERE type = 'section'");
+  foreach ($result as $record) {
+    $node = node_load($record->nid);
+    flog_it(__FUNCTION__ . ': node->title=' . $node->title . ', nid=' . $node->nid);
+    $terms = $node->taxonomyextra[LANGUAGE_NONE];
+    //flog_it(__FUNCTION__ . ': terms=' . print_r($terms, TRUE));
+    if (count($terms)) {
+      foreach ($terms as $term_reference) {
+        //flog_it(__FUNCTION__ . ': term_reference=' . print_r($term_reference, TRUE));
+        $term = taxonomy_term_load($term_reference['tid']);
+        //flog_it(__FUNCTION__ . ': term=' . print_r($term, TRUE));
+        if ($term->vid == RIVERDB_REGION_VID) {
+          flog_it(__FUNCTION__ . ': moving region=' . $term->name);
+          $node->field_region[LANGUAGE_NONE][0]['value'] = $term->name;
+          node_save($node);
+          $output .= t('Moved @region for node @title', array(
+            '@region' => $term->name,
+            '@title' => $node->title,
+          ));
+        }
+      }
+    }
+  }
+  return $output;
+}
+*/
+
+/**
+ * Move Tag values from taxonomy to Tag field.
+ * Implements hook_update_N().
+ */
+/*
+function riversdb_update_7001(&$sandbox) {
+  $output = array();
+  $result = db_query("SELECT nid FROM node n WHERE type = 'section'");
+  foreach ($result as $record) {
+    $node = node_load($record->nid);
+    flog_it(__FUNCTION__ . ': node->title=' . $node->title . ', nid=' . $node->nid);
+    $terms = $node->taxonomyextra[LANGUAGE_NONE];
+    //flog_it(__FUNCTION__ . ': terms=' . print_r($terms, TRUE));
+    if (count($terms) && empty($node->field_tags[LANGUAGE_NONE])) {
+      $tags = array();
+      foreach ($terms as $term_reference) {
+        //flog_it(__FUNCTION__ . ': term_reference=' . print_r($term_reference, TRUE));
+        $term = taxonomy_term_load($term_reference['tid']);
+        //flog_it(__FUNCTION__ . ': term=' . print_r($term, TRUE));
+        if ($term->vid == RIVERDB_TAG_VID) {
+          flog_it(__FUNCTION__ . ': moving tag=' . $term->name);
+          $tags[] = array('value' => $term->name);
+        }
+      }
+      // If there are tags to move,...
+      if (!empty($tags)) {
+        $node->field_tags[LANGUAGE_NONE] = $tags;
+        node_save($node);
+        $output[] = t('Moved @tags for node @title', array(
+          '@tags' => implode(', ', $tags),
+          '@title' => $node->title,
+        ));
+      }
+    }
+  }
+  return $output;
+}
+*/
