@@ -145,6 +145,12 @@ function rivers_migrate_migrate_api() {
       'source_type' => 'page',
       'destination_type' => 'page',
     ),
+    'RiversNodeSection' => array(
+      'class_name' => 'RiversSectionDrupalNode6Migration',
+      'description' => t('Migration of section nodes from Drupal 6'),
+      'source_type' => 'section',
+      'destination_type' => 'section',
+    ),
     'RiversNodeStory' => array(
       'class_name' => 'RiversStoryDrupalNode6Migration',
       'description' => t('Migration of story nodes from Drupal 6'),
