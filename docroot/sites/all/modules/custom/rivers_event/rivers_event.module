@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers Event feature.
+ */
+
+include_once 'rivers_event.features.inc';
