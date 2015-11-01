@@ -44,10 +44,6 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('field_topic:ignore_case')
       ->defaultValue(TRUE);
 
-    // D6 images
-    //$this->addFieldMapping('field_image', 'image')
-    //  ->sourceMigration('RiversFile');
-
     // D6 Attachments (upload) to File field.
     $this->addFieldMapping('field_files', 'upload')
       ->sourceMigration('RiversFile');
@@ -57,7 +53,6 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
       ->defaultValue(TRUE);
     $this->addFieldMapping('field_files:description', 'upload:description');
     $this->addFieldMapping('field_files:display', 'upload:list');
-
 
     /* $this->addFieldMapping('field_my_image:title', 'image_copyright')
        ->defaultValue(t('(c) 2012 My Site'));
