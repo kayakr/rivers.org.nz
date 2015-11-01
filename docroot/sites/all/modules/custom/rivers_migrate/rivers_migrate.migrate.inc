@@ -133,6 +133,14 @@ function rivers_migrate_migrate_api() {
       'source_type' => 'article',
       'destination_type' => 'article',
     ),
+    'RiversNodeEvent' => array(
+      'class_name' => 'RiversEventDrupalNode6Migration',
+      'description' => t('Migration of event nodes from Drupal 6'),
+      'source_type' => 'event',
+      'destination_type' => 'rivers_event',
+      'dependency' => 'RiversVocabEventType',
+      'term_migration' => 'RiversVocabEventType',
+    ),
     'RiversNodeForumTopic' => array(
       'class_name' => 'RiversForumTopicDrupalNode6Migration',
       'description' => t('Migration of forum topic nodes from Drupal 6'),
