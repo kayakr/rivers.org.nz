@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers Media Release feature.
+ */
+
+include_once 'rivers_media_release.features.inc';
