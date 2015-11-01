@@ -147,6 +147,12 @@ function rivers_migrate_migrate_api() {
       'source_type' => 'forum',
       'destination_type' => 'forum',
     ),
+    'RiversNodeMediaRelease' => array(
+      'class_name' => 'RiversMediaReleaseDrupalNode6Migration',
+      'description' => t('Migration of media release nodes from Drupal 6'),
+      'source_type' => 'media_release',
+      'destination_type' => 'media_release',
+    ),
     'RiversNodePage' => array(
       'class_name' => 'RiversPageDrupalNode6Migration',
       'description' => t('Migration of page nodes from Drupal 6'),
