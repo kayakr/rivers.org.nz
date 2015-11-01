@@ -13,6 +13,7 @@ files[] = comment.forum_topic.inc
 files[] = node.article.inc
 files[] = node.event.inc
 files[] = node.forum_topic.inc
+files[] = node.issue.inc
 files[] = node.media_release.inc
 files[] = node.page.inc
 files[] = node.section.inc
