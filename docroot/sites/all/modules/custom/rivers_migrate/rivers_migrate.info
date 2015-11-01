@@ -18,3 +18,4 @@ files[] = node.media_release.inc
 files[] = node.page.inc
 files[] = node.section.inc
 files[] = node.story.inc
+files[] = node.submission.inc

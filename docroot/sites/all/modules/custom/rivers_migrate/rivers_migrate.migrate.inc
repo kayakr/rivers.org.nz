@@ -177,7 +177,12 @@ function rivers_migrate_migrate_api() {
       'source_type' => 'story',
       'destination_type' => 'rivers_story',
     ),
-
+    'RiversNodeSubmission' => array(
+      'class_name' => 'RiversSubmissionDrupalNode6Migration',
+      'description' => t('Migration of submission nodes from Drupal 6'),
+      'source_type' => 'submission',
+      'destination_type' => 'rivers_submission',
+    ),
  //   'EquitasNodeDocumentRevision' => array(
  //     'class_name' => 'EquitasDrupalNodeRevision6Migration',
  //     'description' => t('Migration of document node revisions from Drupal 6'),
