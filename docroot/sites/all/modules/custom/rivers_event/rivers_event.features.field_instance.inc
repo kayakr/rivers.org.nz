@@ -146,6 +146,48 @@ function rivers_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-rivers_event-field_files'.
+  $field_instances['node-rivers_event-field_files'] = array(
+    'bundle' => 'rivers_event',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_files',
+    'label' => 'Files',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'file_directory' => 'event',
+      'file_extensions' => 'txt pdf csv xsl xslx doc jpg jpeg',
+      'max_filesize' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'file',
+      'settings' => array(
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'file_generic',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-rivers_event-field_organiser'.
   $field_instances['node-rivers_event-field_organiser'] = array(
     'bundle' => 'rivers_event',
@@ -227,13 +269,56 @@ function rivers_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-rivers_event-field_status'.
+  $field_instances['node-rivers_event-field_status'] = array(
+    'bundle' => 'rivers_event',
+    'default_value' => array(
+      0 => array(
+        'value' => 'normal',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 2,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_status',
+    'label' => 'Status',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 1,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Date');
   t('Description');
+  t('Files');
   t('Name and contact details.');
   t('Organiser');
   t('Section');
+  t('Status');
   t('Type');
 
   return $field_instances;
