@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers Submission feature.
+ */
+
+include_once 'rivers_submission.features.inc';
