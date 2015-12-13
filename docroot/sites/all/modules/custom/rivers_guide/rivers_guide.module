@@ -54,7 +54,9 @@ function rivers_guide_views_pre_view(&$view, &$display_id, &$args) {
       $page = $view->display[$display_id];
       $path = $view->display[$display_id]->handler->options['path'];
 
+      $redirect = FALSE;
       // Map Region from filter to argument.
+      // @test: nz/tasman sets Region filter to Tasman.
       if (!empty($_GET['region'])) {
         $region = _rivers_guide_map_filter_to_argument($_GET['region']);
         if (!empty($region)) {
