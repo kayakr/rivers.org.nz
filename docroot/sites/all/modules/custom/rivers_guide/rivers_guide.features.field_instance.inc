@@ -596,8 +596,8 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'number',
         'settings' => array(
           'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
+          'prefix_suffix' => 1,
+          'scale' => 1,
           'thousand_separator' => '',
         ),
         'type' => 'number_decimal',
@@ -775,8 +775,8 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'number',
         'settings' => array(
           'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
+          'prefix_suffix' => 1,
+          'scale' => 1,
           'thousand_separator' => '',
         ),
         'type' => 'number_decimal',
@@ -832,11 +832,7 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_level'.
   $field_instances['node-section-field_level'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -865,17 +861,16 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_level',
     'label' => 'Level',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
-      'text_processing' => 1,
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => -8,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
