@@ -1,0 +1,31 @@
+<?php
+
+
+class RiversDrupalFile6Migration extends DrupalFile6Migration {
+
+  public function __construct(array $arguments) {
+    parent::__construct($arguments);
+
+    //$this->destination = new MigrateDestinationNodeRevision($arguments['destination_type']);
+
+  }
+
+  public function prepareRow($row) {
+
+    // Always include this fragment at the beginning of every prepareRow()
+    // implementation, so parent classes can ignore rows.
+    if (parent::prepareRow($row) === FALSE) {
+      return FALSE;
+    }
+
+    xdebug_break();
+    // $row->filename = "_original"
+    // Ignore D6 derivative files.
+    if (in_array($row->filename, array('tiny', 'thumbnail', 'medium', 'preview'))) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+}

@@ -112,8 +112,10 @@ function rivers_migrate_migrate_api() {
 
   // Migrate Files from legacy private to D7 public dir.
   // @todo: public & private files?
+  // ~72 files in D6 db have legacy path /home/www/web15/web/drupal5-files/
+  // These generate an error message when migrating.
   $file_arguments = $common_arguments + array(
-      'class_name' => 'DrupalFile6Migration',
+      'class_name' => 'RiversDrupalFile6Migration',
       'description' => t('Import Drupal 6 files'),
       'user_migration' => 'RiversUser',
       'default_uid' => 1,
