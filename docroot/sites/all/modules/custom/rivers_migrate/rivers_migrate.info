@@ -10,6 +10,7 @@ files[] = rivers_migrate.migrate.inc
 files[] = file.inc
 files[] = user.inc
 files[] = comment.forum_topic.inc
+files[] = comment.section.inc
 files[] = node.article.inc
 files[] = node.event.inc
 files[] = node.forum_topic.inc

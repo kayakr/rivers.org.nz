@@ -220,6 +220,16 @@ function rivers_migrate_migrate_api() {
     'node_migration' => 'RiversNodeForumTopic',
   );
   $api['migrations']['RiversForumTopicComment'] = $forum_comment_arguments;
+
+  $section_comment_arguments = $comment_arguments + array(
+      'machine_name' => 'RiversSectionComment',
+      'class_name' => 'RiversSectionDrupalComment6Migration',
+      'description' => t('Import Drupal 6 Section comments'),
+      'source_type' => 'section',
+      'destination_type' => 'section',
+      'node_migration' => 'RiversNodeSection',
+    );
+  $api['migrations']['RiversSectionComment'] = $section_comment_arguments;
 //  Migration::registerMigration('RiversForumTopicComment',
 //    $forum_comment_arguments['machine_name'], $forum_comment_arguments);
 
