@@ -34,7 +34,9 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('field_maps', 'field_maps');
     $this->addFieldMapping('field_nzww', 'field_nzww')
       ->defaultValue(0);
-    $this->addFieldMapping('field_portage', 'field_portage');
+    $this->addFieldMapping('field_portage', 'field_portage')
+      ->callbacks(array($this, 'convertYesNoToBoolean'))
+      ->defaultValue(0);
     $this->addFieldMapping('field_put_in', 'field_put_in');
     $this->addFieldMapping('field_take_out', 'field_take_out');
     $this->addFieldMapping('field_river_name', 'field_river_name');
@@ -136,7 +138,11 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
   }
 
   function convertToFloat($value) {
-    return (float)$value . '.0';
+    return (float)$value; // . '.0';
+  }
+
+  function convertYesNoToBoolean($value) {
+    return $value == 'yes' ? 1 : 0;
   }
 
 }
