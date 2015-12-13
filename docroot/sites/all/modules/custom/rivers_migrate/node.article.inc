@@ -7,6 +7,8 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
 
     //$this->destination = new MigrateDestinationNodeRevision($arguments['destination_type']);
 
+    $this->sourceFields['redirects'] = 'All aliases of this node';
+
     // Preserve the nids from D6.
     $this->addFieldMapping('nid', 'nid');
     //$this->addFieldMapping('vid', 'vid');
@@ -92,39 +94,16 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
 
     //flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
 
+    // Gather existing redirects, including the current D6 path.
+    $row->redirects = Database::getConnection('default', 'legacy')
+      ->select('path_redirect', 'r')
+      ->fields('r', array('source'))
+      ->condition('redirect', "node/$row->nid")
+      ->execute()
+      ->fetchCol();
+    $row->redirects[] = $row->path;
+
     return TRUE;
   }
 
 }
-
-/*
-class EquitasDrupalNodeRevision6Migration extends EquitasDrupalNode6Migration {
-
-  public function __construct(array $arguments) {
-    parent::__construct($arguments);
-
-    $this->destination = new MigrateDestinationNodeRevision($arguments['destination_type']);
-
-    //  $this->addFieldMapping('nid', 'nid');
-    $this->addFieldMapping('nid', 'nid')
-      ->description('Reuse the old NIDs');
-    $this->addFieldMapping('vid', 'vid')
-      ->description('Reuse the old VIDs');
-    $this->addFieldMapping('revision')
-      ->defaultValue(TRUE);
-
-  }
-
-  public function prepareRow($row) {
-    flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
-
-    // Always include this fragment at the beginning of every prepareRow()
-    // implementation, so parent classes can ignore rows.
-    if (parent::prepareRow($row) === FALSE) {
-      return FALSE;
-    }
-
-    return TRUE;
-  }
-}
-*/
