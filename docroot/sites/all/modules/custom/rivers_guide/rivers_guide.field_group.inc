@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function rivers_guide_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -52,7 +52,7 @@ function rivers_guide_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_info|node|section|default'] = $field_group;
+  $field_groups['group_info|node|section|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -67,20 +67,20 @@ function rivers_guide_field_group_info() {
     'label' => 'Info',
     'weight' => '4',
     'children' => array(
-      0 => 'field_time',
-      1 => 'field_take_out',
-      2 => 'field_class',
-      3 => 'field_shuttle',
-      4 => 'field_put_in',
-      5 => 'field_portage',
-      6 => 'field_maps',
-      7 => 'field_level',
-      8 => 'field_length',
-      9 => 'field_hot_tip',
-      10 => 'field_gradient',
-      11 => 'field_gauge',
-      12 => 'field_character',
-      13 => 'field_tags',
+      0 => 'field_character',
+      1 => 'field_class',
+      2 => 'field_gauge',
+      3 => 'field_gradient',
+      4 => 'field_hot_tip',
+      5 => 'field_length',
+      6 => 'field_level',
+      7 => 'field_maps',
+      8 => 'field_portage',
+      9 => 'field_put_in',
+      10 => 'field_shuttle',
+      11 => 'field_tags',
+      12 => 'field_take_out',
+      13 => 'field_time',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -88,7 +88,7 @@ function rivers_guide_field_group_info() {
       'instance_settings' => array(),
     ),
   );
-  $export['group_info|node|section|form'] = $field_group;
+  $field_groups['group_info|node|section|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -123,7 +123,11 @@ function rivers_guide_field_group_info() {
       'instance_settings' => array(),
     ),
   );
-  $export['group_info|node|section|teaser'] = $field_group;
+  $field_groups['group_info|node|section|teaser'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Info');
+
+  return $field_groups;
 }
