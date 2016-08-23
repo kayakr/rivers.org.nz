@@ -17,6 +17,7 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('field_character', 'field_character');
     $this->addFieldMapping('field_class', 'field_class');
     $this->addFieldMapping('field_credits', 'field_credits');
+
     $this->addFieldMapping('field_gradient', 'field_gradient')
       ->defaultValue('0.0')
       ->callbacks(array($this, 'convertToFloat'));
@@ -49,31 +50,21 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
     // Add redirect based on https://www.drupal.org/node/1116408.
     $this->addFieldMapping('migrate_redirects', 'path');
 
-    // Migrate region from admin/content/taxonomy/4
+    // Migrate Region from admin/content/taxonomy/4
+    // This is marked as mapped, though actual map occurs in prepareRow().
     $this->addFieldMapping('field_region', 'field_region');
-//    $this->addFieldMapping('field_region', '4')
-//      ->sourceMigration('RiversVocabRegion');
-//    $this->addFieldMapping('field_topic:source_type');
-//      ->defaultValue('tid');
-    //$this->addFieldMapping('field_topic:create_term')
-    //  ->defaultValue(FALSE);
-    //$this->addFieldMapping('field_topic:ignore_case')
-    //  ->defaultValue(TRUE);
 
-    // Migrate region from admin/content/taxonomy/4
-    /*$this->addFieldMapping('field_tags', '3')
-      ->sourceMigration('RiversVocabTags');
-    $this->addFieldMapping('field_topic:source_type')
-      ->defaultValue('tid');
-    $this->addFieldMapping('field_topic:create_term')
-      ->defaultValue(FALSE);
-    $this->addFieldMapping('field_topic:ignore_case')
-      ->defaultValue(TRUE);
-    */
+    // Migrate Tags from admin/content/taxonomy/3
+    // This is marked as mapped, though actual map occurs in prepareRow().
+    $this->addFieldMapping('field_tags', 'field_tags');
+
+    $this->addFieldMapping('field_upstream_of', 'ref_id');
+      //->sourceMigration(array('RiversNodeSection'));
 
     $this->addUnmigratedDestinations(array(
       'path', // Don't want original path as we regenerate & redirect.
       'field_fill', // Measure of number of fields completed.
+      'field_downstream_of', // is now field_upstream_of.
     ));
   }
 
@@ -97,19 +88,19 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
     $array_row = (array)$row;
     //flog_it(__FUNCTION__ . ': array_row[4]=' . print_r($array_row[4], TRUE));
     foreach ($array_row as $key => $value) {
-      flog_it(__FUNCTION__ . ': key='. $key . ', value=' . print_r($value, TRUE));
+      //flog_it(__FUNCTION__ . ': key='. $key . ', value=' . print_r($value, TRUE));
       // We need to populate region field from legacy db Region taxonomy.
       // Do we have a term in Region taxonomy?
       if ($key == 4) {
         $tid = current($value);
-        flog_it(__FUNCTION__ . ': tid=' . print_r($tid, TRUE));
+        //flog_it(__FUNCTION__ . ': tid=' . print_r($tid, TRUE));
         $region = Database::getConnection('default', 'legacy')
           ->select('term_data', 't')
           ->fields('t', array('name'))
           ->condition('tid', $tid)
           ->execute()
           ->fetchField();
-        flog_it(__FUNCTION__ . ': region=' . print_r($region, TRUE));
+        //flog_it(__FUNCTION__ . ': region=' . print_r($region, TRUE));
         $row->field_region = $region;
       }
       // Migrate from Tag term to checkbox.
@@ -117,14 +108,14 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
         $tags = array();
         foreach ($value as $tag_tid) {
           //$tid = current($value);
-          flog_it(__FUNCTION__ . ': tag_tid=' . print_r($tag_tid, TRUE));
+          //flog_it(__FUNCTION__ . ': tag_tid=' . print_r($tag_tid, TRUE));
           $tag = Database::getConnection('default', 'legacy')
             ->select('term_data', 't')
             ->fields('t', array('name'))
             ->condition('tid', $tag_tid)
             ->execute()
             ->fetchField();
-          flog_it(__FUNCTION__ . ': tag=' . print_r($tag, TRUE));
+          //flog_it(__FUNCTION__ . ': tag=' . print_r($tag, TRUE));
           $tags[] = $tag;
         }
         $row->field_tags = $tags;
@@ -132,7 +123,11 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
       }
     }
 
-    flog_it(__FUNCTION__ . ': row=' . print_r($row, TRUE));
+    // handle reference to downstream section.
+    //$source_id = $row->field_downstream_of;
+    //$row->ref_id = $this->handleSourceMigration('SourceMigration', $source_id);
+    //xdebug_break();
+    //flog_it(__FUNCTION__ . ': row=' . print_r($row, TRUE));
 
     return TRUE;
   }
@@ -144,5 +139,33 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
   function convertYesNoToBoolean($value) {
     return $value == 'yes' ? 1 : 0;
   }
+
+  /**
+   * Override DrupalNodeMigration->createStub() to add necessary fields for stub sections.
+   * Refer https://www.drupal.org/node/1013506
+   */
+  /*function createStub($migration, $source_key) {
+    migrate_instrument_start('RiversSectionDrupalNode6Migration::createStub');
+    $node = new stdClass();
+    $node->title = t('Stub for @id', array('@id' => $source_key[0]));
+    //$node->nid = $source_key[0]; // preserve nid.
+    $node->body = array(LANGUAGE_NONE => array(array("value" => t('Stub body'))));
+    $node->type = $this->destination->getBundle();
+    $node->uid = 1;
+    //$node->status = 1;
+    $node->field_gradient = array(LANGUAGE_NONE => array(array('value' => '0.0')));
+    $node->field_length = array(LANGUAGE_NONE => array(array('value' => 0)));
+    $node->field_nzww = array(LANGUAGE_NONE => array(array('value' => 0)));
+    $node->field_portage = array(LANGUAGE_NONE => array(array('value' => 0)));
+    xdebug_break();
+    node_save($node);
+    migrate_instrument_stop('RiversSectionDrupalNode6Migration::createStub');
+    if (isset($node->nid)) {
+      return array($node->nid);
+    }
+    else {
+      return FALSE;
+    }
+  } */
 
 }
