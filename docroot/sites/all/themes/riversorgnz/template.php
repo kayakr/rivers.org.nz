@@ -15,7 +15,7 @@
  */
 function riversorgnz_preprocess_block(&$variables) {
   // Override Latest news view block to add Bootstrap classes.
-  if ($variables['block_html_id'] == 'block-views-rivers-news-block-1') {
+  if ($variables['block_html_id'] == 'block-views-rivers-news-latest-news') {
     $variables['classes_array'][] = 'col-md-6';
   }
 }
