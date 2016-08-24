@@ -13,6 +13,39 @@ function rivers_site_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'rivers_footer';
+  $context->description = 'Footer blocks for rivers.org.nz';
+  $context->tag = '';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        '~admin' => '~admin',
+        '~admin/*' => '~admin/*',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'rivers_site-rivers_copyright' => array(
+          'module' => 'rivers_site',
+          'delta' => 'rivers_copyright',
+          'region' => 'footer',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Footer blocks for rivers.org.nz');
+  $export['rivers_footer'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'rivers_homepage';
   $context->description = '';
   $context->tag = '';
