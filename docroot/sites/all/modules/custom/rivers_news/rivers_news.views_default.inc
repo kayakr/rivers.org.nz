@@ -40,6 +40,14 @@ function rivers_news_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Updated date */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'node';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['label'] = '';
+  $handler->display->display_options['fields']['changed']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['changed']['date_format'] = 'long';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
   /* Field: Content: Highlight image */
   $handler->display->display_options['fields']['field_highlight_image']['id'] = 'field_highlight_image';
   $handler->display->display_options['fields']['field_highlight_image']['table'] = 'field_data_field_highlight_image';
