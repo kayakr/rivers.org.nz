@@ -1,0 +1,12 @@
+name = Rivers navigation
+description = Menus for rivers.org.nz
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = main-menu
+features[menu_links][] = main-menu_about:node/1207
+features[menu_links][] = main-menu_home:<front>
+features[menu_links][] = main-menu_news:news
