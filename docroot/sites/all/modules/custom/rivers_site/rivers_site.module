@@ -51,7 +51,7 @@ function rivers_site_block_view($delta = '') {
   switch ($delta) {
     case 'rivers_copyright':
       $block['subject'] = '';
-      $block['content'] = t('<div id="copyright">&copy;1999-@year_current Whitewater NZ (formerly NZRCA) <a href="http://creativecommons.org/licenses/by-sa/3.0/nz/">CC-BY-SA</a> unless otherwise noted. <a href="/terms">Terms of Use</a>. <a href="/privacy">Privacy Policy</a>.</div>
+      $block['content'] = t('<div id="copyright">&copy;1999-@year_current Whitewater NZ <a href="http://creativecommons.org/licenses/by-sa/3.0/nz/">CC-BY-SA</a> unless otherwise noted. <a href="/terms">Terms of Use</a>. <a href="/privacy">Privacy Policy</a>.</div>
           <div itemscope itemtype="http://schema.org/Organization">
             <span itemprop="name" style="display: none">Whitewater NZ</span>
             <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
