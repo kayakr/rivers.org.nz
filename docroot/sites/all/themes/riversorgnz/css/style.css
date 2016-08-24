@@ -12,3 +12,24 @@
 #block-system-user-menu .nav li {
     float: left;
 }
+
+
+#block-views-rivers-news-block-1 {
+  padding-left: 0;
+}
+
+.view-rivers-news ul {
+  list-style-type: none;
+    padding-left: 0;
+}
+.view-rivers-news li {
+    clear: both;
+    padding-bottom: 0.5em;
+}
+.view-rivers-news li .views-field-field-highlight-image {
+    float: left;
+    margin-right: 0.5em;
+}
+.view-rivers-news .more-link {
+  clear: both;
+}
