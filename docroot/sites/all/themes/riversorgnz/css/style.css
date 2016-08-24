@@ -1,3 +1,14 @@
 /**
  * Place your custom styles here.
  */
+
+/* Navigation */
+#block-system-user-menu {
+    float: right;
+}
+#block-system-user-menu h2 {
+    display: none;
+}
+#block-system-user-menu .nav li {
+    float: left;
+}
