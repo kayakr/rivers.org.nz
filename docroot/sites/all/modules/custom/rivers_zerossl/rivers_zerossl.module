@@ -15,8 +15,8 @@ function rivers_zerossl_menu() {
 }
 
 function rivers_zerossl_response($key) {
-  if ($key == 'FQfHbkcMij8bfEI_e7XL4WdiLNpMMAvSpi--dACHnik') {
-    echo 'FQfHbkcMij8bfEI_e7XL4WdiLNpMMAvSpi--dACHnik.16SBrVyU1lFNjVnfvDQIEKQOooixiqnRWvNaBEOY9Fo';
+  if ($key == 'uYbLre123BcbudMKEPepd8BRJZXZyeEu8gvfzGbDvuw') {
+    echo 'uYbLre123BcbudMKEPepd8BRJZXZyeEu8gvfzGbDvuw.16SBrVyU1lFNjVnfvDQIEKQOooixiqnRWvNaBEOY9Fo';
     drupal_exit();
   }
 }
