@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function rivers_zerossl_menu() {
+  $items = array();
+  $items['.well-known/acme-challenge'] = array(
+    'title' => 'ACME challenge',
+    'page callback' => 'rivers_zerossl_response',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function rivers_zerossl_response($key) {
+  if ($key == 'FQfHbkcMij8bfEI_e7XL4WdiLNpMMAvSpi--dACHnik') {
+    echo 'FQfHbkcMij8bfEI_e7XL4WdiLNpMMAvSpi--dACHnik.16SBrVyU1lFNjVnfvDQIEKQOooixiqnRWvNaBEOY9Fo';
+    drupal_exit();
+  }
+}

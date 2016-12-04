@@ -1,0 +1,5 @@
+name = Rivers ZeroSSL
+description = Validation for zerossl.com
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
