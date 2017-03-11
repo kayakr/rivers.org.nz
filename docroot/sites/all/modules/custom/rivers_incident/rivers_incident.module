@@ -32,7 +32,7 @@ function rivers_incident_db($op = '', $arg = '') {
   $filepath = variable_get('rivers_incident_file_directory_path', '');
   if (empty($filepath)) {
     drupal_set_message(t('No path to incident db.'), 'error');
-    drupal_exit();
+    return '';
   }
 
   $xml_raw = join('', file($filepath));
