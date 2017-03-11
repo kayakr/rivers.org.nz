@@ -1,0 +1,2644 @@
+<incidents>
+    <!-- 2004-11-23 Added Manawatu accident, id=19980314   -->
+    <!-- 2004-10-26 Added Leith incident, id=20040806 -->
+    <!-- 2004-10-18 jonathan Update 20020201 West Coast/Buller/Earthquake/Rodeo documents -->
+    <!-- Also kayaker tips out on Lake Wakatipu
+    http://www.odt.co.nz/cgi-bin/search-display-story-online-new?date=11Oct2003&object=1010550281&type=html&WORDS=kayaker&DB=Editorial -->
+
+    <incident id="19930426">
+        <created>2003-11-15T12:00:00</created>
+        <changed>2003-11-15T12:00:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1993-04-26T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Unknown</name>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Waikato</region>
+            <river>Waikato</river>
+            <section id="1211">Huka Falls</section>
+            <!-- <description>main drop</description> -->
+            <!-- Mike B advises that incident occurred in weir -->
+        </location>
+        <summary>
+            <p>None yet.</p>
+        </summary>
+        <discussion>
+            <p>None yet.</p>
+        </discussion>
+    </incident>
+
+    <incident id="20030328">
+        <created>2003-11-15T12:00:00</created>
+        <changed>2003-11-15T18:00:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2003-03-08T19:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <!-- witness = nil -->
+        <!-- Was Reporter a witness? No -->
+        <victim>
+            <name>Zephlyn Vlahovich</name>
+            <age>54</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Kawarau</river>
+            <section id="2417">Kawarau Falls</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <comment>Lake level 309.65 metres</comment>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>I</class>
+        <!--
+        Injuries:? Death, Broken bones, Concussion, Lacerations etc. etc. ?? -->
+        <boat>
+            <type>Other</type>
+            <description>Perception 'Minnow'</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A middle-aged man set out alone from Frankton marina, Queenstown for an evening paddle to the Shotover/Kawarau confluence. When passing under the Kawarau Falls bridge (through one of last two of the channels towards the campground), victim apparently became trapped in a reversal (hole) formed by the weir between the bridge pylons. His body was discovered 250m below the bridge shortly after, with the PFD covering his face. CPR was administered without success. His boat, paddle and spraydeck were subsequently recovered at various points downstream.</p>
+        </summary>
+
+        <discussion>
+            <p>The victim was unable to eskimo roll, but that may not have been a contributing factor.<br/>
+                The victim was adequately equipped for the trip, but his PFD may not have been well fitted/designed.<br/>
+                He was unfamiliar with the section of river.<br/>
+                A large sign (intended for jetboats) indicating "Down Traffic This Way" is positioned above channel 2 (counting from the southern end of the bridge).<br/>
+                Channel 2 contains a powerful reversal at some (possibly all) flows.</p>
+
+            <p>The NZRCA recommends that kayakers don't paddle alone.<br/>
+                Seek local knowledge of conditions and hazards before embarking on an unfamiliar section (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1.1</a>).<br/>
+                Ensure PFDs are secure and well-fitting (<a href="/article/code-of-practice#recommendation1.5">Recommendation 1.5</a>).<br/>
+                Have sufficient knowledge to re
+                cognise hazards (esp. those formed by artificial structures) (<a href="/article/code-of-practice#recommendation1.27">Recommendation 1.27</a>).<br/>
+                At certain lake levels, weirs in specific channels below the Kawarau Falls bridge can form lethal hydraulics.<br/>
+                New warning signage has been placed on the bridge, directing kayakers to a safe channel.<br/>
+                With reference to the ODT headlines below, the hydraulic involved was a 'reversal' not a 'whirlpool'.</p>
+
+        </discussion>
+        <documents>
+            <document><a href="/safety/documents/MSA_KawarauFalls_030994.pdf">MSA Report 030994</a> (<a href="#Adobe_Acrobat">PDF</a>, 180k)</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=16Aug2003&amp;object=0815110879&amp;type=html">Death of kayaker likely caused by whirlpool</a>, Otago Daily Times, 16 August 2003.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=15Apr2003&amp;object=0414541456&amp;type=html">Warning issued: No kayaking, swimming. Lake level poses hazard at bridge gates</a>, Otago Daily Times, 15 April 2003.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=02Apr2003&amp;object=0401991196&amp;type=html">Whirlpool may of caught man</a>, 2 April 2003, Debbie Jamieson, ODT.</document>
+        </documents>
+
+    </incident>
+
+    <incident id="20030921">
+        <created>2003-12-09T12:00:00</created>
+        <changed>2003-12-09T18:00:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2003-09-21T19:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Unknown</name>
+            <age>22</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Kawarau</river>
+            <section id="2417">Kawarau Falls</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <!-- <comment></comment> -->
+            <!-- <relativeFlow>Low</relativeFlow> -->
+        </flow>
+        <class>I</class>
+        <boat>
+            <type>Other</type>
+            <description>Unknown kayak</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A local kayaker, paddling alone, passed under the southern end of the Kawarau Falls bridge and became caught in the powerful recirculation formed by the concrete sill. He capsized and swam and was repeatedly sucked under the water. Two commercial jetboat drivers passed the man's empty kayak and heard his cries for help, and were able to pull him out. A witness described the man as &quot;cold and quite shaken.&quot;</p>
+        </summary>
+        <discussion>
+            <p>The victim apparently ignored warning signs installed after a recent fatality in the hydraulic below the bridge (refer <a href="/safety/db/incident/20030328">Incident 20030328</a>).</p>
+            <p>River users should obey warning signs, especially when artificial structures are involved (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).<br/>
+                Recommend that kayakers don't paddle alone.<br/>
+                Paddlers should have sufficient knowledge to recognise hazards (<a href="/article/code-of-practice#recommendation1.27">Recommendation 1.27</a>).</p>
+        </discussion>
+        <documents>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=25Sep2003&amp;object=0924620001&amp;type=html"> Near death of kayaker sparks concern: Focus on reducing risk</a>, 25 September 2003, Leah McFall, ODT.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=24Sep2003&amp;object=MNK3552689EG&amp;type=html"> Dangers of ignoring signs underlined: Jet-boat duo rescues kayaker</a>, 24 September 2003, Leah McFall, ODT.</document>
+        </documents>
+    </incident>
+
+    <incident id="20030221">
+        <created>2003-11-15T12:00:00</created>
+        <changed>2003-11-15T12:00:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Shoulder dislocation</typeModifier>
+        <dateTime>2003-02-21T12:00:00</dateTime>
+        <reporter>
+            <name>Kerry Hoglund</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <!-- witness = nil -->
+        <!-- Was Reporter a witness? No -->
+        <victim>
+            <name>Kerry Hoglund</name>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Taipo</river>
+            <section id="3998">Upper Taipo</section>
+            <description>Showcase</description>
+        </location>
+        <flow>
+            <value>15-20</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV+</class>
+        <!--
+        Injuries:? Death, Broken bones, Concussion, Lacerations etc. etc. ?? -->
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Perception 'Java'</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A paddler dislocates his left shoulder attempting to roll at the end of Showcase rapid. The kayaker does an offside roll and is helped to shore. A weighted helmet was slung from the wrist as the victim lay over a boulder, but the shoulder did not reduce. After muscle spasm set in, two of the party paddled out for assistance. Meanwhile the kayaker and companion hiked down to Mid-Taipo Hut. A helicopter provided transport to a nearby farm and from there transport was obtained to Greymouth Hospital where the shoulder was reduced under anaesthetic.</p>
+        </summary>
+        <discussion>
+            <p>The group coped with the situation by applying first-aid (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a> and <a href="/article/code-of-practice#recommendation1.17">Recommendation 1.17</a>), then seeking outside assistance. The injured paddler hiked to a nearby hut so footwear was important (<a href="/article/code-of-practice#recommendation1.8">Recommendation 1.8</a>).</p>
+        </discussion>
+        <documents>
+            <document>&quot;An epic on the Taipo: A dislocated shoulder and more&quot; by Kerry Hoglund, WWCC Newsletter, April 2003.</document>
+        </documents>
+
+    </incident>
+
+    <incident id="20030222">
+        <created>2003-11-15T12:00:00</created>
+        <changed>2005-01-09T23:20:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>2003-02-22T17:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>James Acton</name>
+            <age>27</age>
+            <sex>M</sex>
+            <nationality>GBR</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Waikaia</river>
+            <section id="2368">Waikaia</section>
+        </location>
+        <flow>
+            <value>20</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV-V</class>
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Dagger 'CFS'</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <!-- specifiy location -->
+            <p>A three-person team reached a rapid approximately 2.5 hours below Canton Bridge. One paddler  gave verbal instructions for running a drop to his two companions from a flat-topped rock instream. Both companions ran drop, and one swam. As the two companions recovered from the swim, they became concerned about the victim's absence.</p>
+
+            <p>The two paddlers could see that the third paddler had left the boulder and blew their whistles to attract his attention. After approximately five minutes, one paddler paddled and then walked upstream, where he discovered the victim vertically pinned in a narrow slot three metres to river right from the boulder from which the first paddler had scouted the rapid. The victim was conscious and moving and could grab breaths by raising his head above the water.</p>
+
+            <p>Both companions grabbed their safety gear. A throwbag was thrown to the victim who appeared to be showing signs of cyanosis (http://www.ilpi.com/msds/ref/cyanosis.html). They managed to get a rope to the victim but pulling on the rope was ineffective. The spray-deck was on. One paddler managed to manoevre so that he could stand across the slot and pull on the victim's PFD but to no avail. The victim was now unconscious. Mouth-to-mouth resuscitation was attempted and a rope was clipped to a shoulder strap of the victim's PFD. Both rescuer's pulled on the rope but the PFD eventually rode up above the victim's head.</p>
+
+            <p>The rope was transferred from the PFD to the rear grab-loop on the victim's kayak, but pulling from various angles was ineffective. Next a sling was placed around the victim's chest and tension applied via the rope but this was not effective either. Additional mouth-to-mouth was performed.</p>
+
+            <p>In desperation, one paddler jumped on the victim's kayak while the second held the rope attached to the chest-sling. Both the kayak and victim disappeared from view. The rescuer on the kayak passed through the slot and discovered a tree across the current as he made his way out via an undercut on river right. The victim slipped from the chest sling. One rescuer held the other's feet as the latter tried to locate the victim under the boulder. Meanwhile the victim's empty kayak washed out from under a boulder on river left.</p>
+
+            <p>After the victim had not been sighted for approximately 5-10 minutes, the other paddlers searched where possible, but eventually abandoned the search. They stashed their gear and bush-bashed downriver, overnighting near a swingbridge. At dawn they reached the road where they flagged down a car and alerted authorities. The body was recovered by SAR personnel that morning via helicopter, approximately 150m from the accident site.</p>
+        </summary>
+        <discussion>
+            <p>The team was fit, experienced and well-equipped, and were paddling appropriate kayaks.</p>
+
+            <p>It is not known when the dent in the victim's kayak occurred, but if it occurred in the slot it may have prevented his exit.</p>
+
+            <p>It is not clear how the victim came to be in the slot. Once in the slot, it appears that the victim awaited assistance rather than risk making the situation worse by wet-exiting. According to the MSA report, hypothermia does not appear to have been a factor.</p>
+
+            <p>The MSA report says <q>Although at the time it would have seemed quite reasonable for Kayaker 1 [the victim] to seal-launch back into the river when Kayaker 2 and Kayaker 3 appeared in need of assistance, this decision to do so was ultimately a contributing factor to his demise. He could have chosen to walk his boat 5-10 metres down stream over the rocks and seal launch into the pool on river right.</q></p>
+
+            <!-- Seems to largely a case of a minor error deteriorating to extreme consquences, despite the best efforts of rescuers. See also Kawarau/Roaring Meg -->
+        </discussion>
+        <documents>
+            <document>Friends tried frantically to free trapped kayaker, 9 September 2003, Cherie Sivignon, The Southland Times.</document><!-- Waikaia.rtf -->
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=09Sep2003&amp;object=M8J45N1686JL&amp;type=html"> Rescue efforts in vain</a>, 9 September 2003, Anonymous, ODT.</document>
+            <document><a href="/safety/documents/MSA_Waikaia_030972.pdf">MSA Report 030972</a> (<a href="#Adobe_Acrobat">PDF</a>, 180k) </document>
+            <document><a href="http://www.telegraph.co.uk/news/main.jhtml?xml=/news/2003/02/27/wacton27.xml">Army officer dies in kayak accident</a>, 27 February 2003, Richard Savill, Telegraph.</document>
+            <document><a href="http://www.timesonline.co.uk/article/0,,2-592843,00.html">Army canoe expert swept to his death</a>, 27 February 2003, Simon de Bruxelles, Times Online.</document>
+            <document><a href="http://www.thisisbradford.co.uk/bradford__district/archive/2003/02/28/ship_news01.int.html">'Pal did his best to save our son'</a>, 28 February 2003, Anila Baig.</document>
+            <document><a href="http://www.canoe.org.au/story.asp?Item=871">English kayaker dies after being caught in rapids</a>, 24 February 2003</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=24Feb2003&amp;object=0223599474&amp;type=html">  English kayaker dies in river rapids</a>, 24 February 2003, Anonymous, ODT.</document>
+        </documents>
+    </incident>
+
+    <incident id="20000108">
+        <created>2003-11-15T12:00:00</created>
+        <changed>2003-12-04T11:07:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>2000-01-08T16:30:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Robin Dodd</name>
+            <age>37</age>
+            <sex>M</sex>
+            <nationality>USA</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Hokitika</river>
+            <section id="3016">Upper Hokitika</section>
+            <description>Several km below Mungo River</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <!-- <comment>Unknown</comment> -->
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>IV-V</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Dagger Redline</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>An experienced group of eight international kayakers helicoptered into the Upper Hokitika (via Mungo River) for the second descent (over two days). Halfway through the first day, all paddlers except one got out to inspect a set of rapids from the bank, around 2-3km upstream of Frisco canyon. The paddler on the water successfully ran the rapid after receiving verbal instructions. A second paddler ran the rapid with no problems. The third paddler received instructions from the first paddler, but on his run the third paddler subbed-out in a chute and pinned, submerged, against a rock. It appears that he released his paddle and exited the kayak, but quickly kayak and paddler were out of sight.</p>
+
+            <p>The other paddlers were swiftly in position to effect a rescue (&lt; 1 minute). Several jumped into the eddy above but could not assist. Attempts to snag the victim or boat were unsuccessful, so a z-drag or other rope-based extraction could not be utilised. After an hour of fruitless rescue attempts, the group continued the run to Serpentine Hut, where they could radio for assistance.</p>
+
+            <p>The victim's body was eventually recovered on January 10, on the third effort at extrication. Several grappling hooks were straightened when pulled due to the water pressure. A 3:1 pulley-system with four people pulling was eventually used to extract the body. The water pressure was too great to recover the kayak.</p>
+
+            <!--   He then went over a 4 ft drop with a strong pillow and fold created
+         by a rock just downstream. He subbed out in the seam similar to Arnd and
+         Gustav but pinned against the rock just underwater. His paddle was
+         immediately released and it looked as though he made a quick attempt at
+         exiting his boat. Within seconds Robin and his boat where underwater and out
+         of site. In less than a minute, 6 of us where able to get within 6 feet of
+         where we last saw Robin but were unable to either see or help him. Arnd,
+         Dave, and Tomas all made a very bold jump into a tiny eddy above the sieve.
+         Arnd was then lowered down in front of the rock by his feet for several
+         attempts at reaching Robin underwater. Unfortunately the current was to
+         strong and Robin was out of reach. We later tried snagging him and his boat
+         with ropes and a Z-drag but nothing seemed to work. After over an hour of
+         rescue effort we decided to continue through the rest of the canyon to the
+         hut where we were to spend the night.
+         From there we were able to radio the helicopter pilot and let him know what
+         had happened. The next day a team of search and rescue flew to assist in
+         extraction. At the present time all recovery attempts have been
+         unsuccessful..  -->
+
+        </summary>
+        <discussion>
+            <!-- the MSA report is superficial, and only based on the depositions esp. from Marc Lyle -->
+
+            <p>The victim was experienced, well-equipped and in a strong party.</p>
+
+            <p>If the volume and design of the kayak were not contributing factors, then the victim was desperately unlucky:
+                <ul>
+                    <li>since his line was close to that of the two succesful previous paddlers.</li>
+                    <li>to become entrapped in a rock-sieve that was not an obvious hazard.</li>
+                    <li>to be out of reach of rescue attempts.</li>
+                </ul></p>
+
+            <p>It appears that his companions made a series of heroic rescue attempts that were unsuccesful. It is unclear from the available reports whether a strong-swimmer rescue (with throw-bag tether) was attempted. It is unclear whether a device to hold a carabiner open on the end of a paddle blade could have been used successfully.</p>
+
+            <p>The NZRCA rejects the assertion by MSA that the <q>the knowledge of the kayakers rescue techniques was negligible</q> (MSA, 1999). On the evidence available, it is not possible to draw that conclusion. Given the years of experience of the group, such a conclusion would be surprising.</p>
+        </discussion>
+        <documents>
+            <document>Deposition of Alan Hendrikson, 23 March 2000.</document>
+            <document>Deposition of Marc Lyle, 9 January 2000.</document>
+            <document><!-- "Chris Emerick" <chrisem@ibm.net>  --><a href="http://groups.google.com/groups?oi=djq&amp;selm=an_570546109">Upper Hokitika drowning</a>, Chris Emerick</document>
+            <!-- MSA report dated 6 July 2000, by Arthur Murphy, MSI, Lyttleton -->
+            <document><a href="/safety/documents/MSA_Hokitika_990434.pdf">MSA Report 990434</a> (<a href="#Adobe_Acrobat">PDF</a>, 43k)</document>
+            <document>River victims kayak-rodeo visitors, 11 January 2000, Peter Christian, Press.</document>
+            <document>Deaths show kayaking river danger , 10 January 2000, Tara Ross, Press.</document>
+        </documents>
+    </incident>
+
+    <incident id="19991025">
+        <created>2003-11-16T12:00:00</created>
+        <changed>2003-11-17T12:00:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>1999-10-25T12:00:00</dateTime>
+        <reporter>
+            <name>Timon Walkley</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Timon Walkley</name>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Manawatu</region>
+            <river>Mangahao</river>
+            <section id="1514">Mangahao</section>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>IV</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Perception '3D'</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Near the end of the Mangahao Gorge, a kayaker misjudges a chute and becomes vertically pinned. An air-pocket formed but paddler was unable to free the kayak, but was able to climb out onto an adjacent rock.</p>
+        </summary>
+        <discussion>
+            <p>A near-miss, given the amount of effort required to free the kayak. A throwline was attached but pulling on the towline from various directions did not free the boat. An attempt to z-drag the kayak back the way it came was unsuccessful. The kayaker was towed, walked, swam, ran, and rock-climbed 8km to the take-out.</p>
+
+            <p>A keyhole cockpit was of vital assistance.<br/>
+                A step-up bar is also recommended.<br/>
+                Carry suitable footwear (<a href="/article/code-of-practice#recommendation1.8">Recommendation 1.8</a>).<br/>
+                Know how to implement a z-drag and carry sufficient rope and equipment to create one (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).
+            </p>
+        </discussion>
+        <documents>
+            <document><a href="/article/mangahao-release">Mangahao release</a>, Timon Walkley</document>
+        </documents>
+    </incident>
+
+    <incident id="20011118">
+        <created>2003-12-05T12:00:00</created>
+        <changed>2003-12-05T22:29:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2001-11-18T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Rod Banks</name>
+            <age>45</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Hokitika</river>
+            <section id="3016">Kakariki Canyon</section>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>IV</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Wavesport 'Forplay'</description>
+        </boat>
+        <trip>Club</trip>
+        <summary>
+            <p>Four kayakers from a group of 14 put-on in a large pool approx. 200m upstream of the helicopter landing site. Two paddlers successfully ran the first drop (a small hole), but the third came through off-balance and capsized in aerated water on the eddyline. The paddler rolled up but consequently descended the second drop backwards. The paddler again capsized, washed past a rock and wet-exited.</p>
+
+            <p>The fourth paddler reached the swimmer but could not push the kayak clear of the current before the third drop (a 1m watefall) approx. 25m above the helicopter landing site. The victim went over the drop in 'whitewater swimming position' and became caught against the right-hand wall.</p>
+
+            <p>A kayak nose was offered but the victim was unable to maintain his grip and slipped below the surface and out of sight. After 5-10 minutes, his PFD flushed-out. After waiting to the point where it was clear the victim had not survived, the group paddled 800m to the entrance of Kakariki Canyon and discovered the body of the paddler in a large eddy on river left. As a result of efforts to move the body downstream, it sank and only became visible at the end of the canyon.</p>
+
+            <p>A strong-swimmer rescue was effected and once the victim was ashore several CPR attempts were made but were ineffective (the victim had been underwater for around 45 minutes). Several kayakers paddled out to raise the alarm and the body was extricated by helicopter later that afternoon.</p>
+        </summary>
+        <discussion>
+            <p>Overall the group were experienced, safety-conscious and well-equipped, though the victim was probably at his limit in the conditions, particularly since he was in a play-boat rather than a creek-boat. A creek-boat may have provided a greater margin of safety (<a href="/article/code-of-practice#recommendation1.24">Recommendation 1.24</a>).</p>
+
+            <p>The MSA report raised questions regarding lines of responsibility and leadership in the context of a club trip.</p>
+
+            <p>The MSA report recommends that paddlers jettison equipment if it could enable retrieval of a swimmer before going over a drop (ie. the priority for rescue is the person).</p>
+
+            <p>It is not clear whether a strong-swimmer rescue or tagline rescue was attempted after the victim disappeared from view in the pour-over.</p>
+        </discussion>
+        <documents>
+            <document><a href="/safety/documents/MSA_KakarikiCanyon_010755.pdf">MSA Report 010755</a> (<a href="#Adobe_Acrobat">PDF</a>, 136k)</document>
+            <document>Sea kayak guide drowns in river, 20 November 2001, The Press.</document>
+            <document><a href="/article/grahams-view-lower-hokitika">Graham's view on the Lower Hokitika</a>, Graham Charles, NZ Canoeing 02.2, Autumn 2002</document>
+            <document><a href="/article/tragedy-lower-hokitika">Tragedy on the Lower Hokitika</a>, Vladimir Filipovic, NZ Canoeing 02.1, Summer 2002</document>
+        </documents>
+    </incident>
+
+    <incident id="20000105">
+        <created>2003-12-05T12:00:00</created>
+        <changed>2004-05-09T15:06:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>2000-01-05T13:15:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Gunther Schuppan</name>
+            <age>22</age>
+            <sex>M</sex>
+            <nationality>GER</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Nevis</river>
+            <section id="2423">Nevis</section>
+        </location>
+        <flow>
+            <value>20</value>
+            <relativeFlow>Medium</relativeFlow>
+            <comment>Water discoloured.</comment>
+        </flow>
+        <class>V-VI (P)</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Necky 'Bliss 8'</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>After approximately 2.25hrs on the river, a party of five kayakers reached a class III-IV rapid. One kayaker got out to inspect the rapid, got back in his kayak, successfully ran the rapid and gave the 'OK' signal. The next paddler followed the same line but was slightly left of the previous paddler's line at the final drop. He appeared to be intending to boof the ledge, but had lost all his momentum landing on the ledge.</p>
+
+            <p>The paddler smiled, indicating he had 'blown his line', and tried to pull himself over the ledge with his left arm. He could not do so as the stern of his kayak was slowly turning with the current towards some large boulders on the left. His kayak slowly rose up, entering a sieve, stern-first. The paddler endeavoured to paddle out. In a matter of seconds the kayak and paddler disappeared beneath the surface.</p>
+
+            <p>His companions were on the scene quickly (within 30 seconds) and found the kayak cockpit empty. His paddle emerged and they searched both downstream and reaching into the sieve. With a line attached to the kayak, two or three of the rescuers easily pulled the kayak out. A throwbag was thrown into the siphon and emerged on the other side. After 30 minutes of unsucessful searching, the group walked out to a 4WD track that led to a rural road. A passing car took them to a nearby farmhouse from where they alerted authorities. The body was recovered after three days of intensive effort by the Queenstown Swiftwater Rescue Unit and police.</p>
+        </summary>
+        <discussion>
+            <p>The victim was experienced and well-equipped, with a strong team.</p>
+
+            <p>A creek boat with higher tail volume may have been less vulnerable to the water forces at the entrance to the sieve (<a href="/article/code-of-practice#recommendation1.24">Recommendation 1.24</a>).</p>
+
+            <!-- inherent danger -->
+            <p>A small misjudgement of line had fatal consequences.</p>
+
+            <p>The group relied on the guidebook description of the river. Nobody on the trip had been on the Nevis before (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1.1</a>).</p>
+
+            <p>The image below shows the location of the sieve (note the yellow arrow).
+                <img src="/system/files/SceneFromLeftBank.jpg" title="Scene from left bank"/></p>
+        </discussion>
+        <documents>
+            <!-- http://www.odt.co.nz/cgi-bin/getitem?date=02Apr2003&object=H1M33D2716FB&type=html -->
+            <document><a href="/system/files/MSA_Nevis_990412.pdf">MSA Report 990412</a> (<a href="#Adobe_Acrobat">PDF</a>, 76k)</document>
+            <document>Coroner's Report, 21 June 2000, Kenneth Terry.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=10Jan2000&amp;object=0109020513&amp;type=html">Kayaker's body recovered</a>, 10 January 2000, Dave Smith, ODT.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=07Jan2000&amp;object=B6K33B2591NH&amp;type=html">Search still on for kayaker</a>, 7 January 2000, Anonymous, ODT (+image).</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=07Jan2000&amp;object=B6M10C2589HB&amp;type=html">Search continues for missing kayaker</a>, 7 January 2000, Anonymous, ODT.</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=06Jan2000&amp;object=B5L5279510NW&amp;type=html">Kayaker believed drowned on Nevis</a>, 6 January 2000, Fiona Hill, ODT.</document>
+        </documents>
+    </incident>
+
+    <!-- Clarence -->
+    <incident id="20011026">
+        <created>2004-01-19T14:56:00</created>
+        <changed>2004-01-19T14:56:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2001-10-26T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>safety@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Annabel Atkinson</name>
+            <age>11</age>
+            <sex>F</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <victim>
+            <name>Hayley North</name>
+            <age>13</age>
+            <sex>F</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Clarence</river>
+            <section id="2630">Upper Clarence</section>
+        </location>
+        <flow>
+            <value>20</value>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Canoe-2 person</type>
+            <description>Perception</description>
+        </boat>
+        <trip>Commercial</trip>
+        <summary>
+            <p>A parent aide and three students fail to avoid a partially exposed rock in the centre of the Upper Clarence River. The canoe hits the rock broadside. The paddlers rail downstream and the canoe fills with water from the downstream side. The canoe sinks and wraps across the rock. Two students are trapped between the rock and canoe, and drown. A hydraulic digger eventually pulls the canoe free. The canoe was not fitted with any added bouyancy.</p>
+        </summary>
+        <discussion>
+            <p>The investigation into this accident raised some thought that the students had not had enough time to practice controlling their canoe. Before the accident the canoe was largely out of control, resulting in being swept broadside onto the rock (<a href="/article/code-of-practice#recommendation3.10">Recommendation 3.10</a>).</p>
+
+            <p>There were three adults and seven students, but since only one adult had rescue experience, the instructor-to-student ratio was insufficient (<a href="/article/code-of-practice#recommendation3.4">Recommendation 3.4</a>).</p>
+
+            <p>The students acted correctly when they hit the rock and railed downstream, but the canoe then filled with water from the downstream side, sunk and wrapped around the rock. The lack of bouyancy in the canoe may have contributed to the accident.</p>
+            <p>The canoe was firmly wrapped around the rock. Canoes present significant surface-area to oncoming water, so require a z-drag at minimum, or mechanical assistance to move.</p>
+        </discussion>
+        <documents>
+            <!-- http://www.odt.co.nz/cgi-bin/getitem?date=02Apr2003&object=H1M33D2716FB&type=html -->
+            <document><a href="/safety/documents/MSA_Clarence_012766.pdf">MSA Report 012766</a> (<a href="#Adobe_Acrobat">PDF</a>, 76k)</document>
+            <document>Schoolgirls drown, town in mourning, October 2001, The Press.<!-- http://www.stuff.co.nz/inl/index/0,1008,987932a10,FF.html --></document>
+            <document>Rescuers: We felt useless, Robyn Bristow and Diane Keenan, 27 October 2001, The Press.</document>
+            <document>Girl terrified of river run, Matt Conway, 13 June 2002, The Press.</document>
+            <document><a href="http://www.nzherald.co.nz/latestnewsstory.cfm?storyID=2349171&amp;thesection=news&amp;thesubsection=general&amp;thesecondsubsection=latest">No prosecution over school trip drownings</a>, 18 August 2002, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?thesection=news&amp;thesubsection=&amp;storyID=3513436">Schools need field trip guidance, says coroner</a>, 19 July 2003, NZ Herald.</document>
+            <document><a href="http://www.nzherald.co.nz/latestnewsstory.cfm?storyID=2046277&amp;thesection=news&amp;thesubsection=general&amp;thesecondsubsection=latest">Safety recommendations follow canoing deaths</a>, 12 June 2002, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?thesection=news&amp;thesubsection=&amp;storyID=225185">Hanmer drownings raise fears over safety on school trips</a>, 30 October 2001, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/latestnewsstory.cfm?storyID=224890&amp;thesection=news&amp;thesubsection=general&amp;thesecondsubsection=latest">Maritime Safety defer drowning investigation</a>, 28 October 2001, NZ Herald</document>
+        </documents>
+    </incident>
+
+
+    <incident id="19870315">
+        <created>2004-01-19T15:56:00</created>
+        <changed>2004-01-19T15:56:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>1987-03-15T17:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>safety@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Rudy Hubeny</name>
+            <age>37</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Hawea</river>
+            <section id="2416">Hawea</section>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>II+</class>
+        <boat>
+            <type>Unknown</type>
+        </boat>
+        <trip>Club</trip>
+        <summary>
+            <p>A club group, made up of a mixture of experienced, intermediate and beginner paddlers, successfully completes a morning descent of the Hawea River.</p>
+            <p>During the afternoon descent, near the end of the trip, the group becomes separated. When everyone assembles at the take-out, it is realised that one beginner paddler is missing. A search is commenced and the paddler, still in his kayak, is found pinned below the surface, against a tree.</p>
+        </summary>
+        <discussion>
+            <p>It is unclear how the accident occurred because there were no witnesses.</p>
+            <p>It is vital that at all times the whereabouts of every paddler is known. Clubs and commercial groups can operate a buddy system (where paddlers look out for each other in pairs), and to have an experienced 'tail-end charlie' who is the last person off the river.</p>
+        </discussion>
+    </incident>
+
+    <incident id="20020201">
+        <created>2004-01-19T16:10:00</created>
+        <changed>2005-07-24T18:27:00</changed> <!-- jonathan Added links to news and radio media -->
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>2002-02-01T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>safety@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Timothy Jamieson</name>
+            <age>21</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Buller</river>
+            <section id="2116">Earthquake</section>
+            <description>Rodeo</description>
+        </location>
+        <flow>
+            <value>~95</value>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>III-</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Wavesport 'X'</description>
+        </boat>
+        <trip>Education</trip>
+        <summary>
+            <p>The first of three groups of outdoor leadership students run Rodeo rapid on the Earthquake section. A student paddles over a rock with water welling over it (left of the centre of the rapid, approx. 25m from the left bank) and is immediately pinned on a Y-shaped log behind the rock. One limb of the log is across the spray-deck and abdomen of the paddler, forcing him against the rear of the cockpit.</p>
+
+            <p>Other members of the group, and the other two groups, arrive soon after and make repeated attempts to free the paddler from the strainer. These were unsuccessful and the victim slid under the water while still pinned against the tree. He was finally freed from the tree and washed downstream.</p>
+        </summary>
+        <discussion>
+            <p>It is thought the victim was unaware of the existence of the strainer hazard in Rodeo, which was not visible from upstream. The instructors and some of the students were aware of the particular strainer. Normally it is the instructor's responsibility to manage risk for the group (<a href="/article/code-of-practice#recommendation3.10">Recommendation 3.10</a>) but students need to accept more of this responsibility as they advance.</p>
+            <p>The victim was capable of navigating to avoid the rock (<a href="/article/code-of-practice#recommendation1.21">Recommendation 1.21</a>).</p>
+            <p>The hazard was not visible at higher flows. In this case, a lower flow enhanced the objective danger.</p>
+            <p>The incident site appears to have been too far from the banks of the river (and feasible anchor points) for effective z-drag rescue.</p>
+            <p>It is dangerous to paddle over an obstacle 'blind' (<a href="/article/code-of-practice#recommendation1.19">Recommendation 1.19</a>).</p>
+
+            <p>With reference to the MSA report, it is unlikely that satellite telephone would have contributed to a successful rescue.</p>
+            <!-- conclusion of MSA is that instructor was at fault. NZRCA is not comfortable with this conclusion, given the relatively straight forward nature of the rapid, and the level of competence of the students, which was beyond that of beginners.
+            Furthermore, the NZRCA doesn't believe it is feasible to identify 'all significant and potentially significant hazards in rivers' for the purposes of minimisation, isolation or elimination. We question the feasibility of this, and suggest it smacks of a 'sanitisation' of the environment to eliminate risk. Instead,
+
+            It's highly debatable that the instructor should have lead the students down the rapid. Given the mild nature of the rapid and the skill level of the students/at that point in the programme, they should be able to navigate their own way down.
+
+            Compare to Clarence recommendations (ie. severely censure Brett Whiteley, but no mention of Clarence trip leader who had no qualifications whatsoever, or the company involved whose equipment (canoe) not up to scratch and who implemented an insufficent instructor:student ratio
+
+            And recommending SKOANZ get copies and not NZRCA? What's up with that?
+
+            Have we heard anything about what NZOIA have done? What feedback do they have on the MSA report? any outcomes that they can share with us?-->
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.nzherald.co.nz/index.cfm?c_id=1&amp;ObjectID=10337227">A bad day on the Buller River</a>, 23 July 2005, Monique Devereux, NZ Herald</document>
+
+            <document><a href="http://www.stuff.co.nz/stuff/0,2106,3069686a11,00.html">'Silly mistake' led to death of kayaker, inquest told</a>, 19 October 2004, </document>
+            <document><a href="http://xtra.co.nz/broadband/0,,10980-2733649-20,00.html">Radio NZ Late Edition</a>, 18 October 2004</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?storyID=3601649&amp;thesection=news&amp;thesubsection=general&amp;thesecondsubsection=">Witness describes watching kayaker drown</a>, 18 October 2004, Monique Devereux, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?thesection=news&amp;thesubsection=&amp;storyID=3579569">Instructors closed ranks after kayak death, court told</a>, 21 July 2004, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?thesection=news&amp;thesubsection=&amp;storyID=3578350">No charges over kayak death</a>, 15 July 2004, NZ Herald</document>
+            <document><a href="/safety/documents/MSA_Buller_022829.pdf">MSA Report 022829</a> (<a  href="#Adobe_Acrobat">PDF</a>, 188k)</document>
+            <document><a href="http://www.nzherald.co.nz/latestnewsstory.cfm?storyID=2846956&amp;thesection=news&amp;thesubsection=general&amp;thesecondsubsection=latest">Kayak instructor at fault in drowning, says authority</a>, 13 September 2002, NZ Herald</document>
+            <document>Kayaker dies after rapids accident, The Press</document>
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?thesection=news&amp;thesubsection=&amp;storyID=888138">Kayaker trapped for 40 minutes</a>, 4 February 2002, NZ Herald</document>
+        </documents>
+    </incident>
+
+    <incident id="19951021">
+        <created>2004-01-19T18:10:00</created>
+        <changed>2006-01-04T09:35:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>1995-10-21T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>safety@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <!-- MSA report says Theresa -->
+            <name>Tresa Emanuelson</name>
+            <!-- <age></age> -->
+            <sex>F</sex>
+            <nationality>USA</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Taramakau</river>
+            <section id="2238">Taramakau</section>
+            <description>Inchbonnie Bluff</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <!-- <relativeFlow></relativeFlow> -->
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Unknown</type>
+            <!-- <description></description> -->
+        </boat>
+        <trip>Commercial</trip> <!-- guided -->
+        <summary>
+            <p>Two clients were given 1.5 hours flatwater instruction on Lake Moana covering wet exits, support strokes, sweep strokes, equipment and the whitewater swimming position. A third client was collected prior to lunch.</p>
+
+            <p>The party of three clients, two guides and a friend (who had instruction experience, but was not instructing that day) put onto the Taramakau River in hired boats below the Stanley Gooseman Bridge. About 1.5 hours of additional moving-water instruction was provided.</p>
+
+            <p>The party set out down the river, with one guide walking along the river bank. The party would assess each section of river in approx. 100m chunks, pointing out any hazards and the correct line, then running in close succession behind the lead guide, with the friend paddling last. A support vehicle followed on SH73.</p>
+
+            <p>After a hot-drink break, the group agreed to continue to the Taipo River confluence, and the guide on the bank took over from the friend in the kayak. On the way to Rocky Point all members of the kayaking party <q>took a few dumps and fell out</q>. The party stopped on the true right before a known hazard (a log on the true right). The clients were advised of the hazard and told to paddle on the left.</p>
+
+            <p>The lead guide and two clients successfully passed the hazard on the left. The third client began paddling left, then relaxed. Despite called instructions, she did not paddle further left and collided head on with the log. The kayak turned sideways with the nose of the kayak between the log and the bank. The kayak was pinned with the log crossing in front of the cockpit, and gradually submerged.</p>
+
+            <p>The guides tried several attempts at swimming to the kayak and reaching an endloop. One guide slid down the log into the water and tried to pull the kayak off using an endloop. The other guide tied tape to a tree beside the log, climbed down the log and attempted to kick the kayak free. After around 8 minutes, the kayak was wrestled free. CPR was performed on the victim for 5-10 minutes, then abandoned.</p>
+        </summary>
+        <discussion>
+            <p>The guides on this trip had no formal kayaking qualifications and had very limited kayaking experience.</p>
+
+            <!-- Mick Hopkinson's comment: -->
+            <p>It is highly unusual for guides to swim from their kayaks at all during a kayaking excursion.</p>
+
+            <p>Following the Coroner's inquest, the company involved agreed to better present risks to clients, to portage where possible past strainers and undercuts, to suggest the option of jetboat backup to clients, and to hire NZOIA-qualified guides.</p>
+
+            <p>Neither the MSA Report or Coroner's report mention the type of kayak involved, or the flow.</p>
+        </discussion>
+
+        <documents>
+            <!-- MSA report by Arthur Murphy, again superficial -->
+            <document>MSA Report 95803<!-- (<a href="#Adobe_Acrobat">PDF</a>, xxk) --></document> <!-- c/- Glenn Murdoch -->
+            <document>Tourist's death may have been unpreventable, Press, 6 July 1996</document>
+            <document>Coroner's Report, 23 February 1996, A T Sullivan.</document> <!-- c/- Glenn Murdoch -->
+        </documents>
+    </incident>
+
+    <incident id="19991024">
+        <created>2004-02-11T22:05:00</created>
+        <changed>2004-02-11T22:05:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>1999-10-24T16:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>James Conrad</name>
+            <age>13</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Waiau</river>
+            <section>Lower Waiau</section>
+        </location>
+        <flow>
+            <value>197</value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Inflatable</type>
+            <description>Funyak</description>
+        </boat>
+        <trip>Commercial</trip> <!-- guided -->
+        <summary>
+            <p>An afternoon commercial trip consisting of two funyaks, one raft and one safety kayaker on the Waiau in Canterbury. A 13-year old and 12-year old were in a funyak and they hit a bluff. One person dropped their paddle and they drifted into a strainer (trees on island) and flipped. One person was trapped underwater. The other drifted past the strainer and was picked up by another funyak paddler.</p>
+
+            <p>Both guides attempted to extract the victim. A passing jetboat was flagged down, but swamped when it floated onto the trees. A second jetboat arrived with a chainsaw and the victim was freed after approx. 15 minutes of going under. CPR was administered on the bank, and the victim was airlifted to Christchurch hospital but never recovered.</p>
+
+            <p>The flow at the time of the accident was 197cu (at Marble Point, approx. 8km below Ferry Bridge), as the river declined from a Spring flood peak of 349cu that occurred at 3am that morning. The mean flow for the year is 98cu and a mean for October is 151cu. (Data obtained from <a href="http://www.ecan.govt.nz" title="Environment Canterbury">ECAN</a>.)</p>
+        </summary>
+        <discussion>
+            <p>It's not possible on the documented evidence to say flow was a factor, but it may have contributed to the original capsize, the entrapment and the challenges of rescue (<a href="/article/code-of-practice#recommendation1.25">Recommendation 1.25</a>).</p>
+
+            <p>Any group putting onto a river should have sufficient rescue skills and equipment to deal with emergency situations; in this case it is not clear whether a river-saw, strong-swimmer rescue or other techniques might have been effective (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).</p>
+
+            <p>An inflatable kayak paddled by novices is appropriate in only the most benign conditions (<a href="/article/code-of-practice#recommendation1.24">Recommendation 1.24</a>).</p>
+
+            <p>There are significant deficiencies in the MSA investigation. The MSA report:
+                <ul>
+                    <li>Provides no flow data.</li>
+                    <li>Doesn't mention what, if any, rescue gear the group carried. Did the commercial group have any capacity for rescue for an entrapment scenario? If not, why not?</li>
+                    <li>Doesn't mention any experience or qualifications of those involved.</li>
+                    <li>States that 5 minutes elapsed between hitting the bluff and hitting the tree. Either the lost paddle should have been remedied during that time or the times stated are inaccurate.</li>
+                    <li>Makes no mention of the danger represented by the capsize of the jetboat. In any rescue situation it's important that no further harm is done.</li>
+                </ul>
+            </p>
+
+            <p>The MSA report's recommendation, &quot;The guide giving the briefing should ensure that the serious consequences of losing a paddle are drawn the participant's attention [<em>sic</em>]&quot; is unhelpful to the wider paddling community. Of more interest is whether the high flow was a contributing factor, whether an inflatable kayak was a suitable choice of craft for the conditions, was the group adequately equipped and skilled for the trip, what rescue techniques were applied and why were they ultimately unsuccessful?</p>
+        </discussion>
+
+        <documents>
+            <document><a href="/safety/documents/MSA_Waiau_990356.pdf">MSA Report 990356</a> (<a href="#Adobe_Acrobat">PDF</a>, 81k)</document>
+            <document><a href="http://www.odt.co.nz/cgi-bin/getitem?date=26Oct1999&amp;object=1025231676&amp;type=html"> Rafting guide unable to stop son drowning</a>, 26 October 2003, ODT.</document>
+        </documents>
+    </incident>
+
+    <incident id="20001126">
+        <created>2004-03-09T18:10:00</created>
+        <changed>2004-03-09T18:10:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Shoulder dislocation</typeModifier>
+        <dateTime>2000-11-26T10:00:00</dateTime>
+        <reporter>
+            <name>Alan Bell</name>
+            <email>bellac@xtra.co.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <!-- <reporter>
+          <name>Jonathan Hunt</name>
+          <email>webmaster@rivers.org.nz</email>
+          <witness>No</witness>
+        </reporter> -->
+        <victim>
+            <name>Adam Baldock</name>
+            <age>27</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Waikato</region>
+            <river>Tongariro</river>
+            <section>Access 10</section>
+            <description>Jaw Breakder rapid<!-- approx 4-5 rapids below put-in --></description>
+        </location>
+        <flow>
+            <value>16</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>III</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>BlissStick FJ2</description>
+        </boat>
+        <trip>Club</trip> <!-- guided -->
+        <summary>
+            <p>A paddler went upside down above the large rock in 'Jawbreaker rapid' and bumped the rock with either paddle or arm. The victim's roll attempt failed, they realised their shoulder was abnormal, and swam. The victim was in pain and unable to paddle. A doctor in the group checked and confirmed a dislocated shoulder. A commercial raft came by, and the opportunity was taken for the injured paddler to be taken as a passenger. The raft company radioed to base and arranged for the prison to pick the victim up at the first bridge and transfer them to hospital. The remainder of the group towed the vicitm's kayak to the take-out.</p>
+        </summary>
+        <discussion>
+            <p>It is unclear what the exact cause of the dislocation was. Good roll technique can help minimise the risk of shoulder dislocation (<a href="/article/code-of-practice#recommendation1.28">Recommendation 1.28</a>).</p>
+        </discussion>
+
+        <!-- <documents>
+          <document>Alan Bell report.</document>
+        </documents> -->
+    </incident>
+
+    <incident id="20011027">
+        <created>2004-03-09T18:10:00</created>
+        <changed>2004-03-09T18:10:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Shoulder dislocation</typeModifier>
+        <dateTime>2001-10-27T10:00:00</dateTime>
+        <reporter>
+            <name>Alan Bell</name>
+            <email>bellac@xtra.co.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <!-- <reporter>
+          <name>Jonathan Hunt</name>
+          <email>webmaster@rivers.org.nz</email>
+          <witness>No</witness>
+        </reporter> -->
+        <victim>
+            <name>Nick Parker</name>
+            <!-- <age></age> -->
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Manawatu</region>
+            <river>Mangahao</river>
+            <section>Mangahao</section>
+            <description>Rock garden below 'lunch spot' rapid</description>
+        </location>
+        <flow>
+            <value>40</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>III</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Pyranha 230</description>
+        </boat>
+        <trip>Club</trip> <!-- guided -->
+        <summary>
+            <p>A paddler caught their paddle on rocks while attempting to roll in rock garden after the 'lunch stop' rapid. Victim was in pain and unable to paddle. One paddler stayed with the victim with several survival blankets and a small fire while other paddlers paddled out with their equipment to alert a rescue helicopter.</p>
+
+            <p>A helicopter arrived 1-2 hours later and took the victim to Palmerston North hospital.</p>
+        </summary>
+        <discussion>
+            <p>Good roll technique can help minimise the risk of shoulder dislocation (<a href="/article/code-of-practice#recommendation1.28">Recommendation 1.28</a>). The group coordinated the rescue well.</p>
+        </discussion>
+
+        <documents>
+            <document>Alan Bell report.</document>
+        </documents>
+    </incident>
+
+    <incident id="19800119">
+        <created>2004-03-09T21:10:00</created>
+        <changed>2004-03-09T21:10:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1980-01-19T10:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Max Reynolds</name>
+            <!-- <age></age> -->
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <victim>
+            <name>John Gray</name>
+            <!-- <age></age> -->
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Tasman</region>
+            <river>Aorere</river>
+            <section>Aorere</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <!-- <value>40</value> -->
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>III</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <!-- <description></description> -->
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of six paddlers put on the flooded Aorere river. <q>A whirlpool was encountered in a gorge, which capsized all the canoeists, forcing some to abandon their canoes and attempt to climb the wall of the gorge.</q> It is believed that one paddler went to assist another who had been swept through the whirlpool. The bodies of both paddlers were observed floating underneath a bridge downstream.</p>
+        </summary>
+        <discussion>
+            <p>The image below is apparently the location of the whirlpool.</p>
+            <img src="/safety/aorere1.jpg"/>
+
+            <p>Be aware of the additional hazards in flooded rivers (<a href="/article/code-of-practice#recommendation1.25">Recommendation 1.25</a>).</p>
+        </discussion>
+
+        <documents>
+            <document>Dark Side of the Wave - Preface, Paul Caffyn.</document>
+        </documents>
+    </incident>
+
+    <incident id="19730722">
+        <created>2004-03-09T22:10:00</created>
+        <changed>2004-03-09T22:10:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>1973-07-22T11:30:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Allan Richard Mairs</name>
+            <age>19</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Hawkes Bay</region>
+            <river>Mohaka</river>
+            <section>Willow Flat to Raupunga</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <!-- <value>40</value> -->
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II-III</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Trilon Tiger (fibreglass)</description>
+        </boat>
+        <trip>Club</trip>
+        <summary>
+            <p>A group of nine club kayakers put onto the Mohaka at Willow Flat. Approximately 1.2km downstream on the outside of a right-hand corner were two large rocks. The rock in the centre of the current was submerged, and the rock on the left was visible 10-20cm above the water. The submerged rock was not visible until the canoeist was past it. Two paddlers successfully negotiated the rapid.</p>
+
+            <p>It appears that one paddler attempted to avoid the visible rock, and was swept sideways and became wedged, submerged, in a slot between the two rocks. The victim was leaning downstream, and removed his spraydeck but was trapped underwater. Attempts were made to swim a rope to the trapped kayak (strong-swimmer rescue), but were defeated by the current. At one point, one paddler managed to reach down and touch the victim, but were enable to extract him. A rope was eventually tied to the victim or the boat but snapped when force was applied.</p>
+
+            <p>An attempt was made to extract the body by helicopter the following day, but a 1000kg breaking-strain rope broke, indicating the forces involved. The body was successfully recovered two days after the accident by kayakers working with police, after a section of the bow was torn off to release the water pressure. The victim had been paddling for nine months and could roll.</p>
+        </summary>
+        <discussion>
+            <p>The victim may have had insufficient experience to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.21">Recommendation 1.21</a>).</p>
+
+            <p>The hazard was not visible from upstream, so the victim appears to have been unlucky; whitewater kayaking has inherent risks.</p>
+        </discussion>
+
+        <documents>
+            <document>Depositions by Guy Cotter and Tony Free, 18 September 1973.</document>
+            <document>Mohaka Canoeing Accident, Tony Free (HBCC) [undated].</document>
+            <document>Report on #### ##### Incident at Willow Flat on the Mohaka River, Tony Geard (NZCA)  [undated].</document>
+            <document>Bulletin 11, NZCA.</document>
+        </documents>
+    </incident>
+
+    <incident id="20040329">
+        <created>2004-03-30T19:10:00</created>
+        <changed>2006-02-22T12:18:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>2004-03-29T18:20:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>Andy England</name>
+            <email>EnglandA@greyhigh.school.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Eleanor Rutter</name>
+            <age>19</age>
+            <sex>F</sex>
+            <nationality>GBR</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Crooked</river>
+            <section>Crooked Gorge</section>
+            <description>Bent and Twisted</description>
+        </location>
+        <flow>
+            <value>~10</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV-V</class>
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Pyranha Micro 230</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of three paddlers drove to the take-out below the Gorge and walked in for about three hours, putting on the river around 18:00. The group successfully negotiated several rapids and portaged one. After inspecting a particularly long rapid from the bank, two paddlers entered the rapid and made it to an eddy on river right. They noticed that the third paddler had entered the rapid but was in difficulty upstream of a boulder upriver from them, and was trying to brace or roll. As the two paddlers grabbed their throwbags, the third paddler floated past (without her kayak) and was lost from view behind a rock downstream.</p>
+
+            <p>The two paddlers scouted for the victim moving downstream along the bank until they could proceed no further. One returned to his kayak and ran the remainder of the rapid. The other crossed the river and began down the track for help but was stymied by darkness. The first kayaker pulled off the river and managed to reach the vehicles (at times, on his hands and knees) and raise the alarm (around 21:00).</p>
+
+            <p>Local SAR found the second kayaker that night, but did not find the third kayaker. The victim was located around 9:20 the next day, by members of the Tasman Whitewater Response Unit scouting by helicopter. The body was recovered without difficulty from just below the surface, in a slot/sieve immediately downstream of the eddy in which the two kayakers had been positioned.</p>
+            <!--
+            http://www.thamesweirproject.co.uk/forums/index.php?s=870829b1331e78583c7354becf6a09e5&amp;act=ST&amp;f=3&amp;t=3055&amp;hl=eleanor&amp;st=60
+             I was paddling with Eleanor on the Crooked. I don't really know what to write here; there really are no words which seem appropriate.
+
+      Eleanor swam from her boat unexpectedly and was washed into a sieve where she became trapped. She was not visible from the water and was only spotted the following day by rescue helicopter. I searched for her on the river until it became dark, and then walked out to call the search and rescue. Samuel, the other member of our group also searched until dark, by which point he was unable to walk out. I returned with the search and rescue team to find him cold but physically fine.
+
+      I'm not sure exactly what information has disseminated through to the UK, but I understand there have been some inaccuracies in the news reports.
+
+      The river was at a good runnable level and I have no doubt that it was within the group's capablility.
+
+      I cannot begin to imagine how hard this must be for Eleanor's family and close friends. I had only known Eleanor for a few days. She seemed to me as a number of people have already written: I was amazed at her confidence and ability, but more importantly she was one of the most instantly likeable people I've met. I know there are a lot of people who will miss Eleanor very much, and I think that is testament to the person she was.
+
+      I met Eleanor's family when they flew out to New Zealand. I understand that close friends may want to talk to me about what happened, and am more than willing to help if I can.
+
+      All I have left to say at the moment is how grateful I am to the rescue team and the West Coast paddling community for their help, kindness and support.
+
+      And I know that everyone who knew Eleanor will remember her with a smile.
+
+      Russell
+            -->
+
+        </summary>
+        <discussion>
+            <p>The kayakers had adequate experience and equipment for the trip, and had paddled other New Zealand rivers of similar difficulty.</p>
+
+            <p>The river was at a good, runnable level and weather conditions were mild.</p>
+
+            <p>The decision to wet-exit near the start of a difficult rapid increased the risk significantly (<a href="/article/code-of-practice#recommendation1.16">Recommendation 1.16</a>).</p>
+
+            <p>The victim appeared passive in the water, and a more vigorous whitewater swimming technique may have carried the victim away from the slot (<a href="/article/code-of-practice#recommendation1.16">Recommendation 1.16</a>).</p>
+
+            <p>None of the victim's kayaking clothers were brightly coloured. This may have been a contributing factor to the failure of the victim's companions to locate her.</p>
+
+            <p>The onset of darkness around the time of the incident hampered rescue (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).</p>
+
+            <p>Protection of the rapid using a strategically-placed paddler and throwbag could have reduced the risk (<a href="/article/code-of-practice#recommendation2.11.5">Recommendation 2.11.5</a>).</p>
+        </discussion>
+
+        <documents>
+            <document>Lessons in kayak tragedy, July 2005, Heidi Brook (Maritime NZ), Wilderness, p62-63.</document>
+
+            <document><a href="/safety/documents/MSA_Crooked_041119.pdf">MSA Report 041119</a> (<a href="#Adobe_Acrobat">PDF</a>, 786k)</document>
+
+            <document><a href="http://www.stuff.co.nz/stuff/thepress/0,2106,2862286a6009,00.html">Companions tried in vain to save kayaker</a>, 1 April 2004, Jarrod Brooker, Press.</document>
+
+            <document><a href="http://www.ypn.co.uk/ViewArticlemore2.aspx?SectionID=55&amp;ArticleID=765768">Top kayaker from Yorkshire killed in river tragedy</a>, Brian Dooks, 1 April 2004.</document>
+
+
+            <document><a href="http://news.bbc.co.uk/1/hi/england/north_yorkshire/3584863.stm">Tributes to talented kayak star</a>, BBC, 31 March 2004.</document>
+
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?storyID=3558092">Drowned tourist was expert kayaker</a>, 31 March 2004, Monique Devereux, NZ Herald.</document>
+
+            <document><a href="http://www.nzherald.co.nz/storydisplay.cfm?storyID=3557977">Kayaker swept to her death on Crooked River</a>, 31 March 2004, Monique Devereux, NZ Herald.</document>
+            <document><a href="http://www.itv.com/news/982370.html">British Kayaker found dead in New Zealand</a>, 30 March 2004, ITV.</document>
+            <document><a href="http://www.stuff.co.nz/stuff/0,2106,2860556a10,00.html">Body of British kayaker found</a>, NZPA, 30 March 2004.</document>
+
+            <!-- The body of a 19-year-old female British kayaker has been recovered from a gorge in the Crooked River, 35km south east of Greymouth.
+      The tourist was swept away last night while kayaking on the river, which feeds into Lake Brunner.
+      A fellow kayaker, a male, walked for two hours out of the bush to raise the alarm at a Rotomanu farmhouse shortly after 9pm yesterday.
+      A third man, believed to be from Sweden, was found by rescuers suffering from mild hypothermia at 2.45am today.
+      St John ambulance West Coast district manager Brian Fancourt, said the victim fell out her kayak, was trapped by a rock and drowned.
+      The body was recovered by the Solid Energy Rescue Helicopter around 10am.
+      Mr Fancourt said the woman appeared to be wearing appropriate equipment, but the river was higher than usual.
+      The helicopter was assisted by jet boats and local guides this morning.
+      Rescue helicopter spokesman Brent Wilson said he was unable to fly last night when the search first began. He first took to the air at 6.30am today.
+      "It was one of those black nights, there wasn't enough light.
+      "It wouldn't have done any good anyway - the gorge is pretty tight."  -->
+        </documents>
+    </incident>
+
+    <!-- this is outline data only, need to look at Coroner's report c/- Glenn Murdoch -->
+    <incident id="19980208">
+        <created>2004-04-10T21:10:00</created>
+        <changed>2004-05-07T21:18:39</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1998-02-08T12:00:00</dateTime> <!-- time unknown -->
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Matthew John Daly</name>
+            <age>25</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Kawarau</river>
+            <section>Roaring Meg</section>
+            <description>Near 'Birdsnest Eddy'</description>
+        </location>
+        <flow>
+            <value>315</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>III</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Dagger RPM</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Victim paddled upstream from put-in into a 'birdsnest' eddy which collects debri from powerful currents. The victim capsized and did not attempt to roll and his kayak appeared to be empty. His companions searched from the river and banks and after several minutes the victim appeared around 30m downstream. Two paddlers recovered the victim and formed a raft with their kayaks (a Perception Pirouette S and a QK Bandit) and managed to administer CPR for 10-12 breaths. However, the raft disintegrated in the next rapids with one paddler swimming to shore. The other kayaker chased the victim through further rapids and he was eventually brought to sure 700m below the Roaring Meg powerstation. CPR was continued by fellow paddlers and passing motorists. Emergency services arrived quickly but resuscitation was unsuccessful.</p>
+        </summary>
+        <discussion>
+            <p>The victim was experienced, well-equipped, in an appropriate kayak and accompanied by competent companions.</p>
+            <p>The specific eddy appears to become a vortex at certain flows.</p>
+            <p>The MSA report concluded that the paddler fell victim to 'inherent danger' in whitewater kayaking.</p>
+        </discussion>
+
+        <documents>
+            <document><a href="/article/on-any-sunday">On any Sunday</a>, Autumn 1998, Sue Oloman, NZ Canoeing.</document>
+            <document><a href="/safety/documents/MSA_KawarauRoaringMeg_98742.pdf">MSA Report 98742</a> (<a href="#Adobe_Acrobat">PDF</a>, 62k)</document>
+        </documents>
+    </incident>
+
+    <!-- this is outline data only, need to look at Coroner's report c/- Glenn Murdoch -->
+    <incident id="20021201">
+        <created>2004-04-10T21:10:00</created>
+        <changed>2004-04-10T21:10:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2002-12-01T12:00:00</dateTime> <!-- time unknown -->
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Colin Jackson</name>
+            <!-- <age></age> -->
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Wanganui</region>
+            <river>Whanganui</river>
+            <!-- <section>Unknown</section> -->
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <!-- <value>40</value> -->
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Canoe-2 person</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Two men went canoeing.  The canoe capsized and one occupant managed to make it to shore and raise the alarm.  A search was carried out for the missing man and his body was located the following day.</p>
+        </summary>
+        <discussion>
+            <p>No comments yet.</p>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.nzherald.co.nz/latestnewsstory.cfm?storyID=3007362">Police divers retrieve canoeist's body</a>, 2 December 2002, NZ Herald.</document>
+        </documents>
+    </incident>
+
+    <!-- date is guestimate -->
+    <!-- time unknown -->
+    <!-- <age></age> -->
+    <!-- <description></description> -->
+    <incident id="20040414">
+        <created>2004-04-20T14:10:00</created>
+        <changed>2004-04-20T14:10:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2004-04-14T11:00:00</dateTime>
+        <reporter>
+            <name>Michael McWhirter</name>
+            <email>Michael.J.McWhirter@nz.mwhglobal.com</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Simon Callaghan</name>
+            <sex>M</sex>
+            <age>37</age> <!-- estimated -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Oparara</river>
+            <section>Oparara</section>
+            <description>First drop below Moria Arch</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV-V</class>
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Eskimo Salto</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of four experienced paddlers put onto the Oparara river. Three of us attended an advanced white water safety course together last year. We all had safety equipment and creek boats. We started on the river at around 10am with plenty of food.</p>
+
+            <p>We had heard that the top half of the river was &quot;stressfull&quot; thanks to the limestone features etc. and had noted that the guidebook specifically mentioned log-jams and rock-jams in this section which posed danger to kayakers. Nevertheless after a relaxing float down through some beautiful scenery we had an epic on the very first drop.</p>
+
+            <p>We came to a tight chute with a small drop between a cliff and a large rock. We ummed and aahhed a bit at the top of the drop. We could see a pool below and everything looked nice and peaceful down below. There was a horizon line but we could see the bottom. After a bit of boat scouting the first person ran the drop. It looked  a bit ugly with lots of boat, paddle and person hitting rock but he stayed upright and was soon looking up at the others from the bottom of the drop. He sort of vaguely indicated an undercut. After a slight delay, the second paddler had a similar run down, tight and bumpy but made the pool at the bottom.</p>
+
+            <p>The third paddler dropped down over the horizon line and promptly disappeared completely into a slot beneath the big rock.  After a very unpleasant ten seconds for all of the team the paddler climbed up out of the water through the same slot he had gone in. The boat was out of sight for at least 15 minutes and once we had caught a glimpse of it we still took 45 minutes and some fancy rope work to extract it. We tried a &quot;strong swimmer&quot; sort-of-thing with someone trying to get up and reach into the slot while attached to a rope; they couldn't get up and couldn't see it. About five minutes of observation was required to see a &quot;flash of red&quot;.</p>
+
+            <p>Eventually we used an overhanging feature (a big old tree on top of a log) to lower someone in a harness (made from climbing tape) down the side of the rock, dangle them above the flow of water and let them use their arms and feet to manoeuver the boat end out of the slot. We then connected to the loops of the boat with a carabiner on another sling, attached the sling to a throw rope, lifted our hero out of the rapid and then pulled the boat out. The situation was very nasty and very dangerous. Fortunately everyone was OK and we got all of the equipment back too. We had a great day on the rest of the river.</p>
+        </summary>
+        <discussion>
+            <p>Don't be overconfident on &quot;easy rapids&quot; just because you are expecting more and feel like you are prepared.<br/>
+                &quot;Switch-on&quot; as soon as you are on the river, not when you think the boating gets hard.<br/>
+                Make sure you can see all the way down a drop/rapid not just the top and the bottom (<a href="/article/code-of-practice#recommendation1.19">Recommendation 1.19</a>).<br/>
+                If you see something nasty at the bottom of a drop and your friends are at the top, tell them about it immediately and don't be afraid to advise them to scout or to walk. Just because one person got down doesn't mean everyone else will.<br/>
+                Carrying safety kit and knowing how to use it can save you big dollars when it helps you extract your boat (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).</p>
+        </discussion>
+
+    </incident>
+
+    <incident id="19730616">
+        <created>2004-05-05T21:55:00</created>
+        <changed>2004-05-07T17:55:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>1973-06-16T11:00:00</dateTime>
+        <reporter>
+            <name>J Williamson</name>
+            <email></email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>R Walton</name>
+            <sex>M</sex>
+            <!-- <age>37</age> -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Northland</region>
+            <river>Mangakahia</river>
+            <section>Mangakahia</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class> <!-- estimated, need to investigate -->
+        <boat>
+            <type>Unknown</type>
+            <description>Fibreglass kayak</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of six paddled the Mangakahia River from the road bridge north of Waimatenui. After 800m the victim advised several of the party to abandon the trip due to one having an unsuitable canoe and the other due to possible insufficient stamina for the strenuous trip ahead. The remaining four paddlers continued, inspecting all rapids from the bank.</p>
+
+            <p>On reaching the junction of the Waiokumara Stream, one paddler canoed the junction rapid and the rapid following (which was out-of-sight to those upstream of the junction). After a few minutes he was followed by the victim, who hit a submerged rock mid-stream in the second rapid and his kayak immediately folded around it trapping him by the legs.</p>
+
+            <p>The first paddler, who was inspecting the third rapid out-of-sight downstream, noticed a paddle and walked upstream to check. He found the victim just escaping from his kayak after tearing it apart with his bare hands and, after his swim down the remainder of the rapid, helped him ashore. The victim suffered from cuts to the backs of the knees and hands with bits of glass and resin embedded.</p>
+        </summary>
+        <discussion>
+            <p>The victim was not visible to the first paddler, or those who had yet to run the junction rapid, and was required to self-rescue. Watch all paddlers through all rapids (<a href="/article/code-of-practice#recommendation2.8">Recommendation 2.8</a>).</p>
+            <p>For more difficult rapids, mitigate risks by placing paddlers in kayaks in eddies and people with throwbags on banks (<a href="/article/code-of-practice#recommendation2.11.5">Recommendation 2.11.5</a>).</p>
+            <p>Carry a first-aid kit (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).</p>
+        </discussion>
+        <documents>
+            <document>Accident Report (Canoeing), 3 September 1973, J Williamson, Hauraki Kayak Group (Inc.)</document>
+        </documents>
+    </incident>
+
+    <incident id="19631116">
+        <created>2004-05-09T17:12:00</created>
+        <changed>2004-05-09T17:12:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1963-11-16T11:00:00</dateTime>
+        <reporter>
+            <name>Duncan Miller</name>
+            <!-- <email></email> -->
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Ron Tilby</name>
+            <sex>M</sex>
+            <age>37</age> <!-- estimate, ie. late thirties -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Wellington</region>
+            <river>Otaki</river>
+            <section>Otaki</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>III</class> <!-- estimated, need to investigate -->
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>PBK27</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of seven put-on at Roaring Meg junction with the river dirty and rising. Shortly into the trip a paddler capsized, but held onto his canoe. He separated from the canoe and washed through three rapids. He was unconscious when another paddler reached him below the third rapid. The rescuer tried to lift him across the cockpit and tie his 'lifeline' around him, but in the face of an oncoming, turbulent rapid was forced to let the swimmer go.</p>
+
+            <p>The rescuer waited at the bottom of the rapid but did not see the swimmer again. Three capsized canoes came down. After a further wait, the rescuer climbed out to the road and met up with the rest of the group. They alerted the police at Otaki, and a search was set in motion. The body was found the next morning, around 5km below the last sighting.</p>
+        </summary>
+        <discussion>
+            <p>Be aware of the additional hazards in flooded rivers (<a href="/article/code-of-practice#recommendation1.25">Recommendation 1.25</a>)</p>
+        </discussion>
+        <documents>
+            <document>Otaki Gorge Trip, 16 November 1963, Duncan Miller and Don Hoten, Kupe[?] Canoe Club.</document>
+        </documents>
+    </incident>
+
+    <incident id="19741022">
+        <created>2004-05-09T18:22:00</created>
+        <changed>2004-05-09T18:22:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1974-10-22T11:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Richard Christopher Savage</name>
+            <sex>M</sex>
+            <age>22</age>
+            <nationality>AUS</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Lake Tekapo</river>
+            <section>Lake Tekapo</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>0</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Fibreglass kayak</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Around 12:30pm, a tourist borrowed an 8-foot fibreglass canoe, intending to paddle Lake Tekapo to Motuariki Island. Conditions at departure were fine and calm. The paddler was alone, lightly-clad (in jeans, flannel shirt, jandals and a plastic parka) and without a lifejacket. From 1:15pm the wind came up, with gusts of 28kmh to 4pm, 37kmh after 4pm and 56kmh at 7pm. The lake became rough.</p>
+
+            <p>A search was commenced that night, and again the next morning. The kayak was recovered from the western shore, along with socks, jandals and a paddle. Despite additional searching, no body was ever recovered.</p>
+
+            <p>Lake Tekapo is up to 130m deep and filled with cold, glacial water at approximately 7C. The victim had discussed paddling the kayak with another tourist in the Youth Hostel and admitted to having never paddled before.</p>
+        </summary>
+        <discussion>
+            <p>This is a clear case of a person's enthusiasm overwhelming their better judgement, and where inexperience led to a fatal error of judgement.</p>
+
+            <p>The NZRCA recommends that kayakers don't paddle alone.</p>
+            <p>Let someone know what you are planning and when you are expected to return (<a href="/article/code-of-practice#recommendation1.4">Recommendation 1.4</a>)</p>
+            <p>Wear an approved buoyancy aid (<a href="/article/code-of-practice#recommendation1.5">Recommendation 1.5</a>).</p>
+            <p>Wear and/or carry sufficient warm protective clothing for the trip (<a href="/article/code-of-practice#recommendation1.7">Recommendation 1.7</a>).</p>
+            <p>Think carefully about the suitability of your boat for the particular river (or lake) conditions (<a href="/article/code-of-practice#recommendation1.24">Recommendation 1.24</a>).</p>
+
+        </discussion>
+        <documents>
+            <document>Depositions by Samuel Harris and Elizabeth Matheson, 18 November 1973.</document>
+        </documents>
+    </incident>
+
+    <incident id="19740706">
+        <created>2004-05-09T20:22:00</created>
+        <changed>2004-05-09T20:22:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1974-07-06T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Ian Geoffrey Ward</name>
+            <sex>M</sex>
+            <!-- <age>22</age> -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Manawatu</region>
+            <river>Lake Horowhenua</river>
+            <section>Lake Horowhenua</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>0</class>
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Fibreglass 'Penguin' kayak</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A young man purchased a kayak on Friday evening (5 July), and apparently put-on to the lake at Lake Horowhenua Domain on the Saturday morning (6 July) in calm conditions. He was wearing a green jersey and black trousers, and no life-jacket. He paddled to the far shore, then headed south. There was no wind till 10:30am, but the wind steadily increased to 18kmh between 11am and 12pm, with a gust of 36kmh at 11:40am.</p>
+
+            <p>His vehicle was noticed on early on 7 July at Lake Horowhenua Domain, and a police search commenced on Monday 8 July. The kayak was found partly-full of water at the north-west end of lake. Separately, the paddle was found on 7 July. The body was found on the lake on 21 July. The retailer of the kayak said spray-skirt had not been purchased with the kayak but was on order.</p>
+        </summary>
+        <discussion>
+            <p>This is a clear case of a person's enthusiasm overwhelming their better judgement, and where inexperience led to a fatal error of judgement.</p>
+            <p>The NZRCA recommends that kayakers don't paddle alone.</p>
+            <p>Let someone know what you are planning and when you are expected to return (<a href="/article/code-of-practice#recommendation1.4">Recommendation 1.4</a>)</p>
+            <p>Wear an approved buoyancy aid (<a href="/article/code-of-practice#recommendation1.5">Recommendation 1.5</a>).</p>
+            <p>Wear and/or carry sufficient warm protective clothing for the trip (<a href="/article/code-of-practice#recommendation1.7">Recommendation 1.7</a>).</p>
+            <p>Think carefully about the suitability of your boat for the particular river (or lake) conditions (<a href="/article/code-of-practice#recommendation1.24">Recommendation 1.24</a>).</p>
+
+        </discussion>
+        <documents>
+            <document>Deposition by Neville Blair, 6 September 1973.</document>
+        </documents>
+    </incident>
+
+    <incident id="19971101">
+        <created>2004-05-12T16:22:00</created>
+        <changed>2004-05-12T16:22:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>1997-11-01T14:30:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Unknown</name>
+            <sex>M</sex>
+            <!-- <age>22</age> -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Waiau</river>
+            <section>Lower Waiau</section>
+            <description>Leslie Hills Bridge</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Education</trip>
+        <summary>
+            <!-- c/- Richard Smith, HOD Phys Ed Dept, what school? -->
+            <p>Students were undergoing annual kayaking assessment. One paddler capsized and swam, and was swept 30m through an irrigation culvert.</p>
+        </summary>
+        <discussion>
+            <p>None yet.</p>
+
+        </discussion>
+        <documents>
+            <document>MSA Report 971782.</document>
+        </documents>
+    </incident>
+
+    <incident id="20040806">
+        <created>2004-10-26T11:22:00</created>
+        <changed>2004-10-26T11:22:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2004-08-06T14:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Ashley Whitehead</name>
+            <sex>M</sex>
+            <age>19</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <victim>
+            <name>Marcus ??</name>
+            <sex>M</sex>
+            <age>19</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Leith</river>
+            <section>Water of Leith</section>
+            <description>Weir below St David Street</description>
+        </location>
+        <flow>
+            <value>24</value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Two kayakers on flooded river, became trapped in a weir after failing to punch through the reversal. The force of the recirculation forced them under regularly over a 10 minute period, and stripped them of boots and a helmet. Their cries for help attracted rescuers, one of whom threw a 100m black extension cord, but the kayakers were unable to locate it in the turbulence. A climbing rope was procured and the kayakers were hauled out. Only one kayak was recovered.</p>
+        </summary>
+        <discussion>
+            <p>Local practice is to normally exit at the St David Street bridge and portage the weir (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1.1</a>).</p>
+            <p>High flow tends to increase the power of hydraulics, particularly weirs (<a href="/article/code-of-practice#recommendation1.25">Recommendation 1.25</a>).</p>
+            <p>Artificial weirs are notorious for creating even hydraulics that are difficult, or even impossible, to escape from (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).</p>
+            <p>The kayakers were fortunate that they were in a populated area and rescuers were able to react quickly to locate useful equipment.</p>
+        </discussion>
+        <documents>
+            <document>Kayakers trapped by raging river feared for their lives, 6 August 2004, Tom McKinlay, ODT.</document>
+        </documents>
+    </incident>
+
+    <incident id="19980314">
+        <created>2004-11-23T20:22:00</created>
+        <changed>2004-11-23T20:22:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>1998-03-14T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Gary Phillips</name>
+            <sex>M</sex>
+            <age>42</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Manawatu</region>
+            <river>Manawatu</river>
+            <section>Ballance to ?</section>
+            <description>200m upstream of Ashhurst bridge</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>0</class> <!-- II? -->
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of eight, including close relatives of the victim, descended the Manawatu Gorge from Ballance. Near the Ashhurst bridge, the nose of the victim's kayak became trapped in logs (willows?) and the swift-flowing water bent and pinned the kayak. Emergency services were alerted as companions and bystanders attempted to free the kayaker from the kayak. Ambulance staff, volunteer fire-fighters and bystanders all worked to keep the victim's head above water and to free the kayak.</p>
+
+            <p>A paramedic managed to get a rope around the victim, but an attempt to lift the kayaker by helicopter was unsuccessful. When the rope was passed to police on the opposite bank, they were able to dislodge the victim and drag him across the river, still in the canoe. Attempts at resucitation were unsuccessful.</p>
+        </summary>
+        <discussion>
+            <p>It is not clear whether the victim or the group recognised the hazard (<a href="/article/code-of-practice#recommendation1.27">Recommendation 1.27</a>).</p>
+            <p>It is not known whether the group was carrying rescue equipment or was trained in rescue techniques (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a>).</p>
+            <p>The report that a pull from the opposite bank freed both victim and kayak suggests that a successful rescue may have been achieved if that option had been attempted early on.</p>
+        </discussion>
+        <documents>
+            <document>Principal's death shocks, 16 March 1998, Carlin Gerbich, The Evening Standard (Ed. 2, p1)</document>
+            <document>Te Horo School mourns principal, 16 March 1998, Audrey Ewan, The Evening Post (Ed. 1, p3)</document>
+        </documents>
+    </incident>
+
+    <incident id="20040808">
+        <created>2004-11-24T20:22:00</created>
+        <changed>2005-01-06T22:22:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Other</typeModifier>
+        <dateTime>2004-08-08T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Colin McIntyre</name>
+            <sex>M</sex>
+            <age>25</age> <!-- check -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Manawatu</region>
+            <river>Waihi Stream</river>
+            <section>Waihi Falls</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>V</class> <!-- II? -->
+        <boat>
+            <type>Kayak-Touring</type>
+            <description>Bliss-Stick MAC 1</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Having previously postponed a descent of the falls due to low water, a pair of kayakers took advantage of heavy rain to provide deep water at the base of 24m Waihi Falls. With two companions standing by with ropes, one paddler successfully ran the falls.</p>
+
+            <p>At the lip of the falls, water pressure momentarily stuck the second kayaker's paddle against a rock. The kayaker was turned sideways as they dropped over the falls, falling backwards and without forward momentum. The paddler suffered two broken vertebrae and other leg and back injuries after hitting rocks behind the curtain of water. The kayaker managed to paddle to the river bank with the assistance of their companion, further assisted by throwbags from the shore. Only onshore was the extent of the injury revealed.</p>
+
+            <p>The victim was subsequently evacuated by rescue helicopter to Palmerston North Hospital where the paddler's spine was screwed and plated. Recovery was undertaken at Burwood Spinal Unit in Christchurch.</p>
+        </summary>
+        <discussion>
+            <p>The kayakers were experienced, and took reasonable preparations and precautions for the descent.</p>
+            <p>There are inherent risks in kayaking, and the risks are amplified in the case of waterfalls where significant impact forces can be generated.</p>
+        </discussion>
+        <documents>
+            <document>Palmerston Kayakers run Waihi Falls - 8 August 2004, October 2004, Anonymous, HVCC River Rag (p3)</document>
+            <document>Kayaker tells of 23m disaster plunge, 17 August 2004, Rebecca Palmer, Dominion Post  (p4)<!-- WaihiFalls.rtf --></document>
+        </documents>
+    </incident>
+
+    <incident id="20041128">
+        <created>2005-01-09T23:22:00</created>
+        <changed>2005-01-09T23:22:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Other</typeModifier>
+        <dateTime>2004-11-28T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <reporter>
+            <name>John Dawkins</name>
+            <email> john.dawkins@fire.org.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Unknown</name>
+            <sex>M</sex>
+            <age>18</age> <!-- check -->
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Waikato</region>
+            <river>Waikato</river>
+            <section>Below Lake Taupo</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class> <!-- II? -->
+        <boat>
+            <type>Unknown</type>
+            <!-- <description></description> -->
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A kayaker on the Waikato river near the bridge below Lake Taupo became caught in the backwash below the bridge and washed up into one of the control gates. He climbed onto a ledge for safety while the kayak was tumbled in the turbulent water. A passer-by alerted police and two-and-a-half hours later the paddler was hauled to safety on the bridge by firefighters and police working with a rescue harness and rope. Light was provided by the Lion Foundation Rescue Helicopter spotlight. Local kayakers stood by with throw bags. Rescue IRB stood by down stream.
+
+                <!-- A passer-by alerted police and two-and-a-half hours later the paddler was winched to safety by rescuers with the Lion Foundation Rescue Helicopter.--></p>
+        </summary>
+        <discussion>
+            <p>It is not clear whether the victim recognised the hazard (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1</a> and <a href="/article/code-of-practice#recommendation1.27">Recommendation 1.27</a>).</p>
+            <p>Constructed features can create particularly hazardous features (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).</p>
+            <p>It is not stated whether the victim was paddling alone or with a group.</p>
+        </discussion>
+        <documents>
+            <document>Rescue of kayaker tricky for helicopter, 29 November 2004, Lucy Reed, Waikato Times (p3)</document><!-- Waikato.rtf -->
+        </documents>
+    </incident>
+
+    <incident id="20040606">
+        <created>2005-01-10T23:22:00</created>
+        <changed>2005-01-10T23:22:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Other</typeModifier>
+        <dateTime>2004-06-06T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Stella Munn-Bieringa</name>
+            <sex>F</sex>
+            <age>15</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <victim>
+            <name>Katrina Gallagher</name>
+            <sex>F</sex>
+            <age>15</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Wellington</region>
+            <river>Waiohine</river>
+            <section>Waiohine Gorge</section>
+            <description>Above Walls Whare</description>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>III</class> <!-- II? -->
+        <boat>
+            <type>Unknown</type>
+            <!-- <description></description> -->
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A group of five young people set off down the Waiohine in the afternoon. Two females in the group had never kayaked before, and soon capsized. They refused to proceed and waited on a sandbank near Walls Whare while the other paddlers continued to a farmhouse and raised the alarm. Darkness fell and after  four-and-a-half hours the pair were located and evacuated by the Westpac rescue helicopter and treated at Masterton hospital for hypothermia. 'The experience has put them off kayaking: <q>I hate it. We're never going to do it again</q>'</p>
+        </summary>
+        <discussion>
+            <!-- inexperienced, under-equipped (no gear for a night out), winter -->
+            <p>Ensure you have knowledge of the section and that it is appropriate for your level of experience (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1.1</a>).</p>
+            <p>Carry equipment for unexpected emergencies, especially spare clothes, food, survival blanket and torch (<a href="/article/code-of-practice#recommendation1.9">Recommendation 1.9</a> and <a href="/article/code-of-practice#recommendation3.12">Recommendation 3.12</a>).</p>
+            <p>The experience should be positive, improve skills and stimulate enthusiasm for kayaking (<a href="/article/code-of-practice#recommendation3.14">Recommendation 3.14</a>)</p>
+            <p>Winter conditions probably contributed to the negative experience; the same trip may have had a different outcome in summer conditions.</p>
+        </discussion>
+        <documents>
+            <document>Trapped kayakers feared death, 8 June 2004, Michelle Quirke, Dominion Post</document><!-- WaiohineGorge.rtf -->
+        </documents>
+    </incident>
+
+    <incident id="20050311">
+        <created>2005-03-14T14:00:00</created>
+        <changed>2005-03-15T11:00:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2005-03-11T16:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <!-- <email></email> -->
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Janne Petteri Jokiranta</name>
+            <sex>M</sex>
+            <age>22</age>
+            <nationality>FIN</nationality>
+        </victim>
+        <location>
+            <region>Southland</region>
+            <river>Waiau</river>
+            <!-- <section></section> -->
+            <description></description>
+        </location>
+        <flow>
+            <value>0</value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>II</class> <!-- II? -->
+        <boat>
+            <type>Unknown</type>
+            <description>Open-cockpit kayak</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <!-- ODT says he was trying to rescue his partner -->
+            <p>DRAFT: A male and female paddled from Lake Te Anau into the upper reach of the Waiau River. The male capsized and lodged against a tree. The kayaks were of 'open-cockpit' design without spraydecks. The alarm was raised to Police and a search involving a helicopter and several jetboats commenced. The kayaker's body was found in trees between Queens Reach and Rainbow Reach.</p>
+        </summary>
+        <discussion>
+            <!-- inexperienced, under-equipped (no spray-deck), higher than normal flow -->
+            <p>No comment at this time</p>
+        </discussion>
+        <documents>
+            <document>Died trying to help, 14 March 2005, p3. ODT</document>
+            <document>Tourist dies kayaking, 14 March 2005, pA4, Press</document>
+            <document><a href="http://www.nzherald.co.nz/index.cfm?ObjectID=10114866">Tourist dies on river</a>, 11 March 2005, NZ Herald</document>
+        </documents>
+    </incident>
+
+    <incident id="20050206">
+        <created>2005-03-14T19:30:00</created>
+        <changed>2005-03-14T19:30:00</changed>
+        <type>Injury incident</type>
+        <!-- Capsize, head vs rock
+        <typeModifier></typeModifier> -->
+        <dateTime>2005-02-06T16:00:00</dateTime>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>glenn@dynamicevolution.co.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Glenn Murdoch</name>
+            <sex>M</sex>
+            <age>31</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Otago</region>
+            <river>Nevis</river>
+            <!-- <section></section> -->
+            <description>Last hard rapid<!--, cascade rapid on a left hand bend--></description>
+        </location>
+        <flow>
+            <value>12</value>
+            <relativeFlow>Low</relativeFlow>
+        </flow>
+        <class>IV</class> <!-- II? -->
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Pyranha Micro 230</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A group of five paddlers were close to finishing the challenging Nevis River, when one paddler capsized on the last hard rapid (cascade rapid on a left-hand bend). As he leaned forward to protect his face and roll, the paddler was 'pile-driven' into a rock, hitting his head with considerable force and snapping his paddle shaft. The kayaker rolled up and became stuck in a small hole in the bottom of the rapid and capsized again. Unable to get out of the hole with half a paddle, the paddler swam to shore with all equipment.</p>
+
+            <p>The kayaker had a large gash to top of head which was bleeding copiously and complained of a sore back. The wound was succesfully bandaged. A split paddle enabled the trip to continue. The paddler suffered considerable back pain, but it was more painful to portage than paddle. Soon after, the kayaker's boat split and was unpaddleable. Two team members paddled out to get a helicopter, two others stayed with the victim. He changed into warm, dry clothes and waited approx. two hours for the helicopter to arrive. The victim was transported to Frankton hospital for stitches. X-rays identified two vertebrae with compression fractures.</p>
+        </summary>
+        <discussion>
+            <p>This was an experienced team of kayakers paddling a difficult river. The team was well prepared for this incident, carrying split paddles, spare dry clothing, food, throwbags, rescue equipment and a cellphone. They had plenty of daylight allowing two paddlers to stay with victim until the  helicopter arrived and still be able to paddle out. It was interesting that, despite a 10cm gash to the head, the victim's helmet was not marked (perhaps a flat rock surface?). Despite this the helmet was retired and put in pride of place on the mantlepiece as a life-saver!</p>
+        </discussion>
+        <documents>
+            <document>Kayaker injured, 7 February 2005, p3, ODT</document>
+        </documents>
+    </incident>
+
+    <incident id="20061229">
+        <created>2006-04-06T11:11:00</created>
+        <changed>2006-04-06T11:11:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>2005-12-29T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>John Rice</name>
+            <sex>M</sex>
+            <age>??</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Whataroa</river>
+            <section>Barrowman Flat run</section>
+            <description>First class III rapid</description>
+        </location>
+        <flow>
+            <value>12</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV</class> <!-- II? -->
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Pyranha Micro 240</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A group of eleven paddlers had just started their run. The last kayaker approached a drop with choices of right and left, and based on a signal from shore, aimed for the right-hand channel. The kayaker was swept offline onto a boulder where a log entered the cockpit pinning the kayaker across the  The victim's head was above water, but he was unable to free himself.</p>
+
+            <p>His companions attempted to throw a sling to the trapped kayaker but where unsuccessful. Two paddlers managed to jump across and support the victim. Lines were affixed to the victim and the kayak. A vector pull was applied to the kayak but was unsuccessful. The victim was increasingly cold and in pain.</p>
+
+            <p>At the entrapped kayaker's suggestion, an attempt was made to cut the boat free, but the saw blade snapped. Cutting with another saw was successful. The victim was pulled onto an upstream rock, then zip-lined to the riverbank. With additional rope-work the </p>
+        </summary>
+        <discussion>
+            <p></p>
+        </discussion>
+        <documents>
+            <!--     <document>/article/pinned-in-whataroa-river</document> -->
+        </documents>
+    </incident>
+
+    <incident id="20061011">
+        <created>2006-10-14T14:11:00</created>
+        <changed>2008-03-11T20:11:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Sieve</typeModifier>
+        <dateTime>2006-10-11T11:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Dale Frankum</name>
+            <sex>M</sex>
+            <age>68</age>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Waikato</region>
+            <river>Waihou</river>
+            <section>Okoroire Falls</section>
+            <description></description>
+        </location>
+        <flow>
+            <value>?</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class> <!-- II? -->
+        <boat>
+            <type>Other</type>
+            <description>Sit-on-top</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of two kayakers on sit-on-top kayaks set out on placid water. The paddlers went over Okoroire Falls into a gorge and were thrown from their kayaks. At the falls the entire river enters a rock sieve. One made it to shore suffering cuts, bruises and hypothermia. The other paddler was missing and searches were unsuccessful. The body was located 18 days after the accident.</p>
+        </summary>
+        <discussion>
+            <p>The party have been described as experienced. They wore lifejackets and the kayaks were probably appropriate for the initial section of water (<a href="/article/code-of-practice#recommendation1.5">Recommendation 1.5</a>).</p>
+            <p>It appears that the kayakers were surprised by the gorge and falls. Kayakers should find out as much as practicable about the river trip (<a href="/article/code-of-practice#recommendation1.1">Recommendation 1.1</a>).</p>
+            <p>Even familiar stretches may contain a new hazard (due to treefall or slips, for example). Always scout what you can't see from the water (<a href="/article/code-of-practice#recommendation1.19">Recommendation 1.19</a>).</p>
+            <p>A sign warning of the falls' extreme danger was found downstream. Police suspect vandalism.</p>
+        </discussion>
+        <documents>
+            <document><a href="/system/files/Maritime_Okoroire_Kayak_061302.pdf">Accident Report Okoroire Kayak 06 1302</a>, March 2008, Maritime NZ.</document>
+            <document><a href="http://www.nzherald.co.nz/section/story.cfm?c_id=1&amp;ObjectID=10408388">Kayaker's mate died after warning sign removed</a>, 31 October 2006, Juliet Rowan, NZ Herald</document>
+            <document><a href="http://www.nzherald.co.nz/section/story.cfm?c_id=1&amp;ObjectID=10408243">Body found in Waihou River</a>, 30 October 2006, NZ Herald</document>
+            <document><a href="http://www.stuff.co.nz/stuff/0,2106,3830418a11,00.html">Hunt still on in Waikato for kayaker</a>, 16 October, Waikato Times.</document>
+            <document><a href="http://www.stuff.co.nz/stuff/waikatotimes/0,2106,3828146a6004,00.html">Many signs vandalised: river users</a>, 14 October 2006, Esther Harward and Tamara Penniket, Waikato Times</document>
+            <document><a href="http://www.radionz.co.nz/news/latest/200610131950/vandalised_sign_might_have_saved_kayakers_life_-_police">Vandalised sign might have saved kayaker's life - police</a>, 13 Oct 2006, Simon O'Rourke, Radio NZ.</document>
+            <document><a href="http://www.stuff.co.nz/stuff/0,2106,3827716a11,00.html">Kayakers warning sign found downstream</a>, 13 October 2006, Tamara Penniket and Esther Harward, Waikato Times</document>
+
+            <document><a href="http://www.nzherald.co.nz/section/story.cfm?c_id=1&amp;ObjectID=10405750">Divers scour river for missing kayaker</a>, 13 October 2006, NZ Herald</document>
+            <document><a href="http://www.stuff.co.nz/stuff/waikatotimes/0,2106,3826521a6579,00.html">Gorge claims kayaker</a>, 12 October 2006, Tamara Penniket and Justine Turner, Waikato Times</document>
+        </documents>
+    </incident>
+
+    <incident id="20061203">
+        <created>2006-12-05T11:39:00</created>
+        <changed>2006-12-05T11:39:00</changed>
+        <type>Near-miss</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2006-12-03T00:00:00</dateTime>
+        <reporter>
+            <name>Glenn Murdoch</name>
+            <email>safety@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Ben Wood</name>
+            <age>21</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Opihi</river>
+            <section>Below Hanging Rock</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <!-- <value>40</value> -->
+            <relativeFlow>Unknown</relativeFlow>
+        </flow>
+        <class>I-II</class>
+        <boat>
+            <type>Kayak-Whitewater</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A group of friends put into the Opihi River at Hanging Rock and paddled down the river. At a point where the river narrows and the water speed increases, a paddler spotted a steel stake in the river. He attempted to paddle away from the stake but capsized and was washed against the stake with the stake lying across the cockpit, preventing him from exiting his boat.  His head was above water.</p>
+            <p>His companion(s) contacted two local fishermen who came to assist.  One of the fishermen donned a bouyancy aid and waded out to the trapped victim.  He was able to wriggle the boat free from the stake. The victim swam to shore unassisted.  His boat, but not his paddle, was recovered.</p>
+        </summary>
+        <discussion>
+            <p>The kayaker may have had insufficient experience to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.21">Recommendation 1.21</a>).</p>
+            <p>The victim may have been unable to roll in time to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.16">Recommendation 1.16</a>).</p>
+            <p>The hazard was visible from upstream but the victim failed to avoid it (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).</p>
+        </discussion>
+
+
+        <documents>
+            <document><a href="http://www.stuff.co.nz/stuff/timaruherald/0,2106,3888494a6010,00.html">Lucky Kayaker Praises Timely Rescue</a>, 5 December 2006, Emma Bailey, Timaru Herald.</document>
+        </documents>
+    </incident>
+
+    <incident id="20070113">
+        <created>2007-01-16T20:30:00</created>
+        <changed>2008-03-11T20:12:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>2007-01-13T15:30:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Dennis Squires</name>
+            <age>48</age>
+            <sex>M</sex>
+            <nationality>USA</nationality>
+        </victim>
+        <location>
+            <region>Southland</region>
+            <river>Waikaia</river>
+            <section>Canton Bridge to Piano Flat</section>
+            <!-- <description></description> -->
+        </location>
+        <flow>
+            <value>13.5</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV-V</class>
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Bliss-Stick Mystic</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Two kayaks put on the river. One ran a rapid and waited for the other in an eddy. When the second kayaker failed to appear his companion scrambled over rocks searching, but only found a paddle. After 30 minutes the remaining kayaker paddled out and alerted authorities.</p>
+
+            <p>Police Search and Rescue and helicopters searched the river but found no sign of the victim. The search was suspended for several days due to rising river flows. When the water level dropped, the victim was discovered in his kayak after winching a tree out of the way.</p>
+        </summary>
+        <discussion>
+            <p>No additional comments at this time.</p>
+            <!--     <p>The kayaker may have had insufficient experience to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.21">Recommendation 1.21</a>).</p>
+                 <p>The victim may have been unable to roll in time to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.16">Recommendation 1.16</a>).</p>
+                 <p>The hazard was visible from upstream but the victim failed to avoid it (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).</p> -->
+        </discussion>
+
+        <documents>
+            <document><a href="/system/files/Maritime_Waikaia_Kayak_074316.pdf">Accident Report Waikaia Kayak 07 4316</a>, March 2008, Maritime NZ.</document>
+            <document><a href="http://www.stuff.co.nz/3932688a11.html">Tourist's body found in submerged kayak</a>, 18 January 2007, NZPA.</document>
+            <document><a href="http://www.stuff.co.nz/3930714a6568.html">Camera to help search for kayaker</a>, 17 January 2007, Sonia Gerken, The Southland Times.</document>
+            <document><a href="http://stuff.co.nz/3929491a19719.html">'Whitewater Outlaw' was veteran kayaker</a>, 16 January 2007, Debbie Jamieson, The Press.</document>
+            <document><a href="http://stuff.co.nz/3929767a6011.html">Speed of tragedy shocks</a>, 16 January 2007, Sonia Gerken, The Southland Times.</document>
+            <document><a href="http://www.stuff.co.nz/3929436a11.html">Southland search for missing kayaker suspended</a>, 15 January 2007, NZPA.</document>
+            <document><a href="http://www.odt.co.nz/article.php?refid=2007,01,15,1,00101,fd66ee9fea406d1be8db08ca65e66d20&amp;sect=0">Kayaker presumed dead</a>, 15 January 2007, Debbie Porteous, Otago Daily Times.</document>
+        </documents>
+    </incident>
+
+    <incident id="20070323">
+        <created>2007-04-11T20:30:00</created>
+        <changed>2007-04-11T08:12:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Other</typeModifier>
+        <dateTime>2007-03-23T12:30:00</dateTime>
+        <reporter>
+            <name>Luc Toussaint</name>
+            <email>toussaint_luc@hotmail.com</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Luc Toussaint</name>
+            <age>25</age>
+            <sex>M</sex>
+            <nationality>FRA</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Rangitata</river>
+            <section>Rangitata Gorge</section>
+            <description>Rooster Tail and over Pig's Trough</description>
+        </location>
+        <flow>
+            <value>65</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV</class>
+        <boat>
+            <type>Kayak-Playboat</type>
+            <description>Bliss-Stick Flipstick</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A group of five paddlers inspected Rooster Tail, on their second run through the gorge. One paddler, aiming river right to punch through the right buffer wave, instead got curled into it and subbed out. The kayaker was kicked left and upside down into Pig's Trough.</p>
+
+            <p>The kayaker was violently pushed onto rocks on the riverbed, sustaining several vertical shocks on their helmet. The kayaker flushed, rolled up and caught an eddy. In the eddy they noticed a stiff and painful neck, a chipped tooth and lacerations.</p>
+
+            <p>The paddler transferred to a creek boat, was assisted in ferrying to river right, and helped out of the gorge. They walked to below the whitewater, and then rafted-up with two boaters to the takeout. X-rays and CTs at Christchurch Hospital diagnosed a fracture of the C2 vertebra.</p>
+
+            <!--      We paddled up from the take out and then walked up to the get in just above Rooster Tail. During the second run, going 3rd, I boofed as  normal over the central Rooster Tale rock tongue, landed on the top of the hydraulic and aimed river right, intending to punch through the right  buffer wave and got curled into it and subbed only to reappear by another minor hole in the river center with a left oriented kick out, upside down.
+
+            This minor hole translated me further river left and made it to fast and to hard for me to manage to roll. I went over Pig's trough upside down, got sucked with a lot of velocity on the river bottom rocks, and sustained two major uniaxial vertical shocks on my head. i got flushed easily, rolled up and caught and eddy, realising that my neck was extremely stiff and  painful, and feeling blood running along my face. A chip of one of my tooth was missing too. Realising this, my mates transferred me into a creeker with as much care as could be provided, then provided an assisted ferry to the river right and helped me out and uo the gorge letting me walk with one of them carrying my gear down through to the bottom of the white water section, where we put in again and from where I got rafted by two boaters to the take out. We ten jumped in the car and drove to Chch and then to the hospital where a c2 vertebra fracture was diagnose later in the night after multiple xrays and ct imaging. Discussion: Should we have let me still by the river side and requested a helicopter to come and take me out?</p> -->
+        </summary>
+        <discussion>
+            <p>Shallow holes with violent hydraulics are a recognised hazard, and are usually avoided. Kayakers occasionally drop into them as a consequence of a missed line.</p>
+
+            <p>The group's response was appropriate and prudent, and managed to avoid more serious consequences.</p>
+
+            <p>If a neck injury is suspected, it may be more appropriate to completely immobilise the patient and seek helicopter or stretcher evacuation.</p>
+
+            <!--     <p>The kayaker may have had insufficient experience to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.21">Recommendation 1.21</a>).</p>
+                 <p>The victim may have been unable to roll in time to avoid the obstacle (<a href="/article/code-of-practice#recommendation1.16">Recommendation 1.16</a>).</p>
+                 <p>The hazard was visible from upstream but the victim failed to avoid it (<a href="/article/code-of-practice#recommendation1.23">Recommendation 1.23</a>).</p> -->
+        </discussion>
+
+        <documents>
+            <!-- <document></document> -->
+        </documents>
+    </incident>
+
+    <incident id="20060729">
+        <created>2007-07-19T10:10:00</created>
+        <changed>2007-07-19T10:12:00</changed>
+        <type>Injury incident</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2006-07-29T16:10:00</dateTime>
+        <reporter>
+            <name>Tony Burdon</name>
+            <email>tony.burdon@police.govt.nz</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>Geoffrey Gillespie</name>
+            <age>46</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Marlborough</region>
+            <river>Wairau</river>
+            <section>To Renwick</section>
+            <description>1km above Renwick bridge</description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>II</class>
+        <boat>
+            <type>Unknown</type>
+            <description>Plastic</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A party of two kayakers set out on the Wairau. One became pinned on a rock, and was held leaning upstream and unable to exit due to the force of fast moving water on his legs. Police were notified approximately half and hour later. Once on the scene they were able to reach the boat but could not release the kayak with brute force. They managed to attach a rope to an end loop by reaching from a ledge.</p>
+
+            <p>With four people pulling they eventually worked the kayak off the rock. The exhausted kayaker spilled from the freed kayak and was pulled to shore using a 'strong-swimmer' rescue. The victim had no life-jacket, and was suffering from hypothermia.</p>
+        </summary>
+        <discussion>
+            <p>No comments at this time.</p>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.nzherald.co.nz/section/1/story.cfm?c_id=1&amp;objectid=10450686">Officers who saved kayaker recognised for bravery</a>, 10 July, NZ Herald</document>
+            <document><a href="http://www.stuff.co.nz/stuff/marlboroughexpress/4123151a6563.html">Two brave policemen honoured</a>, 10 July 2007, The Marlborough Express.</document>
+        </documents>
+    </incident>
+
+    <incident id="20070819">
+        <created>2007-08-20T10:10:00</created>
+        <changed>2007-08-20T10:12:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment-Tree</typeModifier>
+        <dateTime>2007-08-20T13:15:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Kyle Stidham</name>
+            <age>23</age>
+            <sex>M</sex>
+            <nationality>US<!-- Alabama --></nationality>
+        </victim>
+        <location>
+            <region>Bay of Plenty</region>
+            <river>Kaituna</river>
+            <section>Awesome Gorge</section>
+            <description>1.5km below Trout Pool</description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>III</class>
+        <boat>
+            <type>Unknown</type>
+            <description>Plastic</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Around midday a party of four kayakers set off down Awesome Gorge in high flow (gates open). In the narrow gorge (approx. 3m wide) they encountered several logs forming an X and one kayaker became between the trees under water. One of the group hiked out of the gorge and across farmland to raise the alarm. The body and kayak were recovered late that afternoon</p>
+        </summary>
+        <discussion>
+            <p>No comments at this time.</p>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.nzherald.co.nz/section/1/story.cfm?c_id=1&amp;objectid=10458744">Kayaker dies in 'freak' accident</a>, 20 August 2007, Elizabeth Binning and Simon O'Rourke, NZ Herald</document>
+            <document><a href="http://www.stuff.co.nz/4171110a11.html">Kayaker's death 'freak accident'</a>, 20 August 2007, Stuff</document>
+        </documents>
+    </incident>
+
+    <incident id="20070722">
+        <created>2007-08-29T10:10:00</created>
+        <changed>2007-08-29T10:12:00</changed>
+        <type>Near Miss</type>
+        <typeModifier>Entrapment-Other</typeModifier>
+        <dateTime>2007-07-22T12:30:00</dateTime>
+        <reporter>
+            <name>Marcel Edwin</name>
+            <email>marceledwin@hotmail.com</email>
+            <witness>Yes</witness>
+        </reporter>
+        <victim>
+            <name>???</name>
+            <age>25</age><!-- guess -->
+            <sex>F</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <victim>
+            <name>???</name>
+            <age>25</age><!-- guess -->
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Bay of Plenty</region>
+            <river>Mangakarengorengo</river>
+            <section>To McLaren Falls</section>
+            <description>First Culvert/Ford across river</description>
+        </location>
+        <flow>
+            <value>16</value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>III+</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Dagger RPM</type>
+            <description>Kayak River runner</description>
+        </boat>
+        <boat>
+            <type>Bliss-Stick Mystic</type>
+            <description>Kayak Creek</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Group of four experienced kayakers put in at roadside and kayaked all rapids down to flat section where river flows through a culvert (becomes a ford at paddled flows). The river did not flow completely over the culvert with places where it only went under. Two kayakers approached center river, the other two attempted to cross over river right. The two to the right collided with each other and broached leaning downstream against the culvert. One kayaker lost his paddle and was sucked under culvert. The second kayaker is also sucked under and forced to swim before going under culvert, followed by her boat. First kayaker is flushed out downstream and swims out of boat conscious. Second kayaker and boat flush out downstream.</p>
+            <p>The other two kayakers had started to out before the victims went under and by the time they were out of their boats the victims had flushed out. All gear and people recovered.</p>
+        </summary>
+        <discussion>
+            <p>Hazard very visible from upstream, group were very experienced and skilled, but were casual about the potential for danger.</p>
+            <p>Artificial hazards pose unfamiliar risks to kayakers. Learn to recognise river hazards (<a href="/article/code-of-practice#recommendation1.27">Recommendation1.27</a>).</p>
+        </discussion>
+
+        <documents>
+        </documents>
+    </incident>
+
+    <incident id="20100405">
+        <created>2010-04-08T12:10:00</created>
+        <changed>2010-04-08T12:12:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2010-04-05T13:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Mark Tressler</name>
+            <age>45</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Southland</region>
+            <river>Mararoa</river>
+            <section>South Mavora Lakes to Kiwi Burn</section>
+            <description>Junction of Mararoa and Kiwiburn</description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow></relativeFlow>
+        </flow>
+        <class>II+</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Victim capsized. He was found by family members a short distance downstream. CPR was attempted, but failed.</p>
+        </summary>
+        <discussion>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.stuff.co.nz/southland-times/news/3552133/Kayaker-who-drowned-in-Mavora-River-named">Kayaker who drowned in Mavora River named</a>, 7 April 2010, Sam McKnight, Southland Times</document>
+            <document><a href="http://www.stuff.co.nz/national/3550789/Drownings-not-surprising-Water-Safety-New-Zealand">Drownings not surprising - Water Safety New Zealand</a>, 6 April 2010, NZPA</document>
+
+        </documents>
+    </incident>
+
+    <incident id="20140719">
+        <created>2014-07-21T08:40:00</created>
+        <changed>2014-07-21T08:40:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2014-07-19T14:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Ladislav Švarc</name>
+            <age>29</age>
+            <sex>M</sex>
+            <nationality>CZ</nationality>
+        </victim>
+        <location>
+            <region>Northland</region>
+            <river>Wairua</river>
+            <section>Wairua</section>
+            <description>Waterfall on Wairua River (Wairua Falls?)</description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>High</relativeFlow>
+        </flow>
+        <class>IV</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+        </summary>
+        <discussion>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.stuff.co.nz/national/10290469/Dead-kayaker-mourned">Dead kayaker mourned</a>, 21 July 2014, Stuff</document>
+            <document><a href="http://www.nzherald.co.nz/nz/news/article.cfm?c_id=1&amp;objectid=11296547">Czech kayaker drowns at falls</a>, 21 July 2014, NZ Herald</document>
+        </documents>
+    </incident>
+
+    <incident id="20150311">
+        <created>2015-05-23T08:40:00</created>
+        <changed>2015-05-23T08:40:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2015-03-11T20:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Louise Jull</name>
+            <age>26</age>
+            <sex>F</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Bay of Plenty</region>
+            <river>Kaituna</river>
+            <section>Gnarly Gorge</section>
+            <description></description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>V</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Victim had run section multiple times on previous occasions. Experienced party of three descended gorge in evening.</p>
+        </summary>
+        <discussion>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.police.govt.nz/news/release/kayaker-had-competed-internationally-her-sport">Kayaker had competed internationally in her sport</a>, 12 March 2015, NZ Police</document>
+            <document><a href="/system/files/160307%20Coroner%20Report-Jull%20Final%20Findings.pdf">Coroner's Report re Louise Jull (Hearing 21 October 2015) (PDF, 607KB)</a>, 9 Feb 2016</document>
+        </documents>
+    </incident>
+
+    <incident id="20150404">
+        <created>2015-05-23T08:40:00</created>
+        <changed>2015-05-23T08:40:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Swim</typeModifier>
+        <dateTime>2015-04-04T00:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Hamish Alexander Robert Duncan</name>
+            <age>20</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Canterbury</region>
+            <river>Lake Coleridge</river>
+            <section></section>
+            <description></description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>0</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Unknown</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Victim was kayaking alone on lake.</p>
+        </summary>
+        <discussion>
+        </discussion>
+
+        <documents>
+            <document><a href="http://www.radionz.co.nz/news/regional/271283/missing-lake-coleridge-kayaker-named">Missing Lake Coleridge kayaker named</a>, 15 April 2015, Radio NZ</document>
+            <document><a href="http://www.stuff.co.nz/the-press/news/67778085/Search-fails-to-find-missing-kayaker-missing-in-Canterbury">Search fails to find missing kayaker missing in Canterbury</a>, 15 April 2015, Stuff</document>
+        </documents>
+    </incident>
+
+    <incident id="20160302">
+        <created>2016-03-05T16:47:00</created>
+        <changed>2016-03-05T16:47:00</changed>
+        <type>Fatal accident</type>
+        <typeModifier>Entrapment</typeModifier>
+        <dateTime>2016-03-02T12:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Sean Gary Curtis</name>
+            <age>20</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>West Coast</region>
+            <river>Whitcombe</river>
+            <section>Collier's Gorge</section>
+            <description></description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV+</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>Victim was a strong kayaker a with a well-equipped team, and became submerged in Collier's Gorge. Recovered unconscious after 20 minutes. CPR was unsuccessful.</p>
+        </summary>
+        <discussion>
+        </discussion>
+
+        <documents>
+
+            <document><a href="http://www.stuff.co.nz/national/77454195/tributes-flow-for-drowned-kayaker">Tributes flow for drowned kayaker</a>, 4 March 2016, Stuff</document>
+        </documents>
+    </incident>
+
+    <incident id="20170220">
+        <created>2017-03-11T15:00:00</created>
+        <changed>2017-03-11T15:00:00</changed>
+        <type>Injury incident</type>
+        <typeModifier></typeModifier>
+        <dateTime>2017-02-20T19:00:00</dateTime>
+        <reporter>
+            <name>Jonathan Hunt</name>
+            <email>webmaster@rivers.org.nz</email>
+            <witness>No</witness>
+        </reporter>
+        <victim>
+            <name>Ryan Lucas</name>
+            <age>25</age>
+            <sex>M</sex>
+            <nationality>NZ</nationality>
+        </victim>
+        <location>
+            <region>Waikato</region>
+            <river>Tauranga Taupo</river>
+            <section>Kiko Rd to SH1</section>
+            <description>Tauranga Taupo Falls</description>
+        </location>
+        <flow>
+            <value></value>
+            <relativeFlow>Medium</relativeFlow>
+        </flow>
+        <class>IV+</class>
+        <!-- boat should be an attribute of victim -->
+        <boat>
+            <type>Kayak-Creek</type>
+            <description>Unknown</description>
+        </boat>
+        <trip>Private</trip>
+        <summary>
+            <p>A kayaker ran the 25m Tauranga Taupo Falls, landing badly, ending up unconscious and submerged. His companion in the pool below the falls retrieved him and successfully administered CPR.</p>
+            <p>The two kayakers continued downriver, eventually stopping in darkness to light a fire. The uninjured kayaker walked approx. 5km on forestry roads before cellphone reception enabled contact with emergency services. The injured kayaker was extracted by helicopter winch around 3am.</p>
+        </summary>
+        <discussion>
+            <p>The team was experienced and had run the waterfall previously.</p>
+            <p>Late start to trip (~3:30pm) meant nightfall before extraction.</p>
+            <p>CPR was successfully applied (<a href="/article/code-of-practice#recommendation1.17">Recommendation1.17</a>).</p>
+            <p>The group did not have a PLB, so rescue was delayed.</p>
+            <p>Location of the uninjured kayaker was assisted by their headtorch, and the riverside fire helped locate the injured kayaker (<a href="/article/code-of-practice#recommendation1.9">Recommendation1.9</a>).</p>
+        </discussion>
+        <documents>
+            <document><a href="http://www.nzherald.co.nz/rotorua-daily-post/news/article.cfm?c_id=1503438&amp;objectid=11806246">Kayaker speaks out on waterfall accident</a>, 23 February 2017, Rotorua Daily Post.</document>
+            <document><a href="http://www.stuff.co.nz/national/89622037/helicopter-hoists-injured-kayaker-from-narrow-ravine-in-the-dark">Mate saves kayaker after waterfall plunge, guides chopper for night rescue</a>, 21 February 2017, Stuff.</document>
+            <document><a href="http://wellington.scoop.co.nz/?p=97069">Wet, cold, injured and coughing blood: kayaker in hospital after accident on river</a>, 21 February 2017, NZ Police.</document>
+            <document><a href="http://www.nzherald.co.nz/nz/news/article.cfm?c_id=1&amp;objectid=11804478">Extreme whitewater kayaker rescued from central North Island river after attempting treacherous waterfall plunge</a>, 21 February 2017, NZ Herald</document>
+        </documents>
+    </incident>
+
+</incidents>

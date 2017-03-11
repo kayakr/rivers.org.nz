@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Generate Accident/Incident Database reports at safety/db via XML/XSLT.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function rivers_incident_menu() {
+  $items = array();
+
+  $items['safety/db'] = array(
+    'title' => t('Accident/Incident Database'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'page callback' => 'rivers_incident_db',
+  );
+
+  return $items;
+}
+
+
+/**
+ * Serve incident homepage and individual incidents via XML/XSLT.
+ */
+function rivers_incident_db($op = '', $arg = '') {
+  $output = '';
+  // Specify filepath including filename.
+  // e.g. sites/all/modules/custom/rivers_incident/db-incidents.xml
+  $filepath = variable_get('rivers_incident_file_directory_path', '');
+  if (empty($filepath)) {
+    drupal_set_message(t('No path to incident db.'), 'error');
+    drupal_exit();
+  }
+
+  $xml_raw = join('', file($filepath));
+
+  if (empty($xml_raw)) {
+    drupal_set_message(t('No incident db found.'), 'error');
+    drupal_exit();
+  }
+
+  $xsl = new DOMDocument();
+  $xsl->resolveExternals = TRUE;
+  $xsl->substituteEntities = TRUE;
+
+  $xml = new DOMDocument();
+  $xml->resolveExternals = TRUE;
+  $xml->substituteEntities = TRUE;
+  $xml->loadXML($xml_raw);
+
+  // Configure common breadcrumb
+  $bc[] = l('Home', '<front>');
+  $bc[] = l('Safety', 'safety');
+  $bc[] = l('Accident/Incident Database', 'safety/db');
+
+  switch ($op) {
+    case 'incident':
+      $xsl->load(drupal_get_path('module', 'rivers_incident') .'/incident.xsl');
+      break;
+
+    case 'list':
+      if ($arg == 'date') {
+        drupal_set_title('Incidents by Date');
+        $xsl->load(drupal_get_path('module', 'rivers_incident') .'/incidents-by-date.xsl');
+      }
+      if ($arg == 'river') {
+        drupal_set_title('Incidents by River');
+        $xsl->load(drupal_get_path('module', 'rivers_incident') .'/incidents-by-river.xsl');
+      }
+      break;
+
+    case 'statistics':
+      drupal_set_title('Incident Statistics');
+      $xsl->load(drupal_get_path('module', 'rivers_incident') .'/incidents-statistics.xsl');
+      break;
+
+    default:
+      // homepage, so pop breadcrumb
+      array_pop($bc);
+      $xsl->load(drupal_get_path('module', 'rivers_incident') .'/incidents.xsl');
+  }
+
+  $proc = new XSLTProcessor();
+  $proc->importStylesheet($xsl);
+
+  // Pass parameters
+  $params = array('id' => '', 'region' => '', 'year' => '');
+  switch ($op) {
+    case 'incident':
+      $params['id'] = (int)arg(3);
+      drupal_set_title('Incident '. check_plain(arg(3)));
+      break;
+
+    case 'region':
+      $params['region'] = arg(3);
+      $params['region'] = strtr($params['region'], array(' and ' => ' & '));
+      //$proc->setParameter('', 'region', arg(3)); // pass region to XSL
+      break;
+
+    case 'year':
+      $params['year'] = arg(3);
+      //$proc->setParameter('', 'year', arg(3)); // pass year to XSL
+      break;
+  }
+  foreach ($params as $key => $value) {
+    $proc->setParameter('', $key, $value); // pass param to XSL
+  }
+
+  drupal_set_breadcrumb($bc);
+
+  $output .= $proc->transformToXML($xml);
+  $output = str_replace('<?xml version="1.0"?>', '', $output);
+
+  //if ($xmlout) {
+  //  header('content-type: text/xml');
+  //  echo '<root>'. $output .'</root>';
+  //  die();
+  //}
+
+  return $output;
+}

@@ -1,0 +1,48 @@
+<!-- this will hold commonly used entities and potentially i18n mappings for now -->
+<!-- todo: can we include core UMS entities here? At present each .xsl includes both files-->
+<!--<!ENTITY % umsEntities SYSTEM "entities_ums.dtd">%umsEntities; -->
+
+<!-- New Zealand English entities, domain specific at start, base UMS at end -->
+
+<!-- domain entities for NZRCA -->
+
+<!ENTITY copyright "&copy; 1999-2009 Whitewater NZ (formerly NZRCA). All rights reserved.">
+<!ENTITY nogap "">
+<!ENTITY purpose "Our purpose is to preserve New Zealand's whitewater resources and enhance opportunities to enjoy them safely.">
+<!ENTITY eacute "&#233;">
+<!ENTITY agrave "&#180;">
+
+<!-- map macrons to numeric entities to keep Sablotron happy -->
+<!ENTITY Auml "&#256;">
+<!ENTITY auml "&#257;">
+<!ENTITY Euml "&#274;">
+<!ENTITY euml "&#275;">
+<!ENTITY Iuml "&#298;">
+<!ENTITY iuml "&#299;">
+<!ENTITY Ouml "&#332;">
+<!ENTITY ouml "&#333;">
+<!ENTITY Uuml "&#362;">
+<!ENTITY uuml "&#363;">
+
+<!-- useful html entities -->
+<!ENTITY quot "&#34;">
+<!ENTITY amp "&#38;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ldquo "&#x201C;"> <!-- left double quote -->
+<!ENTITY rdquo "&#x201D;"> <!-- right double quote -->
+<!ENTITY raquo "&#187;">
+<!ENTITY laquo "&#171;">
+<!ENTITY copy "&#169;">
+<!ENTITY gap "&nbsp;&nbsp;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY lt "&#60;">
+
+
+<!ENTITY middot "&#183;">
+<!ENTITY deg "&#176;">
+<!ENTITY sect "&#167;">
+<!ENTITY reg "&#174;">
+
+<!-- htdig results -->
+<!ENTITY acirc "&#226;">
