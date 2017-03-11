@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * Install hooks to enable modules.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function rivers_site_install() {
+
+  $modules = array(
+    'admin_menu',
+    'admin_menu_toolbar',
+    'admin_views',
+    'pathauto',
+    'redirect',
+    'rivers_site',
+    'rivers_incident',
+    'views_bulk_operations',
+  );
+  foreach ($modules as $module) {
+    echo "Enabling $module\n";
+    _rivers_site_enable_module($module);
+  }
+
+  _rivers_site_disable_module('toolbar');
+}
+
+/**
+ * Enable Views Bulk Operations.
+ */
+function rivers_site_update_7001() {
+  _rivers_site_enable_module(array(
+    'views_bulk_operations',
+  ));
+}
+
+/**
+ * Enable Rivers Incident.
+ */
+function rivers_site_update_7002() {
+  _rivers_site_enable_module(array(
+    'rivers_incident',
+  ));
+}
+
+/**
+ * Helper function for enabling modules.
+ *
+ * @param string|array $modulenames
+ *   The name of the module, either an array of text or just text.
+ * @throws DrupalUpdateException
+ */
+function _rivers_site_enable_module($modulenames) {
+  $modules = is_array($modulenames) ? $modulenames : array($modulenames);
+  $success = module_enable($modules);
+  if ($success == FALSE) {
+    throw new DrupalUpdateException(implode(',', $modules) . ' module could not be enabled.');
+  }
+}
+
+/**
+ * Helper function for disabling modules.
+ *
+ * @param text $modulename
+ *   The name of the module. Either an array of text or just text
+ */
+function _rivers_site_disable_module($module) {
+  $modules = is_array($modulename) ? $modulename : array($modulename);
+  if (module_exists($module)) {
+    module_disable(array($module));
+    if (module_exists($module)) {
+      throw new DrupalUpdateException("{$module} module could not be disabled.");
+    }
+    if (!drupal_uninstall_modules(array($module))) {
+      throw new DrupalUpdateException("{$module} module could not be uninstalled.");
+    }
+  }
+}
