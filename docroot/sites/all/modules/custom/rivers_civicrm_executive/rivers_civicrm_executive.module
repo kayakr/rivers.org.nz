@@ -44,7 +44,7 @@ function rivers_civicrm_executive_views_pre_render(&$view) {
         // We encountered an Exec role without an order.
       }
     }
-    // Sort array be keys, which are the role positions.
+    // Sort array by keys (that are the role index positions).
     ksort($results_ordered);
     $view->result = $results_ordered;
 
