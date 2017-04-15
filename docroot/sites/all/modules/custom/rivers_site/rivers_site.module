@@ -28,7 +28,7 @@ function rivers_site_menu() {
  * During development, direct to appropriate homepage.
  */
 function rivers_site_home() {
-  return '<p>{rivers homepage}</p>'; /* empty page */
+  return '<!--{rivers homepage}-->'; /* empty page */
 }
 
 /**
