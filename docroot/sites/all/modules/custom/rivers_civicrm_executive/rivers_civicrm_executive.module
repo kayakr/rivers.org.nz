@@ -5,3 +5,55 @@
  */
 
 include_once 'rivers_civicrm_executive.features.inc';
+
+
+/**
+ * There's no easy way to order the Executive (unless we add a custom weight field,
+ * perhaps in D7.)
+ *
+ * Implements hook_views_pre_render().
+ */
+function rivers_civicrm_executive_views_pre_render(&$view) {
+
+  if ($view->name == 'rivers_civicrm_executive') {
+    $exec_order = array(
+      'Patron',
+      'President',
+      'Vice-President',
+      'Conservation',
+      'Conservation - North Island',
+      'Access',
+      'Safety',
+      'Education',
+      'Membership',
+      'Communications',
+      'Treasurer',
+      'Webmaster',
+      'Administration',
+    );
+    $results_ordered = array();
+    foreach ($view->result as $result) {
+      $exec_position = array_search($result->civicrm_relationship_description, $exec_order);
+      if ($exec_position !== FALSE) {
+        //if ($result->civicrm_relationship_description == 'Conservation') {
+        //   $result->civicrm_relationship_description = '<a href="/conservation">Conservation</a>';
+        //}
+        $results_ordered[$exec_position] = $result;
+      }
+      else {
+        // We encountered an Exec role without an order.
+      }
+    }
+    // Sort array be keys, which are the role positions.
+    ksort($results_ordered);
+    $view->result = $results_ordered;
+
+    // Append empty portfolio.
+    $view->result[] = (object)array(
+      'civicrm_relationship_description' => 'Administrator',
+      'civicrm_contact_display_name' => 'vacant',
+      'civicrm_email_email' => 'admin@rivers.org.nz',
+    );
+  }
+
+}
