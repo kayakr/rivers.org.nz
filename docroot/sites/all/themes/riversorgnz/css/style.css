@@ -37,3 +37,34 @@
 .view-rivers-news .text-center {
     clear: both;
 }
+
+
+/* customisations for rivers.org.nz /constitution. */
+span.amendment2000 {
+    font-style: italic;
+    background: #ffeedd;
+}
+span.amendment2002 {
+    font-style: italic;
+    background: #ddeeff;
+}
+span.amendment2003 {
+    font-style: italic;
+    background: #ddffdd;
+}
+span.amendment2005 {
+    font-style: italic;
+    background: #faf1a4;
+}
+span.amendment2010 {
+    font-style: italic;
+    background: #ccffff;
+}
+span.amendment2015 {
+    font-style: italic;
+    background: #ffff99;
+}
+span.amendment2016 {
+    font-style: italic;
+    background: #e8bbfb; /* purple */
+}
