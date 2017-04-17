@@ -75,11 +75,11 @@ class RiversDrupalUser6Migration extends DrupalUser6Migration {
       ->condition('uid', $row->uid)
       ->execute()
       ->fetchAllKeyed();
-    $row->profile_lastname = $profile_fields[1];
-    $row->profile_firstname = $profile_fields[2];
-    $row->profile_region = $profile_fields[3];
-    $row->profile_mobile = $profile_fields[4];
-    if (!empty($profile_fields[5])) {
+    $row->profile_lastname = isset($profile_fields[1]) ? $profile_fields[1] : '';
+    $row->profile_firstname = isset($profile_fields[2]) ? $profile_fields[2] : '';
+    $row->profile_region = isset($profile_fields[3]) ? $profile_fields[3] : '';
+    $row->profile_mobile = isset($profile_fields[4]) ? $profile_fields[4] : '';
+    if (isset($profile_fields[5]) && !empty($profile_fields[5])) {
       $row->profile_bio = $profile_fields[5];
     }
 
