@@ -47,7 +47,7 @@ function rivers_site_context_default_contexts() {
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'rivers_homepage';
-  $context->description = '';
+  $context->description = 'Homepage blocks other than top bar, footer';
   $context->tag = '';
   $context->conditions = array(
     'path' => array(
@@ -59,16 +59,26 @@ function rivers_site_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-rivers_news-block_1' => array(
+        'views-rivers_news-latest_news' => array(
           'module' => 'views',
-          'delta' => 'rivers_news-block_1',
+          'delta' => 'rivers_news-latest_news',
           'region' => 'content',
           'weight' => '-10',
+        ),
+        'views-rivers_calendar-block_2' => array(
+          'module' => 'views',
+          'delta' => 'rivers_calendar-block_2',
+          'region' => 'content',
+          'weight' => '-9',
         ),
       ),
     ),
   );
   $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Homepage blocks other than top bar, footer');
   $export['rivers_homepage'] = $context;
 
   $context = new stdClass();
@@ -99,12 +109,6 @@ function rivers_site_context_default_contexts() {
           'delta' => 'user-menu',
           'region' => 'navigation',
           'weight' => '-15',
-        ),
-        'system-main-menu' => array(
-          'module' => 'system',
-          'delta' => 'main-menu',
-          'region' => 'header',
-          'weight' => '-10',
         ),
       ),
     ),
