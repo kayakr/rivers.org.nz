@@ -5,3 +5,41 @@
  */
 
 include_once 'rivers_issue.features.inc';
+
+
+/**
+ * @todo: Reimplement this as a view: list of Issue nodes?
+ * Implements hook_block_info().
+ */
+function rivers_issue_block_info() {
+
+  $blocks['rivers_issue'] = array(
+    'info' => t('Rivers issue'),
+    'cache' => FALSE, // DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rivers_issue_block_view($delta = '') {
+  switch ($delta) {
+    case 'rivers_issue':
+      $block['subject'] = t('Hot Issues');
+      $block['content'] = '<ul>
+  <li><a href="/news/2015/kaituna-river-access-coroners-inquest-re-louise-jull">Kaituna river access</a></li>
+<!--  <li><a href="/article/rma-reform-vs-recreation">RMA reform vs recreation</a></li>-->
+  <li><a href="/issue/waitaha-hydro">Waitaha hydro</a></li>
+  <li><a href="/article/hurunui-water-project">Hurunui Water Project</a></li>
+  <li><a href="/issue/kawarau-jetboat">Kawarau Jetboat</a></li>
+  <li><a href="/issue/ngaruroro-wco">Ngaruroro WCO</a></li>
+<!-- <li class="closed"><a href="/article/matakitaki-glenroy-consultation-meetings">Matakitaki hydro</a></li>-->
+<!-- <li class="closed"><a href="/article/water-conservation-order-hurunui-river">Hurunui WCO</a></li>-->
+<!-- <li class="closed"><a href="/issue/kawarau-wco-nevis">Kawarau WCO (Nevis)</a></li>-->
+<!-- <li class="closed"><a href="/submission/mokihinui">Mokihinui dam</a></li>-->
+</ul>';
+      return $block;
+  }
+}
