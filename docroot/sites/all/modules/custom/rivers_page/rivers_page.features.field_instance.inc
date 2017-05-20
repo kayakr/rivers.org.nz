@@ -10,7 +10,7 @@
 function rivers_page_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-page-body'
+  // Exported field_instance: 'node-page-body'.
   $field_instances['node-page-body'] = array(
     'bundle' => 'page',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function rivers_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-field_files'
+  // Exported field_instance: 'node-page-field_files'.
   $field_instances['node-page-field_files'] = array(
     'bundle' => 'page',
     'deleted' => 0,
