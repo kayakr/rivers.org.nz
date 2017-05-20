@@ -12,6 +12,9 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
     //$this->addFieldMapping('vid', 'vid');
     $this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
+    $this->addFieldMapping('body', 'body')
+      ->callbacks(array($this, 'mapBody'));
+
     $this->addFieldMapping('body:format', NULL, FALSE)
       ->defaultValue('full_html');
 
@@ -51,6 +54,12 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
     }
   }
 
+  // Change private file paths to public.
+  public function mapBody($value) {
+    $value = str_replace('/system/files/', '/sites/default/files/', $value);
+    return $value;
+  }
+
   public function prepareRow($row) {
 
     // Always include this fragment at the beginning of every prepareRow()
@@ -58,7 +67,12 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
     if (parent::prepareRow($row) === FALSE) {
       return FALSE;
     }
-    
+
+    // NZ Canoeing image path.
+    if ($row->nid == 1004) {
+      $row->body = str_replace('/sites/rivers.org.nz/themes/rivers_theme', '/sites/all/themes/riversorgnz', $row->body);
+    }
+
     return TRUE;
   }
 
