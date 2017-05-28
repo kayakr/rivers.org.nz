@@ -27,4 +27,24 @@ class RiversDrupalFile6Migration extends DrupalFile6Migration {
     return TRUE;
   }
 
+
+  /**
+   * Override DrupalFile6Migration->fixUri()
+   * Field mapping callback: Get the URI relative to the file directory.
+   *
+   * @param $uri
+   *
+   * @return mixed
+   */
+  protected function fixUri($uri) {
+    // Try the legacy path, as best we could determine it.
+    $result = str_replace($this->legacyPath, '', $uri);
+    if ($result == $uri) {
+      // That didn't work, so assume the prefix is of the form sites/%/files.
+      $result = preg_replace('|^sites/[^/]+/files/|i', '', $uri);
+    }
+    // strip /home/rivers/files_rivers from filepath, so we don't get deep file paths.
+    $result = str_replace('/home/rivers/files_rivers', '', $result);
+    return $result;
+  }
 }
