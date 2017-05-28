@@ -17,8 +17,7 @@ class RiversDrupalFile6Migration extends DrupalFile6Migration {
     if (parent::prepareRow($row) === FALSE) {
       return FALSE;
     }
-
-    xdebug_break();
+    
     // $row->filename = "_original"
     // Ignore D6 derivative files.
     if (in_array($row->filename, array('tiny', 'thumbnail', 'medium', 'preview'))) {
