@@ -14,9 +14,19 @@ function rivers_site_install() {
     'admin_menu',
     'admin_menu_toolbar',
     'admin_views',
+    'ctools',
+    'strongarm',
     'features',
+    'libraries',
     'pathauto',
     'redirect',
+    'entity',
+    'file_entity',
+    'media',
+    'diff',
+    'field_group',
+    'geofield',
+    'jquery_update',
     'rivers_site',
     'rivers_accounts',
     'rivers_page',
@@ -25,13 +35,21 @@ function rivers_site_install() {
     'rivers_submission',
     'rivers_incident',
     'views_bulk_operations',
+    'rivers_issue',
+    'rivers_media_release',
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
     _rivers_site_enable_module($module);
   }
 
+  _rivers_site_disable_module('overlay');
   _rivers_site_disable_module('toolbar');
+
+  // Enable the theme.
+  watchdog('rivers_site', 'Enabling rivers.org.nz theme.');
+  theme_enable(array('riversorgnz'));
+  variable_set('theme_default', 'riversorgnz');
 }
 
 /**
@@ -60,6 +78,21 @@ function rivers_site_update_7003() {
     'features',
     'rivers_event',
     'rivers_submission',
+  ));
+}
+
+function rivers_site_update_7004() {
+  _rivers_site_enable_module(array(
+    'rivers_issue',
+  ));
+}
+
+/**
+ * Enable Rivers Media Release.
+ */
+function rivers_site_update_7005() {
+  _rivers_site_enable_module(array(
+    'rivers_media_release',
   ));
 }
 
