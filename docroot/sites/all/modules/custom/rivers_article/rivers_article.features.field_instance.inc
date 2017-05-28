@@ -10,7 +10,7 @@
 function rivers_article_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-article-body'
+  // Exported field_instance: 'node-article-body'.
   $field_instances['node-article-body'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function rivers_article_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_files'
+  // Exported field_instance: 'node-article-field_files'.
   $field_instances['node-article-field_files'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -96,7 +96,7 @@ function rivers_article_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_topic'
+  // Exported field_instance: 'node-article-field_topic'.
   $field_instances['node-article-field_topic'] = array(
     'bundle' => 'article',
     'default_value' => NULL,

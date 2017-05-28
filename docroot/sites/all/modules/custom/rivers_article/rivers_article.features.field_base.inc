@@ -10,7 +10,7 @@
 function rivers_article_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function rivers_article_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_files'
+  // Exported field_base: 'field_files'.
   $field_bases['field_files'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -47,14 +47,14 @@ function rivers_article_field_default_field_bases() {
     'module' => 'file',
     'settings' => array(
       'display_default' => 0,
-      'display_field' => 0,
+      'display_field' => 1,
       'uri_scheme' => 'public',
     ),
     'translatable' => 0,
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_topic'
+  // Exported field_base: 'field_topic'.
   $field_bases['field_topic'] = array(
     'active' => 1,
     'cardinality' => -1,
