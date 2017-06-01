@@ -12,6 +12,8 @@ class RiversIssueDrupalNode6Migration extends DrupalNode6Migration {
     //$this->addFieldMapping('vid', 'vid');
     $this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
+    $this->addFieldMapping('body', 'body')
+      ->callbacks(array($this, 'mapBody'));
     $this->addFieldMapping('body:format', NULL, FALSE)
       ->defaultValue('full_html');
 
@@ -49,6 +51,17 @@ class RiversIssueDrupalNode6Migration extends DrupalNode6Migration {
     $this->addUnmigratedDestinations(array(
       'path', // Don't want original path as we regenerate & redirect.
     ));
+  }
+
+  /**
+   * Change embedded file links from private (system/files) to public (sites/default/files).
+   * @param $value
+   * @return mixed
+   */
+  public function mapBody($value) {
+    $value = str_replace('system/files', 'sites/default/files', $value);
+    $value = str_replace('http://rivers.org.nz/sites/default/files', '/sites/default/files', $value);
+    return $value;
   }
 
   public function mapToBoolean($value) {
