@@ -117,6 +117,11 @@ class RiversIssueDrupalNode6Migration extends DrupalNode6Migration {
       }
     }
 
+    // Special fix for Waitaha.
+    if ($row->nid == 15066) {
+      $row->body = str_replace('files/zak_shaw_morgan_gorge_waitaha.jpg', 'files/story_highlight/zak_shaw_morgan_gorge_waitaha.jpg', $row->body);
+    }
+
     return TRUE;
   }
 
