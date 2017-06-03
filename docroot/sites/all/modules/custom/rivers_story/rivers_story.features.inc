@@ -19,6 +19,21 @@ function rivers_story_ctools_plugin_api($module = NULL, $api = NULL) {
 function rivers_story_image_default_styles() {
   $styles = array();
 
+  // Exported image style: home_slide.
+  $styles['home_slide'] = array(
+    'label' => 'home_slide',
+    'effects' => array(
+      3 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 700,
+          'height' => 275,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: story_highlight_full.
   $styles['story_highlight_full'] = array(
     'label' => 'Story Highlight Full',
