@@ -10,7 +10,7 @@
 function rivers_story_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_highlight_image'
+  // Exported field_base: 'field_highlight_image'.
   $field_bases['field_highlight_image'] = array(
     'active' => 1,
     'cardinality' => 1,

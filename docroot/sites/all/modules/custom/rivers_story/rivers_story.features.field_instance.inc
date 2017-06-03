@@ -10,7 +10,7 @@
 function rivers_story_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-rivers_story-body'
+  // Exported field_instance: 'node-rivers_story-body'.
   $field_instances['node-rivers_story-body'] = array(
     'bundle' => 'rivers_story',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function rivers_story_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-rivers_story-field_files'
+  // Exported field_instance: 'node-rivers_story-field_files'.
   $field_instances['node-rivers_story-field_files'] = array(
     'bundle' => 'rivers_story',
     'deleted' => 0,
@@ -96,7 +96,7 @@ function rivers_story_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-rivers_story-field_highlight_image'
+  // Exported field_instance: 'node-rivers_story-field_highlight_image'.
   $field_instances['node-rivers_story-field_highlight_image'] = array(
     'bundle' => 'rivers_story',
     'deleted' => 0,
@@ -146,7 +146,7 @@ function rivers_story_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-rivers_story-field_topic'
+  // Exported field_instance: 'node-rivers_story-field_topic'.
   $field_instances['node-rivers_story-field_topic'] = array(
     'bundle' => 'rivers_story',
     'default_value' => NULL,

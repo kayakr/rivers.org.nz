@@ -14,6 +14,30 @@ function rivers_story_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_image_default_styles().
+ */
+function rivers_story_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: story_highlight_full.
+  $styles['story_highlight_full'] = array(
+    'label' => 'Story Highlight Full',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 175,
+          'height' => 175,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
  * Implements hook_node_info().
  */
 function rivers_story_node_info() {
