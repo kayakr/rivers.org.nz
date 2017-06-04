@@ -87,3 +87,15 @@ span.amendment2016 {
 .view-rivers-news .views-field-changed {
   color: #999;
 }
+
+/* Events, Calendar */
+.view-rivers-calendar .sat,
+.view-rivers-calendar .sun {
+    background: #eee;
+}
+.view-rivers-calendar .has-events {
+  background: #C3D6E4;
+}
+.view-rivers-calendar .today {
+    font-weight: bold;
+}
