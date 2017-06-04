@@ -262,3 +262,31 @@ function rivers_guide_alias($path_array) {
   return $output;
 }
 
+/**
+ * On Section node pages, add region and river name to breadcrumb.
+ *
+ * Implements hook_menu_breadcrumb_alter().
+ */
+function rivers_guide_menu_breadcrumb_alter(&$active_trail, $item) {
+  if ($item['path'] == 'node/%' && $item['page_arguments'][0]->type == 'section') {
+    $node = $item['page_arguments'][0];
+    $region = $node->field_region[LANGUAGE_NONE][0]['value'];
+    $river_name = $node->field_river_name[LANGUAGE_NONE][0]['value'];
+
+    // Assume existing breadcrumb is Home > node.
+    $breadcrumb_new = array();
+    $breadcrumb_new[] = $active_trail[0];
+    $breadcrumb_new[] = array(
+      'title' => $region,
+      'href' => rivers_guide_alias(array('nz', $region)),
+      'localized_options' => array(),
+    );
+    $breadcrumb_new[] = array(
+      'title' => $river_name,
+      'href' => rivers_guide_alias(array('nz', $region, $river_name)),
+      'localized_options' => array(),
+    );
+    $breadcrumb_new[] = end($active_trail);
+    $active_trail = $breadcrumb_new;
+  }
+}
