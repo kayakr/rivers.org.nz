@@ -65,7 +65,7 @@ function rivers_news_views_default_views() {
   $handler->display->display_options['fields']['field_highlight_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_highlight_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_highlight_image']['settings'] = array(
-    'image_style' => 'story_highlight_full',
+    'image_style' => 'story_highlight_landscape',
     'image_link' => 'content',
   );
   /* Field: Content: Body */
