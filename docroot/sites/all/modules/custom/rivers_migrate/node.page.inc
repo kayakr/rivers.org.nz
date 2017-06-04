@@ -49,7 +49,14 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
   public function prepare($node, $row) {
     // This line was taken from migrate_d2d-7.x-2.0/node.inc, line 136
     $path = $this->version->getPath('node/' . $row->nid);
+
     if (!empty($path)) {
+      if ($path = 'whitewaternz') {
+        $path = 'about';
+        // add redirect.
+      }
+
+
       $node->path['alias'] = $path;
     }
   }
@@ -74,6 +81,18 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
     }
 
     return TRUE;
+  }
+
+  // Add redirect from /whitewaternz to /about.
+  public function complete($node, $row) {
+    if ($node->nid = 1207) {
+      $redirect = new stdClass();
+      redirect_object_prepare($redirect);
+      $redirect->source = 'whitewaternz';
+      $redirect->redirect = 'node/' . $node->nid;
+      $redirect->language = LANGUAGE_NONE;
+      redirect_save($redirect);
+    }
   }
 
 }
