@@ -85,7 +85,7 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
 
   // Add redirect from /whitewaternz to /about.
   public function complete($node, $row) {
-    if ($node->nid = 1207) {
+    if ($node->nid == 1207) {
       $redirect = new stdClass();
       redirect_object_prepare($redirect);
       $redirect->source = 'whitewaternz';
