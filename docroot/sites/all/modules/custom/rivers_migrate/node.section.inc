@@ -18,6 +18,8 @@ class RiversSectionDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('field_class', 'field_class');
     $this->addFieldMapping('field_credits', 'field_credits');
 
+    $this->addFieldMapping('field_gauge', 'field_gauge');
+
     $this->addFieldMapping('field_gradient', 'field_gradient')
       ->defaultValue('0.0')
       ->callbacks(array($this, 'convertToFloat'));
