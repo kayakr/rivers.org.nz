@@ -18,7 +18,7 @@ function rivers_navigation_menu_default_menu_links() {
     'link_title' => 'About',
     'options' => array(
       'attributes' => array(
-        'title' => 'About Whitewater NZ Inc.',
+        'title' => 'About Whitewater NZ, Membership. Executive, Constitution, etc.',
       ),
       'identifier' => 'main-menu_about:node/1207',
     ),
@@ -27,7 +27,7 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -48,
+    'weight' => 0,
     'customized' => 1,
   );
   // Exported menu link: main-menu_home:<front>.
