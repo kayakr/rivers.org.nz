@@ -19,8 +19,8 @@ class RiversMediaReleaseDrupalNode6Migration extends DrupalNode6Migration {
     $this->addFieldMapping('path', 'path');
 
     $this->addFieldMapping('field_release_date', 'field_release_date');
-    $this->addFieldMapping('field_date:timezone')
-      ->defaultValue(variable_get('date_default_timezone'));
+    $this->addFieldMapping('field_release_date:timezone')
+      ->defaultValue(variable_get('date_default_timezone', 'Pacific/Auckland'));
 
     // D6 Attachments (upload) to File field.
     $this->addFieldMapping('field_files', 'upload')
@@ -39,7 +39,8 @@ class RiversMediaReleaseDrupalNode6Migration extends DrupalNode6Migration {
 
     $this->addUnmigratedDestinations(array(
       'path', // Don't want original path as we regenerate & redirect.
-      'field_date:rrule',
+      'field_release_date:rrule',
+      'field_release_date:to',
     ));
   }
 
