@@ -14,6 +14,8 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
     //$this->addFieldMapping('vid', 'vid');
     $this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
+    $this->addFieldMapping('body', 'body')
+      ->callbacks(array($this, 'mapBody'));
     $this->addFieldMapping('body:format', NULL, FALSE)
       ->defaultValue('full_html');
 
@@ -73,6 +75,27 @@ class RiversArticleDrupalNode6Migration extends DrupalNode6Migration {
       'field_review_date:rrule',
       'field_review_date:to',
     ));
+  }
+
+  /**
+   * Change embedded file links from private (system/files) to public (sites/default/files).
+   * @param $value
+   * @return mixed
+   */
+  public function mapBody($value) {
+    $value = str_replace('system/files', 'sites/default/files', $value);
+    $value = str_replace('http://rivers.org.nz/sites/default/files', '/sites/default/files', $value);
+    // Fix for hand-crafted image tag.
+    $value = str_replace('imagecache/home_slide', 'styles/home_slide', $value);
+    $value = str_replace('home_slide/story_highlight', 'home_slide/public/story_highlight', $value);
+    // Fix hard-coded URLs
+    $value = str_replace('http://rivers.org.nz/event', '/event', $value);
+
+    // node/799 has
+    // /sites/rivers.org.nz/themes/rivers_theme/ads/2010_safety_courses_wide.jpg
+    $value = str_replace('/sites/rivers.org.nz/themes/rivers_theme', '/sites/all/themes/riversorgnz', $value);
+
+    return $value;
   }
 
   // From https://www.drupal.org/node/2195579#comment-8594703
