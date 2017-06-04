@@ -37,6 +37,7 @@ function rivers_site_install() {
     'views_bulk_operations',
     'rivers_issue',
     'rivers_media_release',
+    'rivers_guide',
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -95,6 +96,16 @@ function rivers_site_update_7005() {
     'rivers_media_release',
   ));
 }
+
+/**
+ * Enable Rivers Guide.
+ */
+function rivers_site_update_7006() {
+  _rivers_site_enable_module(array(
+    'rivers_guide',
+  ));
+}
+
 
 /**
  * Helper function for enabling modules.
