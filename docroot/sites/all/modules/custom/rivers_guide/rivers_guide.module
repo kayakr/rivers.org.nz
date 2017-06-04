@@ -277,6 +277,11 @@ function rivers_guide_menu_breadcrumb_alter(&$active_trail, $item) {
     $breadcrumb_new = array();
     $breadcrumb_new[] = $active_trail[0];
     $breadcrumb_new[] = array(
+      'title' => 'NZ',
+      'href' => rivers_guide_alias(array('nz')),
+      'localized_options' => array(),
+    );
+    $breadcrumb_new[] = array(
       'title' => $region,
       'href' => rivers_guide_alias(array('nz', $region)),
       'localized_options' => array(),
