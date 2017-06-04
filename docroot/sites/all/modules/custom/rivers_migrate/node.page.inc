@@ -51,7 +51,7 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
     $path = $this->version->getPath('node/' . $row->nid);
 
     if (!empty($path)) {
-      if ($path = 'whitewaternz') {
+      if ($path == 'whitewaternz') {
         $path = 'about';
         // add redirect.
       }
