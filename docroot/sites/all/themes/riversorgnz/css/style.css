@@ -68,3 +68,21 @@ span.amendment2016 {
     font-style: italic;
     background: #e8bbfb; /* purple */
 }
+
+/* News archive */
+.view-rivers-news .views-row {
+    padding-top: 0.25em;
+}
+.view-rivers-news h2 {
+    font-size: 24px;
+}
+.view-rivers-news h2 a {
+    color: black;
+}
+.view-rivers-news .views-field-changed,
+.view-rivers-news .views-field-field-topic {
+  display: inline-block;
+}
+.view-rivers-news .views-field-changed {
+  color: #999;
+}
