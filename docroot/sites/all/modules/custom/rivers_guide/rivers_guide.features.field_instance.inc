@@ -443,7 +443,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 7,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -489,10 +489,9 @@ function rivers_guide_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 2,
+        'type' => 'hidden',
+        'weight' => 10,
       ),
       'full' => array(
         'label' => 'inline',
@@ -654,7 +653,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 4,
       ),
       'full' => array(
         'label' => 'inline',
@@ -691,59 +690,6 @@ function rivers_guide_field_default_field_instances() {
       'weight' => 10,
     ),
     'widget_type' => 'text_textfield',
-  );
-
-  // Exported field_instance: 'node-section-field_downstream_of'.
-  $field_instances['node-section-field_downstream_of'] = array(
-    'bundle' => 'section',
-    'default_value' => array(
-      0 => array(),
-    ),
-    'deleted' => 0,
-    'description' => 'If this Section ends above another Section, specify the downstream Section here.',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'node_reference',
-        'settings' => array(),
-        'type' => 'node_reference_default',
-        'weight' => 3,
-      ),
-      'full' => array(
-        'label' => 'inline',
-        'module' => 'node_reference',
-        'settings' => array(),
-        'type' => 'node_reference_default',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'inline',
-        'module' => 'node_reference',
-        'settings' => array(),
-        'type' => 'node_reference_default',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_downstream_of',
-    'label' => 'Upstream of',
-    'required' => FALSE,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'weight' => 0,
-    'widget' => array(
-      'active' => 0,
-      'module' => 'node_reference',
-      'settings' => array(
-        'autocomplete_match' => 'contains',
-        'autocomplete_path' => 'node_reference/autocomplete',
-        'size' => 60,
-      ),
-      'type' => 'node_reference_autocomplete',
-      'weight' => 8,
-    ),
-    'widget_type' => 'nodereference_autocomplete',
   );
 
   // Exported field_instance: 'node-section-field_gauge'.
@@ -815,10 +761,9 @@ function rivers_guide_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'node_reference',
         'settings' => array(),
-        'type' => 'node_reference_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 11,
       ),
       'full' => array(
         'label' => 'above',
@@ -858,7 +803,7 @@ function rivers_guide_field_default_field_instances() {
     'bundle' => 'section',
     'default_value' => array(
       0 => array(
-        'value' => '',
+        'value' => 0,
       ),
     ),
     'deleted' => 0,
@@ -874,7 +819,7 @@ function rivers_guide_field_default_field_instances() {
           'thousand_separator' => '',
         ),
         'type' => 'number_decimal',
-        'weight' => -5,
+        'weight' => -6,
       ),
       'full' => array(
         'label' => 'inline',
@@ -904,7 +849,7 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_gradient',
     'label' => 'Gradient',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
       'max' => '',
       'min' => 0,
@@ -939,7 +884,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 3,
       ),
       'full' => array(
         'label' => 'above',
@@ -1053,7 +998,7 @@ function rivers_guide_field_default_field_instances() {
           'thousand_separator' => '',
         ),
         'type' => 'number_decimal',
-        'weight' => -6,
+        'weight' => -5,
       ),
       'full' => array(
         'label' => 'inline',
@@ -1228,7 +1173,7 @@ function rivers_guide_field_default_field_instances() {
           'thousand_separator' => '',
         ),
         'type' => 'number_integer',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'full' => array(
         'label' => 'inline',
@@ -1397,10 +1342,9 @@ function rivers_guide_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1438,10 +1382,9 @@ function rivers_guide_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
+        'type' => 'hidden',
+        'weight' => 9,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1696,7 +1639,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'node_reference',
         'settings' => array(),
         'type' => 'node_reference_default',
-        'weight' => 12,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1733,7 +1676,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1772,7 +1715,7 @@ function rivers_guide_field_default_field_instances() {
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_table',
-        'weight' => 11,
+        'weight' => 6,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1836,7 +1779,6 @@ function rivers_guide_field_default_field_instances() {
   t('Gradient');
   t('History');
   t('Hot tip');
-  t('If this Section ends above another Section, specify the downstream Section here.');
   t('In kilometres.');
   t('Is there a mandatory portage under normal conditions? ');
   t('Is this Section in NZ Whitewater 4th Edition, 2006? If so, enter the page number.');

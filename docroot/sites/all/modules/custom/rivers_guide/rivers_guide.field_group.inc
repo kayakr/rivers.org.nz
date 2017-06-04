@@ -21,7 +21,7 @@ function rivers_guide_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Info',
-    'weight' => '5',
+    'weight' => '0',
     'children' => array(
       0 => 'field_character',
       1 => 'field_class',
@@ -42,7 +42,8 @@ function rivers_guide_field_group_info() {
     'format_settings' => array(
       'label' => 'Info',
       'instance_settings' => array(
-        'classes' => '',
+        'id' => '',
+        'classes' => 'info',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h3',

@@ -184,48 +184,6 @@ function rivers_guide_field_default_field_bases() {
     'type_name' => 'section',
   );
 
-  // Exported field_base: 'field_downstream_of'.
-  $field_bases['field_downstream_of'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_downstream_of',
-    'indexes' => array(
-      'nid' => array(
-        0 => 'nid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'node_reference',
-    'settings' => array(
-      'referenceable_types' => array(
-        'article' => 0,
-        'book' => 0,
-        'event' => 0,
-        'forum' => 0,
-        'gauge' => 0,
-        'image' => 0,
-        'page' => 0,
-        'section' => 'section',
-        'story' => 0,
-        'submission' => 0,
-        'submission_template' => 0,
-        'webform' => 0,
-      ),
-      'view' => array(
-        'args' => array(
-          0 => '',
-        ),
-        'display_name' => 'default',
-        'view_name' => 'list_of_sections',
-      ),
-    ),
-    'translatable' => 0,
-    'type' => 'node_reference',
-    'type_name' => 'section',
-  );
-
   // Exported field_base: 'field_gauge'.
   $field_bases['field_gauge'] = array(
     'active' => 1,
