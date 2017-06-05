@@ -31,13 +31,14 @@ function rivers_site_install() {
     'rivers_accounts',
     'rivers_page',
     'rivers_story',
-    'rivers_event',
     'rivers_submission',
     'rivers_incident',
     'views_bulk_operations',
     'rivers_issue',
     'rivers_media_release',
     'rivers_guide',
+    'rivers_event',
+    'rivers_forum'
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -98,11 +99,20 @@ function rivers_site_update_7005() {
 }
 
 /**
- * Enable Rivers Guide.
+ * #13 Enable Rivers Guide.
  */
 function rivers_site_update_7006() {
   _rivers_site_enable_module(array(
     'rivers_guide',
+  ));
+}
+
+/**
+ * #7 Enable Rivers Forum.
+ */
+function rivers_site_update_7007() {
+  _rivers_site_enable_module(array(
+    'rivers_forum',
   ));
 }
 
