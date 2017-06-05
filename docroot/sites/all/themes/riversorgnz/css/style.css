@@ -111,3 +111,10 @@ span.amendment2016 {
 .node-section .info h3 {
   margin-top: 0;
 }
+
+.footer {
+    background: #ddd;
+}
+#block-menu-menu-rivers-footer-menu h2 {
+  display: none;
+}
