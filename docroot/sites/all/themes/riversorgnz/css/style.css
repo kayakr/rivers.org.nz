@@ -13,11 +13,16 @@
     float: left;
 }
 
-
+/* Homepage news block */
 #block-views-rivers-news-latest-news {
   padding-left: 0;
 }
-
+#block-views-rivers-news-latest-news h3 {
+    margin-top: 0;
+}
+#block-views-rivers-news-latest-news h3 a {
+    color: black;
+}
 .view-rivers-news ul {
   list-style-type: none;
     padding-left: 0;
