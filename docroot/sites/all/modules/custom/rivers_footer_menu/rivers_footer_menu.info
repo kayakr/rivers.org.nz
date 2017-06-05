@@ -1,0 +1,12 @@
+name = Rivers Footer Menu
+description = Footer menu
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = menu-rivers-footer-menu
+features[menu_links][] = menu-rivers-footer-menu_guide-to-the-whanganui-river:node/1022
+features[menu_links][] = menu-rivers-footer-menu_media:media
+features[menu_links][] = menu-rivers-footer-menu_new-zealand-whitewater-5:node/3650
