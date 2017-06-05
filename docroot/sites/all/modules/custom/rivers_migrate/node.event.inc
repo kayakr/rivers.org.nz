@@ -25,6 +25,8 @@ class RiversEventDrupalNode6Migration extends DrupalNode6Migration {
 
     $this->addFieldMapping('field_organiser', 'field_organiser');
 
+    $this->addFieldMapping('field_section', 'field_section');
+
     // Event Type has vid=6 in D6.
     // Can't get tid, though returns 33 instead of 35
     /*$this->addFieldMapping('field_event_type', 6)
