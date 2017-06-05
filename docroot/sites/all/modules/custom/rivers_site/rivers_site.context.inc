@@ -27,11 +27,17 @@ function rivers_site_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'menu-menu-rivers-footer-menu' => array(
+          'module' => 'menu',
+          'delta' => 'menu-rivers-footer-menu',
+          'region' => 'footer',
+          'weight' => '-10',
+        ),
         'rivers_site-rivers_copyright' => array(
           'module' => 'rivers_site',
           'delta' => 'rivers_copyright',
           'region' => 'footer',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
       ),
     ),
