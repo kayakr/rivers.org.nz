@@ -38,7 +38,8 @@ function rivers_site_install() {
     'rivers_media_release',
     'rivers_guide',
     'rivers_event',
-    'rivers_forum'
+    'rivers_forum',
+    'globalredirect'
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -116,6 +117,14 @@ function rivers_site_update_7007() {
   ));
 }
 
+/**
+ * #7 Enable Global Redirect
+ */
+function rivers_site_update_7008() {
+  _rivers_site_enable_module(array(
+    'globalredirect',
+  ));
+}
 
 /**
  * Helper function for enabling modules.
