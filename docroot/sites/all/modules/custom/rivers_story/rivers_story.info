@@ -1,4 +1,4 @@
-name = Story
+name = Rivers Story
 description = News item with highlight image and attached files.
 core = 7.x
 package = rivers.org.nz
