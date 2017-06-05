@@ -97,6 +97,20 @@ function rivers_guide_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_sort_created_order_section';
+  $strongarm->value = 'DESC';
+  $export['comment_sort_created_order_section'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_sort_created_section';
+  $strongarm->value = 1;
+  $export['comment_sort_created_section'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_gauge';
   $strongarm->value = 1;
   $export['comment_subject_field_gauge'] = $strongarm;
@@ -311,6 +325,16 @@ function rivers_guide_strongarm() {
   $strongarm->name = 'pathauto_node_section_pattern';
   $strongarm->value = '';
   $export['pathauto_node_section_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_settings_node_section';
+  $strongarm->value = array(
+    'status' => '0',
+    'priority' => '0.5',
+  );
+  $export['xmlsitemap_settings_node_section'] = $strongarm;
 
   return $export;
 }
