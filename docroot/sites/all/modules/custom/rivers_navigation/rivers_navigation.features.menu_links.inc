@@ -27,7 +27,64 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => 0,
+    'weight' => -45,
+    'customized' => 1,
+  );
+  // Exported menu link: main-menu_events:event.
+  $menu_links['main-menu_events:event'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'event',
+    'router_path' => 'event',
+    'link_title' => 'Events',
+    'options' => array(
+      'identifier' => 'main-menu_events:event',
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -48,
+    'customized' => 1,
+  );
+  // Exported menu link: main-menu_forums:forum.
+  $menu_links['main-menu_forums:forum'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'forum',
+    'router_path' => 'forum',
+    'link_title' => 'Forums',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'main-menu_forums:forum',
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 0,
+    'weight' => -47,
+    'customized' => 1,
+  );
+  // Exported menu link: main-menu_guide:nz.
+  $menu_links['main-menu_guide:nz'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'nz',
+    'router_path' => 'nz',
+    'link_title' => 'Guide',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'River Guide',
+      ),
+      'identifier' => 'main-menu_guide:nz',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -46,
     'customized' => 1,
   );
   // Exported menu link: main-menu_home:<front>.
@@ -146,6 +203,9 @@ function rivers_navigation_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('About');
+  t('Events');
+  t('Forums');
+  t('Guide');
   t('Home');
   t('Join');
   t('Log out');
