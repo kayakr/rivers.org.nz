@@ -123,3 +123,17 @@ span.amendment2016 {
 #block-menu-menu-rivers-footer-menu h2 {
   display: none;
 }
+
+/* Forums */
+#forum tr.odd {
+  background: #eee;
+}
+
+.node-type-forum .field-name-field-files .field-item {
+  border: 1px solid red;
+    float: left;
+    width: 180px;
+}
+.node-type-forum article.node-forum footer {
+    clear: both;
+}

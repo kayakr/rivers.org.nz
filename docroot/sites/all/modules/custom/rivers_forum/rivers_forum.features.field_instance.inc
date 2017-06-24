@@ -64,7 +64,7 @@ function rivers_forum_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'file_entity',
         'settings' => array(
-          'file_view_mode' => 'teaser',
+          'file_view_mode' => 'rivers_forum_comment',
         ),
         'type' => 'file_rendered',
         'weight' => 12,
