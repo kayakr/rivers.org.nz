@@ -15,6 +15,8 @@ function rivers_site_install() {
     'admin_menu_toolbar',
     'admin_views',
     'ctools',
+    'environment',
+    'environment_indicator',
     'strongarm',
     'features',
     'libraries',
@@ -125,6 +127,17 @@ function rivers_site_update_7008() {
     'globalredirect',
   ));
 }
+
+/**
+ * #7 Enable Environment, Environment Indicator.
+ */
+function rivers_site_update_7009() {
+  _rivers_site_enable_module(array(
+    'environment',
+    'environment_indicator',
+  ));
+}
+
 
 /**
  * Helper function for enabling modules.

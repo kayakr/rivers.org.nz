@@ -50,8 +50,13 @@ switch ($conf['environment']) {
     $conf['mail_redirect_domain'] = 'huntdesign.co.nz';
 
     // Environment & Environment Indicator.
-    $conf['environment_indicator_overwritten_name'] = strtoupper($conf['environment']);
     $conf['environment_indicator_overwrite'] = TRUE;
+    $conf['environment_indicator_overwritten_name'] = strtoupper($conf['environment']);
+    $conf['environment_indicator_overwritten_color'] = '#24ae43';
+    $conf['environment_indicator_overwritten_drawer_color'] = '#333333';
+    $conf['environment_indicator_overwritten_text_color'] = '#ffffff';
+    $conf['environment_indicator_overwritten_position'] = 'top';
+    $conf['environment_indicator_overwritten_fixed'] = FALSE;
     break;
 
   case 'staging':
