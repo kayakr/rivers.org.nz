@@ -134,6 +134,12 @@ span.amendment2016 {
     float: left;
     width: 180px;
 }
+.node-type-forum article.node-forum #comments,
 .node-type-forum article.node-forum footer {
     clear: both;
+}
+
+/* CiviCRM */
+.page-civicrm #page-header {
+  display: none;
 }
