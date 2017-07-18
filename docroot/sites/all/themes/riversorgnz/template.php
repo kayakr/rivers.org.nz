@@ -46,3 +46,22 @@ function riversorgnz_preprocess_block(&$variables) {
       break;
   }
 }
+
+/**
+ * Override THEMENAME_menu_link__MENU_NAME() to add destination to login link.
+ */
+function riversorgnz_menu_link__user_menu(&$variables) {
+  // If user is not on homepage, redirect login back to current page.
+  if ($variables['element']['#href'] == 'user/login' && $_SERVER['REQUEST_URI'] != '/') {
+    $variables['element']['#localized_options']['query'] = array('destination' => substr($_SERVER['REQUEST_URI'], 1));
+  }
+
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
