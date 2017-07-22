@@ -44,11 +44,26 @@ function rivers_forum_list() {
       // Show top-level forums, and exclude empty forums.
       if ($forum->depth == 0 && $forum->num_posts > 0) {
         $forums_list[] = t('!forum, @posts posts', array(
-          '!forum' => l($forum->name, 'taxonomy/term/' . $tid),
+          '!forum' => l($forum->name, 'taxonomy/term/' . $tid, array('attributes' => array(
+            'title' => 'Last post ' . rivers_forum_last_post($forum->last_post),
+          ))),
           '@posts' => number_format($forum->num_posts),
         ));
       }
     }
   }
   return theme('item_list', array('items' => $forums_list));
+}
+
+/**
+ * Formats a forum post tooltip, used in links by rivers_forum_list().
+ */
+function rivers_forum_last_post($post) {
+  return t('@time ago by !author', array(
+    '@time' => format_interval(time() - $post->created, 1),
+    '!author' => theme('username', array(
+      'account' => user_load($post->uid),
+      'name' => $post->name,
+      )),
+  ));
 }
