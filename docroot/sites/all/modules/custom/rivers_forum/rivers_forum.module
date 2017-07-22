@@ -5,3 +5,50 @@
  */
 
 include_once 'rivers_forum.features.inc';
+
+/**
+ * Implements hook_block_info().
+ */
+function rivers_forum_block_info() {
+
+  $blocks['rivers_forum_summary'] = array(
+    'info' => t('Forums list and post count'),
+    'cache' => DRUPAL_NO_CACHE, // Change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rivers_forum_block_view($delta = '') {
+  switch ($delta) {
+    case 'rivers_forum_summary':
+      $block['subject'] = t('Forums');
+      $block['content'] = rivers_forum_list();
+      return $block;
+  }
+}
+
+/**
+ * Return array of forum names and post counts.
+ * @return string
+ */
+function rivers_forum_list() {
+  $forums = forum_forum_load();
+  // Assume only single forum tree in operation.
+  $forums_list = array();
+  if (isset($forums->forums) && count($forums->forums)) {
+    foreach ($forums->forums as $tid => $forum) {
+      // Show top-level forums, and exclude empty forums.
+      if ($forum->depth == 0 && $forum->num_posts > 0) {
+        $forums_list[] = t('!forum, @posts posts', array(
+          '!forum' => l($forum->name, 'taxonomy/term/' . $tid),
+          '@posts' => number_format($forum->num_posts),
+        ));
+      }
+    }
+  }
+  return theme('item_list', array('items' => $forums_list));
+}
