@@ -65,17 +65,23 @@ function rivers_site_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'rivers_forum-rivers_forum_summary' => array(
+          'module' => 'rivers_forum',
+          'delta' => 'rivers_forum_summary',
+          'region' => 'content',
+          'weight' => '-22',
+        ),
         'views-rivers_news-latest_news' => array(
           'module' => 'views',
           'delta' => 'rivers_news-latest_news',
           'region' => 'content',
-          'weight' => '-10',
+          'weight' => '-21',
         ),
         'views-rivers_calendar-block_2' => array(
           'module' => 'views',
           'delta' => 'rivers_calendar-block_2',
           'region' => 'content',
-          'weight' => '-9',
+          'weight' => '-20',
         ),
       ),
     ),
