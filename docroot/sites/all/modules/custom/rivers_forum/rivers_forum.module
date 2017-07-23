@@ -67,3 +67,11 @@ function rivers_forum_last_post($post) {
       )),
   ));
 }
+
+/**
+ * Restrict new forum posts to filtered HTML.
+ * Implements hook_form_alter().
+ */
+function rivers_forum_form_alter(&$form, &$form_state, $form_id) {
+  //xdebug_break();
+}
