@@ -40,11 +40,21 @@ function rivers_migrate_migrate_api() {
       //),
     );
 
+  $api['migrations']['RiversUserPicture'] = $common_arguments + array(
+      'class_name' => 'DrupalPicture6Migration',
+      'description' => t('Import Drupal 6 picture files'),
+      'default_uid' => 1,
+      //'source_dir' => '/',
+      'destination_dir' => 'public://pictures',
+    );
+
   // Register the user migration.
   $api['migrations']['RiversUser'] = $common_arguments + array(
       'description' => t('Migration of users from Drupal 6'),
       'class_name' => 'RiversDrupalUser6Migration',
       'role_migration' => 'RiversRole',
+      'picture_migration' => 'RiversUserPicture',
+      'soft_dependencies' => array('RiversUserPicture'),
     );
 
   // For vocabulary migrations, source_vocabulary and destination_vocabulary are
