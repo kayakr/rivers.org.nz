@@ -138,6 +138,13 @@ span.amendment2016 {
 .node-type-forum article.node-forum footer {
     clear: both;
 }
+.node-forum .comment h3 {
+    display: none;
+}
+.node-forum .comment-wrapper .links {
+    float: right;
+}
+
 
 /* CiviCRM */
 .page-civicrm #page-header {

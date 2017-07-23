@@ -27,6 +27,28 @@ function riversorgnz_preprocess_page(&$variables) {
   }
 }
 
+/**
+ * Implements template_preprocess_comment().
+ * @param $variables
+ */
+function riversorgnz_preprocess_comment(&$variables) {
+
+  // Add bootstrap button classes to Delete, Reply, Edit links.
+  foreach ($variables['content']['links']['comment']['#links'] as $key => $link) {
+    $variables['content']['links']['comment']['#links'][$key]['attributes'] = array('class' => array(
+      'btn',
+    ));
+    // Style using bootstrap https://getbootstrap.com/css/#buttons-options
+    switch ($key) {
+      case 'comment-delete':
+        $variables['content']['links']['comment']['#links'][$key]['attributes']['class'][] = 'btn-danger';
+        break;
+      default:
+        $variables['content']['links']['comment']['#links'][$key]['attributes']['class'][] = 'btn-default';
+    }
+  }
+}
+
 
 /**
  * Pre-processes variables for the "block" theme hook.
@@ -51,8 +73,8 @@ function riversorgnz_preprocess_block(&$variables) {
  * Override THEMENAME_menu_link__MENU_NAME() to add destination to login link.
  */
 function riversorgnz_menu_link__user_menu(&$variables) {
-  // If user is not on homepage, redirect login back to current page.
-  if ($variables['element']['#href'] == 'user/login' && $_SERVER['REQUEST_URI'] != '/') {
+  // Redirect login back to current page.
+  if ($variables['element']['#href'] == 'user/login') {
     $variables['element']['#localized_options']['query'] = array('destination' => substr($_SERVER['REQUEST_URI'], 1));
   }
 
