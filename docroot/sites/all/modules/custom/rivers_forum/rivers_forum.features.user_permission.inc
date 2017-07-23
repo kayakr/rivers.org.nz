@@ -10,6 +10,15 @@
 function rivers_forum_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: 'administer comment notify'.
+  $permissions['administer comment notify'] = array(
+    'name' => 'administer comment notify',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'comment_notify',
+  );
+
   // Exported permission: 'administer forums'.
   $permissions['administer forums'] = array(
     'name' => 'administer forums',
@@ -74,6 +83,16 @@ function rivers_forum_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'subscribe to comments'.
+  $permissions['subscribe to comments'] = array(
+    'name' => 'subscribe to comments',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'comment_notify',
   );
 
   // Exported permission: 'view files'.
