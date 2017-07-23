@@ -10,7 +10,7 @@
 function rivers_accounts_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'user-user-field_bio'
+  // Exported field_instance: 'user-user-field_bio'.
   $field_instances['user-user-field_bio'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -45,7 +45,7 @@ This information is public.',
     ),
   );
 
-  // Exported field_instance: 'user-user-field_first_name'
+  // Exported field_instance: 'user-user-field_first_name'.
   $field_instances['user-user-field_first_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -79,7 +79,7 @@ This information is public.',
     ),
   );
 
-  // Exported field_instance: 'user-user-field_last_name'
+  // Exported field_instance: 'user-user-field_last_name'.
   $field_instances['user-user-field_last_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -113,7 +113,7 @@ This information is public.',
     ),
   );
 
-  // Exported field_instance: 'user-user-field_mobile'
+  // Exported field_instance: 'user-user-field_mobile'.
   $field_instances['user-user-field_mobile'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -147,7 +147,7 @@ This information is public.',
     ),
   );
 
-  // Exported field_instance: 'user-user-field_person_region'
+  // Exported field_instance: 'user-user-field_person_region'.
   $field_instances['user-user-field_person_region'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
