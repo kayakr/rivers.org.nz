@@ -30,6 +30,7 @@ function rivers_site_install() {
     'geofield',
     'jquery_update',
     'rivers_site',
+    'masquerade',
     'rivers_accounts',
     'rivers_page',
     'rivers_story',
@@ -41,7 +42,7 @@ function rivers_site_install() {
     'rivers_guide',
     'rivers_event',
     'rivers_forum',
-    'globalredirect'
+    'globalredirect',
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -138,6 +139,14 @@ function rivers_site_update_7009() {
   ));
 }
 
+/**
+ * #7 Enable Masquerade.
+ */
+function rivers_site_update_7010() {
+  _rivers_site_enable_module(array(
+    'masquerade',
+  ));
+}
 
 /**
  * Helper function for enabling modules.
