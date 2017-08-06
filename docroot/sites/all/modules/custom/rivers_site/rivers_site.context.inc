@@ -39,6 +39,12 @@ function rivers_site_context_default_contexts() {
           'region' => 'footer',
           'weight' => '-9',
         ),
+        'masquerade-masquerade' => array(
+          'module' => 'masquerade',
+          'delta' => 'masquerade',
+          'region' => 'footer',
+          'weight' => '-8',
+        ),
       ),
     ),
   );
