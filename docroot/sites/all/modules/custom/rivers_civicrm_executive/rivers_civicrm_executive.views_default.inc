@@ -90,6 +90,7 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
   $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
   $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
+  $handler->display->display_options['fields']['display_name']['label'] = 'Name';
   $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
   /* Field: CiviCRM Email: Email Address */
   $handler->display->display_options['fields']['email']['id'] = 'email';
@@ -111,13 +112,9 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['text_link']['table'] = 'civicrm_contact';
   $handler->display->display_options['fields']['text_link']['field'] = 'text_link';
   $handler->display->display_options['fields']['text_link']['label'] = 'Ops';
+  $handler->display->display_options['fields']['text_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['text_link']['link_to_civicrm_contact'] = 'edit';
   $handler->display->display_options['fields']['text_link']['link_text'] = 'Edit';
-  /* Field: CiviCRM Contacts: Text Link */
-  $handler->display->display_options['fields']['text_link_1']['id'] = 'text_link_1';
-  $handler->display->display_options['fields']['text_link_1']['table'] = 'civicrm_contact';
-  $handler->display->display_options['fields']['text_link_1']['field'] = 'text_link';
-  $handler->display->display_options['fields']['text_link_1']['link_text'] = 'View';
   /* Sort criterion: CiviCRM Note: Note */
   $handler->display->display_options['sorts']['note']['id'] = 'note';
   $handler->display->display_options['sorts']['note']['table'] = 'civicrm_note';
