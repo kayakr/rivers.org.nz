@@ -62,20 +62,20 @@ switch ($conf['environment']) {
   case 'staging':
     ini_set('error_reporting', E_ALL);
     ini_set('display_errors', TRUE);
-    ini_set('memory_limit', '128M');
+    ini_set('memory_limit', '156M');
     // c/- PreviousNext
     // Memory allocation to be 256MB. This is to cover cron etc.
     if (isset($_GET['q']) && (strpos($_GET['q'], 'admin') === 0 || strpos($_GET['q'], 'en/admin') === 0)) {
-      ini_set('memory_limit', '156M');
+      ini_set('memory_limit', '196M');
     }
     // Node edit pages are memory heavy too.
     if (isset($_GET['q']) && preg_match('@^node\/([0-9]+)\/edit$@', $_GET['q'])) {
-      ini_set('memory_limit', '156M');
+      ini_set('memory_limit', '196M');
     }
 
     // Memory allocation to be 256MB. This is to cover cron etc.
     if (isset($_GET['q']) && (strpos($_GET['q'], 'batch') === 0)) {
-      ini_set('memory_limit', '156M');
+      ini_set('memory_limit', '196M');
     }
 
     // File system.
