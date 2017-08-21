@@ -75,6 +75,11 @@ class RiversPageDrupalNode6Migration extends DrupalNode6Migration {
       return FALSE;
     }
 
+    // Skip node/785 article/new_zealand_whitewater_2006_table_of_contents
+    if ($row->nid == 785) {
+      return FALSE;
+    }
+
     // NZ Canoeing image path.
     if ($row->nid == 1004) {
       $row->body = str_replace('/sites/rivers.org.nz/themes/rivers_theme', '/sites/all/themes/riversorgnz', $row->body);
