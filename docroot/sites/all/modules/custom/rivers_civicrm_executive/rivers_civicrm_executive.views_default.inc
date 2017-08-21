@@ -96,7 +96,7 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['email']['table'] = 'civicrm_email';
   $handler->display->display_options['fields']['email']['field'] = 'email';
   $handler->display->display_options['fields']['email']['label'] = 'Email';
-  $handler->display->display_options['fields']['email']['location_type'] = '0';
+  $handler->display->display_options['fields']['email']['location_type'] = '1';
   $handler->display->display_options['fields']['email']['location_op'] = '0';
   $handler->display->display_options['fields']['email']['is_primary'] = 0;
   /* Field: CiviCRM Address: City / Suburb */
