@@ -125,6 +125,15 @@ function rivers_guide_views_default_views() {
   $handler->display->display_options['fields']['field_length']['id'] = 'field_length';
   $handler->display->display_options['fields']['field_length']['table'] = 'field_data_field_length';
   $handler->display->display_options['fields']['field_length']['field'] = 'field_length';
+  $handler->display->display_options['fields']['field_length']['empty'] = ' ';
+  $handler->display->display_options['fields']['field_length']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_length']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_length']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => '.',
+    'scale' => '0',
+    'prefix_suffix' => 1,
+  );
   /* Sort criterion: Content: Region (field_region) */
   $handler->display->display_options['sorts']['field_region_value']['id'] = 'field_region_value';
   $handler->display->display_options['sorts']['field_region_value']['table'] = 'field_data_field_region';

@@ -331,8 +331,8 @@ function rivers_guide_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'xmlsitemap_settings_node_section';
   $strongarm->value = array(
-    'status' => '0',
-    'priority' => '0.5',
+    'status' => '1',
+    'priority' => '0.9',
   );
   $export['xmlsitemap_settings_node_section'] = $strongarm;
 
