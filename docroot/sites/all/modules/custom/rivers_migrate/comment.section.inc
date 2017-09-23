@@ -6,10 +6,10 @@ class RiversSectionDrupalComment6Migration extends DrupalComment6Migration {
     parent::__construct($arguments);
 
     // Preserve the cids from D6.
-/*    $this->addFieldMapping('cid', 'cid');
-    $this->addFieldMapping('pid', 'pid');
-    $this->addFieldMapping('is_new')->defaultvalue(TRUE);
-*/
+    //$this->addFieldMapping('cid', 'cid');
+    //$this->addFieldMapping('pid', 'pid');
+    //$this->addFieldMapping('is_new')->defaultvalue(TRUE);
+
     //$this->addFieldMapping('body:format', NULL, FALSE)
     //  ->defaultValue('filtered_html');
 
@@ -55,11 +55,9 @@ class RiversSectionDrupalComment6Migration extends DrupalComment6Migration {
         $row->upload[] = $file->fid;
       }
     }
-    //xdebug_break();
       //->orderBy($this->newOnly ? 'c.cid' : 'c.timestamp');
 
     //flog_it(__CLASS__ .'->'. __FUNCTION__ . ': row=' . print_r($row, TRUE));
-
     return TRUE;
   }
 
