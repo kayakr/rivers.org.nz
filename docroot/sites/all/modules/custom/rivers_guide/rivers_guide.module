@@ -136,6 +136,8 @@ function _rivers_guide_region_map() {
 
 /**
  * Register custom formatter for Portage field.
+ * This can be selected in views, for Portage field output.
+ *
  * Implements hook_field_formatter_info().
  */
 function rivers_guide_field_formatter_info() {
@@ -152,33 +154,31 @@ function rivers_guide_field_formatter_info() {
 }
 
 /**
+ * Somehow this gets invoked when Portage formatter above is specified in views,
+ * for field_portage.
+ *
  * Implements hook_field_formatter_view().
  */
 function rivers_guide_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  //flog_it(__FUNCTION__ . ': items=' . print_r($items, TRUE));
-  $element = array(); // Initialize the var
-  //$settings = $display['settings']; // get the settings
-  //$size = $settings['pic_size']; // The Size setting selected in the settings form
-  //$tooltip = $settings['tooltip']; // The tool tip assigned in settings
-  // Create the image - Note that I'm storing the images in our module but they could be anywhere
-  //$image = '<img src="/' . drupal_get_path('module', 'facebooklink') . 'fb-' . $size . '.png">';
+  xdebug_break();
+  $element = array();
+
   $output = '';
   foreach ($items as $delta => $item) {
     if (!empty($item['value'])) {
       $output .= '(P)';
     }
   }
-  $options = array(
+  /*$options = array(
     'html'        => TRUE, // This tells Drupal that we're sending HTML, not plain text, otherwise it would encode it
     'attributes'  => array(
       'title' => $tooltip, // This sets our tooltip
       ),
-    );
+    );*/
   if(isset($output)) {
-    //$link = l($image, $fb, $options); // Create the Link
     $element[0]['#markup'] = ' <span class="portage">' . $output . '</span>'; // Assign it to the #markup of the element
   }
-  //flog_it(__FUNCTION__ . ': element=' . print_r($element, TRUE));
+
   return $element;
 }
 
@@ -191,7 +191,6 @@ function rivers_guide_views_pre_render(&$view) {
 
   switch ($view->name) {
     case 'rivers_sections':
-      //flog_it(__FUNCTION__ . ': view->result=' . print_r($view->result, TRUE));
       foreach ($view->result as $key => $row) {
 
         // Override region.
