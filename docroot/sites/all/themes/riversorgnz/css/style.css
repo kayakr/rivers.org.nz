@@ -43,6 +43,10 @@
     clear: both;
 }
 
+#block-rivers-forum-rivers-forum-summary {
+  clear: left;
+}
+
 
 /* customisations for rivers.org.nz /constitution. */
 span.amendment2000 {
@@ -149,4 +153,16 @@ span.amendment2016 {
 /* CiviCRM */
 .page-civicrm #page-header {
   display: none;
+}
+
+body {
+  background: url("../images/d6_background.png");
+}
+.main-container {
+  background: white;
+}
+
+/* Override default bootstrap 100% width for form elements */
+.form-control {
+  width: auto;
 }

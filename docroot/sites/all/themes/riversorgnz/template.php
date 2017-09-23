@@ -66,6 +66,11 @@ function riversorgnz_preprocess_block(&$variables) {
     case 'block-views-rivers-news-latest-news':
       $variables['classes_array'][] = 'col-md-6';
       break;
+
+    case 'block-rivers-forum-rivers-forum-summary':
+    case 'block-rivers-issue-rivers-issue':
+      $variables['classes_array'][] = 'col-md-3';
+      break;
   }
 }
 
