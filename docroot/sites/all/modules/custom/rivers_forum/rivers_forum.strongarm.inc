@@ -97,13 +97,13 @@ disable this by logging in and changing the settings on your user account at
   $strongarm->name = 'comment_notify_node_types';
   $strongarm->value = array(
     'forum' => 'forum',
+    'section' => 'section',
     'article' => 0,
     'page' => 0,
     'rivers_event' => 0,
     'gauge' => 0,
     'rivers_issue' => 0,
     'media_release' => 0,
-    'section' => 0,
     'rivers_story' => 0,
     'rivers_submission' => 0,
   );
@@ -200,9 +200,35 @@ disable this by logging in and changing the settings on your user account at
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_options_forum';
+  $strongarm->value = array(
+    0 => 'status',
+  );
+  $export['node_options_forum'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_forum_pattern';
+  $strongarm->value = '[term:vocabulary]/[term:name]';
+  $export['pathauto_forum_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_forum_pattern';
   $strongarm->value = 'forum/[node:taxonomy_forums]/[node:nid]';
   $export['pathauto_node_forum_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_settings_node_forum';
+  $strongarm->value = array(
+    'status' => '1',
+    'priority' => '0.5',
+  );
+  $export['xmlsitemap_settings_node_forum'] = $strongarm;
 
   return $export;
 }
