@@ -165,5 +165,22 @@ function rivers_submission_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_rivers_submission'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_rivers_submission_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_rivers_submission_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_settings_node_rivers_submission';
+  $strongarm->value = array(
+    'status' => '1',
+    'priority' => '0.5',
+  );
+  $export['xmlsitemap_settings_node_rivers_submission'] = $strongarm;
+
   return $export;
 }
