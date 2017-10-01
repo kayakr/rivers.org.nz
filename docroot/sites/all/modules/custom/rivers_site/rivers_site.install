@@ -43,6 +43,7 @@ function rivers_site_install() {
     'rivers_event',
     'rivers_forum',
     'globalredirect',
+    'rivers_section_events',
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -145,6 +146,15 @@ function rivers_site_update_7009() {
 function rivers_site_update_7010() {
   _rivers_site_enable_module(array(
     'masquerade',
+  ));
+}
+
+/**
+ * #7 Enable Rivers Section Events.
+ */
+function rivers_site_update_7011() {
+  _rivers_site_enable_module(array(
+    'rivers_section_events',
   ));
 }
 

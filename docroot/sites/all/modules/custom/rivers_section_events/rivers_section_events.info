@@ -1,0 +1,16 @@
+name = Rivers Section Events
+description = Block showing Events for a Section
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = context
+dependencies[] = rivers_event
+dependencies[] = rivers_guide
+dependencies[] = views
+features[context][] = section_blocks
+features[ctools][] = context:context:3
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = section_events
+features_exclude[dependencies][ctools] = ctools
