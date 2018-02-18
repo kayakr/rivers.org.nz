@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for rivers_civicrm.
+ */
+
+/**
+ * #7 Enable Rivers Section Events.
+ */
+function rivers_civicrm_update_7000() {
+  _rivers_site_enable_module(array(
+    'civicrmtheme',
+  ));
+}
