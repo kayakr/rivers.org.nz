@@ -150,11 +150,20 @@ function rivers_site_update_7010() {
 }
 
 /**
- * #7 Enable Rivers Section Events.
+ * #13 Enable Rivers Section Events.
  */
 function rivers_site_update_7011() {
   _rivers_site_enable_module(array(
     'rivers_section_events',
+  ));
+}
+
+/**
+ * #33 Enable Rivers CiviCRM Clubs to list clubs at /membership/clubs.
+ */
+function rivers_site_update_7012() {
+  _rivers_site_enable_module(array(
+    'rivers_civicrm_clubs',
   ));
 }
 
