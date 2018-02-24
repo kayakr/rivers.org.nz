@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers CiviCRM Clubs feature.
+ */
+
+include_once 'rivers_civicrm_clubs.features.inc';
