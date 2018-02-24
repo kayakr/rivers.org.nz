@@ -168,6 +168,15 @@ function rivers_site_update_7012() {
 }
 
 /**
+ * #38 Enable Google Analytics.
+ */
+function rivers_site_update_7013() {
+  _rivers_site_enable_module(array(
+    'googleanalytics',
+  ));
+}
+
+/**
  * Helper function for enabling modules.
  *
  * @param string|array $modulenames
