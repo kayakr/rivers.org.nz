@@ -1,0 +1,11 @@
+name = Rivers API
+description = API for sections
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = ctools
+dependencies[] = rest_server
+dependencies[] = services
+features[ctools][] = services:services:3
+features[features_api][] = api:2
+features[services_endpoint][] = rivers_api

@@ -1,0 +1,184 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers API feature.
+ */
+
+include_once 'rivers_api.features.inc';
+
+/**
+ * Define combined HAL+JSON response formatter.
+ *
+ * Implements hook_rest_server_response_formatters_alter().
+ */
+function rivers_api_rest_server_response_formatters_alter(&$formatters) {
+  // Give this a name befitting of the source of the rest-breaking requirements.
+  $formatters['hal+json'] = array(
+    'mime types' => array('application/hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatter',
+  );
+}
+
+/**
+ * Helper function to return endpoint path (to assist with HAL _links).
+ */
+function _rivers_api_endpoint_path() {
+  $endpoint_name = 'rivers_api';
+  $endpoint = services_endpoint_load($endpoint_name);
+  $path = $endpoint->path;
+  return $path;
+}
+
+/**
+ * Access callback for ClimbNZ API.
+ * If we arrive here, it's because OAuth has authenticated the session.
+ * User is probably anonymous (given OAuth2 Client Credentials flow.
+ * Could use this to fine-tune access to specific resources...
+ */
+function _rivers_api_access($op, $args) {
+
+  global $user;
+  //$access = FALSE;
+  return true;
+
+  switch ($op) {
+    case 'view':
+      //$node = markaspot_open311_get_requests($args[0]);
+      //$access = user_access('view open311 requests');
+      //$access = $access || user_access('user can view open311 requests');
+      return user_access('access content'); // @todo: move to resource definition below.
+      break;
+    case 'create':
+      //$node = markaspot_open311_get_requests($args[0]);
+      //$access = user_access('Report: Create new content');
+      //$access = $access || user_access('Report: Create new content');
+      break;
+  }
+  $access = TRUE;
+
+  return $access;
+}
+
+/**
+ * Implementation of hook_services_resources().
+ */
+function rivers_api_services_resources() {
+  return array(
+    /*    'places' => array(
+          'index' => array(
+            'help' => 'List places',
+            'file' => array('file' => 'inc', 'module' => 'climbnz_api'),
+            'callback' => '_climbnz_api_places',
+            'access callback' => '_climbnz_api_access',
+            'access arguments' => array('view'),
+            'access arguments append' => TRUE,
+            'args' => array()
+          ),
+        ),
+
+        'index' => array(
+          'help' => 'Retrieves a listing of notes',
+          'file' => array('type' => 'inc', 'module' => 'noteresource', 'name' => 'noteresource'),
+          'callback' => '_noteresource_index',
+          'access callback' => 'user_access',
+          'access arguments' => array('access content'),
+          'access arguments append' => FALSE,
+          'args' => array(
+            array(
+             'name' => 'page',
+             'type' => 'int',
+             'description' => '',
+             'source' => array(
+               'param' => 'page',
+             ),
+             'optional' => TRUE,
+             'default value' => 0,
+            ),
+            array(
+             'name' => 'parameters',
+             'type' => 'array',
+             'description' => '',
+             'source' => 'param',
+             'optional' => TRUE,
+             'default value' => array(),
+            ),
+          ),
+        ),*/
+
+    'section' => array(
+      'retrieve' => array(
+        'help' => 'Retrieves a Section',
+        'file' => array('file' => 'inc', 'module' => 'rivers_api'),
+        'callback' => '_rivers_api_place_retrieve',
+        'access callback' => '_rivers_api_access',
+        'access arguments' => array('view'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          array(
+            'name' => 'id',
+            'type' => 'int',
+            'description' => 'The id of the Section to get',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+          array(
+            'name' => 'parameters',
+            'type' => 'array',
+            'description' => '',
+            'source' => 'param',
+            'optional' => TRUE,
+            'default value' => array(),
+          ),
+        ),
+      ),
+
+      /*'create' => array(
+        'help' => 'Creates an Open311 request',
+        'file' => array('file' => 'inc', 'module' => 'markaspot_open311'),
+        'callback' => '_markaspot_open311_requests_create',
+        'access callback' => '_markaspot_open311_access',
+        'access arguments' => array('create'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          array(
+            'source' => 'data',
+            'type' => 'array',
+            'description' => 'The request object',
+            'source' => 'data',
+            'optional' => TRUE,
+          ),
+        ),
+      ),*/
+
+      'index' => array(
+        'help' => 'Retrieves a listing of sections',
+        'file' => array('file' => 'inc', 'module' => 'rivers_api'),
+        // Callback in inc.file
+        'callback' => '_rivers_api_section_index',
+        'access callback' => 'user_access',
+        'access arguments' => array('access content'),
+        'access arguments append' => FALSE,
+        'args' => array(
+          array(
+            'name' => 'page',
+            'type' => 'int',
+            'description' => '',
+            'source' => array(
+              'param' => 'page',
+            ),
+            'optional' => TRUE,
+            'default value' => 0,
+          ),
+          array(
+            'name' => 'parameters',
+            'type' => 'array',
+            'description' => '',
+            'source' => 'param',
+            'optional' => TRUE,
+            'default value' => array(),
+          ),
+        ),
+      ),
+    ),
+  );
+}
