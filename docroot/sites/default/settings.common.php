@@ -35,7 +35,7 @@ switch ($conf['environment']) {
   case 'development':
     ini_set('error_reporting', E_ALL);
     ini_set('display_errors', TRUE);
-    ini_set('memory_limit', '128M');
+    ini_set('memory_limit', '156M');
     //ini_set('xdebug.remote_autostart', 1);
     //ini_set('xdebug.remote_mode', 'jit');
 
