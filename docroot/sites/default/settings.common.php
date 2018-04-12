@@ -6,6 +6,12 @@ $conf['locale_custom_strings_en'][''] = array(
   'You are not authorized to access this page.' => 'You are not authorised to access this page.',
 );
 
+// Enable HTTPS.
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+  $_SERVER['HTTPS'] = 'on';
+}
+
 // Set environment based on host.
 switch ($_SERVER['HTTP_HOST']) {
   case '3rivers.local':
