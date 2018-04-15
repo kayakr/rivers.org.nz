@@ -22,6 +22,7 @@ function rivers_api_default_services_endpoint() {
       'json' => TRUE,
       'bencode' => FALSE,
       'hal+json' => TRUE,
+      'hal+json+v1' => TRUE,
       'jsonp' => FALSE,
       'php' => FALSE,
       'xml' => FALSE,
@@ -29,6 +30,7 @@ function rivers_api_default_services_endpoint() {
     ),
     'parsers' => array(
       'application/json' => TRUE,
+      'application/vnd.rivers+hal+json;version=1.0' => TRUE,
       'application/x-www-form-urlencoded' => FALSE,
       'application/x-yaml' => FALSE,
       'application/xml' => FALSE,

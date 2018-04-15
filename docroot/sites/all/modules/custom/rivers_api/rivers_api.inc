@@ -28,21 +28,20 @@
 }*/
 
 /**
- * Callback for retrieving a Place resource.
+ * Callback for retrieving a Section resource.
+ *
+ * @todo: test loaded node is a Section.
  *
  * @param int $nid service_request_id
  * @return array $request
  */
 function _rivers_api_place_retrieve($nid, $parameters) {
-  flog_it(__FUNCTION__ . ': nid=' . $nid);
+  //xdebug_break();
   // added optional parameters achieving this:
   // http://lists.open311.org/groups/discuss/messages/topic/AaxmrRLUHToO7jCQdjAXy
   $node = node_load($nid);
-  //$status = _tax_map_status($node->field_status['und'][0]["tid"]);
 
-  //$output = $node;
   // Maps internal node attributes to attributes to be exposed via API.
-  //$output[] = _node_map_request($node, $status, $parameters);
   $output = _rivers_api_map_node_to_section($node, $parameters);
   return $output;
 }
@@ -52,14 +51,20 @@ function _rivers_api_place_retrieve($nid, $parameters) {
  * @todo: use a view?
  */
 function _rivers_api_section_index($page, $parameters) {
+  // @todo: can't rely on parameters being validated against definition.
+  // page should be int, but 'b' is allowed through to here.
+  if (!is_numeric($page)) {
+    $page = 0;
+  }
+
   $nodes = array();
   $page_size = 10;
-xdebug_break();
+//xdebug_break();
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'section')
     ->propertyCondition('status', 1)
-    ->range(0, $page_size);
+    ->range((int)$page, $page_size);
   //->addMetaData('account', user_load(1)); // Run the query as user 1.
   $result = $query->execute();
 
@@ -73,7 +78,10 @@ xdebug_break();
       $nodes[$nid] = _rivers_api_map_node_to_section($node, $parameters);
     }
   }
-  xdebug_break();
+
+  $nodes['page'] = (int)$page;
+  $nodes['page_size'] = $page_size;
+
   return $nodes;
 }
 
@@ -86,16 +94,20 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   // Wrap place in Entity wrapper to ease access to fields.
   $object = entity_metadata_wrapper('node', $node);
 
-  $place = array();
-  $place['id'] = $node->nid;
-  $place['vid'] = $node->vid; // version.
-  $place['name'] = $node->title;
+  $section = array();
+  $section['id'] = $node->nid;
+  $section['vid'] = $node->vid; // version.
+  $section['name'] = $node->title;
+  $section['name_alternate'] = $object->field_alternate_name->value();
+
   // https://www.computerminds.co.uk/articles/rendering-drupal-7-fields-right-way
   $field_class = field_get_items('node', $node, 'field_class');
-  xdebug_break();
-  $place['class'] = drupal_render(field_view_value('node', $node, 'field_class', $field_class[0]));
 
-  $place['class_b'] = $object->field_class->value();
+  $section['class'] = drupal_render(field_view_value('node', $node, 'field_class', $field_class[0]));
+
+  $section['class_numeric'] = $object->field_class->value();
+
+  $section['character'] = $object->field_character->value();
 
 
   //$place['type'] = $object->field_type->value(); // field_view_field('node', $node, 'field_place_type');
@@ -103,7 +115,7 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   //$place['description'] = $object->field_description->value->value(); //->value; // Safe value.
 
   // JSON HAL.
-  $place['_links'] = array(
+  $section['_links'] = array(
     'self' => array(
       'href' => $endpoint_path . '/place/' . $node->nid,
       'url' => url('node/' . $node->nid, array('absolute' => TRUE)),
@@ -184,7 +196,8 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   }
   */
 
-  return $place;
+
+  return $section;
 }
 
 

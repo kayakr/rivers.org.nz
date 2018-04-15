@@ -7,6 +7,18 @@
 include_once 'rivers_api.features.inc';
 
 /**
+ * Implements hook_rest_server_request_parsers_alter().
+ *
+ * @param array $parsers
+ *  An associative array of parser callbacks keyed by mime-type.
+ * @return void
+ */
+function rivers_api_rest_server_request_parsers_alter(&$parsers) {;
+  // Add our own custom parser.
+  $parsers['application/vnd.rivers+hal+json;version=1.0'] = 'RiversServicesParserJSONv1';
+}
+
+/**
  * Define combined HAL+JSON response formatter.
  *
  * Implements hook_rest_server_response_formatters_alter().
@@ -17,6 +29,14 @@ function rivers_api_rest_server_response_formatters_alter(&$formatters) {
     'mime types' => array('application/hal+json'),
     'formatter class' => 'ServicesHALJSONFormatter',
   );
+  $formatters['hal+json+v1'] = array(
+    'mime types' => array('application/vnd.rivers+hal+json;version=1.0'),
+    'formatter class' => 'ServicesHALJSONFormatter',
+  );
+  //$formatters['hal+json+v2'] = array(
+  //  'mime types' => array('application/vnd.rivers+hal+json;version=2.0'),
+  //  'formatter class' => 'ServicesHALJSONFormatterV2',
+  //);
 }
 
 /**
@@ -162,7 +182,7 @@ function rivers_api_services_resources() {
           array(
             'name' => 'page',
             'type' => 'int',
-            'description' => '',
+            'description' => 'Return additional sets of data',
             'source' => array(
               'param' => 'page',
             ),
