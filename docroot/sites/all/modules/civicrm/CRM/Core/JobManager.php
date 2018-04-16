@@ -118,6 +118,17 @@ class CRM_Core_JobManager {
    */
   public function executeJob($job) {
     $this->currentJob = $job;
+
+    // CRM-18231 check if non-production environment.
+    try {
+      CRM_Core_BAO_Setting::isAPIJobAllowedToRun($job->apiParams);
+    }
+    catch (Exception $e) {
+      $this->logEntry('Error while executing ' . $job->name . ': ' . $e->getMessage());
+      $this->currentJob = FALSE;
+      return FALSE;
+    }
+
     $this->logEntry('Starting execution of ' . $job->name);
     $job->saveLastRun();
 
@@ -138,6 +149,12 @@ class CRM_Core_JobManager {
     }
     $this->logEntry('Finished execution of ' . $job->name . ' with result: ' . $this->_apiResultToMessage($result));
     $this->currentJob = FALSE;
+
+    //Disable outBound option after executing the job.
+    $environment = CRM_Core_Config::environment(NULL, TRUE);
+    if ($environment != 'Production' && !empty($job->apiParams['runInNonProductionEnvironment'])) {
+      Civi::settings()->set('mailing_backend', array('outBound_option' => CRM_Mailing_Config::OUTBOUND_OPTION_DISABLED));
+    }
   }
 
   /**

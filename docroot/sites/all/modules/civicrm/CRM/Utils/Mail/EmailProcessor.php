@@ -41,6 +41,8 @@ define('MAIL_BATCH_SIZE', 50);
  */
 class CRM_Utils_Mail_EmailProcessor {
 
+  const MIME_MAX_RECURSION = 10;
+
   /**
    * Process the default mailbox (ie. that is used by civiMail for the bounce)
    *
@@ -98,7 +100,7 @@ class CRM_Utils_Mail_EmailProcessor {
     $found = FALSE;
     while ($dao->fetch()) {
       $found = TRUE;
-      self::_process(FALSE, $dao, $is_create_activities);
+      self::_process(FALSE, $dao, TRUE);
     }
     if (!$found) {
       CRM_Core_Error::fatal(ts('No mailboxes have been configured for Email to Activity Processing'));
@@ -123,7 +125,7 @@ class CRM_Utils_Mail_EmailProcessor {
 
   /**
    * @param $civiMail
-   * @param CRM_Core_DAO $dao
+   * @param CRM_Core_DAO_MailSettings $dao
    * @param bool $is_create_activities
    *   Create activities.
    *
@@ -136,7 +138,7 @@ class CRM_Utils_Mail_EmailProcessor {
     $emailActivityTypeId
       = (defined('EMAIL_ACTIVITY_TYPE_ID') && EMAIL_ACTIVITY_TYPE_ID)
       ? EMAIL_ACTIVITY_TYPE_ID
-      : CRM_Core_OptionGroup::getValue('activity_type', 'Inbound Email', 'name');
+      : CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'Inbound Email');
 
     if (!$emailActivityTypeId) {
       CRM_Core_Error::fatal(ts('Could not find a valid Activity Type ID for Inbound Email'));
@@ -247,6 +249,9 @@ class CRM_Utils_Mail_EmailProcessor {
           $params = _civicrm_api3_deprecated_activity_buildmailparams($mailParams, $emailActivityTypeId);
 
           $params['version'] = 3;
+          if (!empty($dao->activity_status)) {
+            $params['status_id'] = $dao->activity_status;
+          }
           $result = civicrm_api('activity', 'create', $params);
 
           if ($result['is_error']) {
@@ -283,55 +288,7 @@ class CRM_Utils_Mail_EmailProcessor {
                 $text = $mail->body->text;
               }
               elseif ($mail->body instanceof ezcMailMultipart) {
-                if ($mail->body instanceof ezcMailMultipartReport) {
-                  $part = $mail->body->getMachinePart();
-                  if ($part instanceof ezcMailDeliveryStatus) {
-                    foreach ($part->recipients as $rec) {
-                      if (isset($rec["Diagnostic-Code"])) {
-                        $text = $rec["Diagnostic-Code"];
-                        break;
-                      }
-                      elseif (isset($rec["Description"])) {
-                        $text = $rec["Description"];
-                        break;
-                      }
-                      // no diagnostic info present - try getting the human readable part
-                      elseif (isset($rec["Status"])) {
-                        $text = $rec["Status"];
-                        $textpart = $mail->body->getReadablePart();
-                        if ($textpart != NULL and isset($textpart->text)) {
-                          $text .= " " . $textpart->text;
-                        }
-                        else {
-                          $text .= " Delivery failed but no diagnostic code or description.";
-                        }
-                        break;
-                      }
-                    }
-                  }
-                  elseif ($part != NULL and isset($part->text)) {
-                    $text = $part->text;
-                  }
-                  elseif (($part = $mail->body->getReadablePart()) != NULL) {
-                    $text = $part->text;
-                  }
-                }
-                elseif ($mail->body instanceof ezcMailMultipartRelated) {
-                  foreach ($mail->body->getRelatedParts() as $part) {
-                    if (isset($part->subType) and $part->subType == 'plain') {
-                      $text = $part->text;
-                      break;
-                    }
-                  }
-                }
-                else {
-                  foreach ($mail->body->getParts() as $part) {
-                    if (isset($part->subType) and $part->subType == 'plain') {
-                      $text = $part->text;
-                      break;
-                    }
-                  }
-                }
+                $text = self::getTextFromMultipart($mail->body);
               }
 
               if (
@@ -470,6 +427,109 @@ class CRM_Utils_Mail_EmailProcessor {
       // CRM-7356 – used by IMAP only
       $store->expunge();
     }
+  }
+
+  /**
+   * @param \ezcMailMultipart $multipart
+   * @param int $recursionLevel
+   *
+   * @return array
+   */
+  protected static function getTextFromMultipart($multipart, $recursionLevel = 0) {
+    if ($recursionLevel >= self::MIME_MAX_RECURSION) {
+      return NULL;
+    }
+    $recursionLevel += 1;
+    $text = NULL;
+    if ($multipart instanceof ezcMailMultipartReport) {
+      $text = self::getTextFromMulipartReport($multipart, $recursionLevel);
+    }
+    elseif ($multipart instanceof ezcMailMultipartRelated) {
+      $text = self::getTextFromMultipartRelated($multipart, $recursionLevel);
+    }
+    else {
+      foreach ($multipart->getParts() as $part) {
+        if (isset($part->subType) and $part->subType === 'plain') {
+          $text = $part->text;
+        }
+        elseif ($part instanceof ezcMailMultipart) {
+          $text = self::getTextFromMultipart($part, $recursionLevel);
+        }
+        if ($text) {
+          break;
+        }
+      }
+    }
+    return $text;
+  }
+
+  /**
+   * @param \ezcMailMultipartRelated $related
+   * @param int $recursionLevel
+   *
+   * @return array
+   */
+  protected static function getTextFromMultipartRelated($related, $recursionLevel) {
+    $text = NULL;
+    foreach ($related->getRelatedParts() as $part) {
+      if (isset($part->subType) and $part->subType === 'plain') {
+        $text = $part->text;
+      }
+      elseif ($part instanceof ezcMailMultipart) {
+        $text = self::getTextFromMultipart($part, $recursionLevel);
+      }
+      if ($text) {
+        break;
+      }
+    }
+    return $text;
+  }
+
+  /**
+   * @param \ezcMailMultipartReport $multipart
+   * @param $recursionLevel
+   *
+   * @return array
+   */
+  protected static function getTextFromMulipartReport($multipart, $recursionLevel) {
+    $text = NULL;
+    $part = $multipart->getMachinePart();
+    if ($part instanceof ezcMailDeliveryStatus) {
+      foreach ($part->recipients as $rec) {
+        if (isset($rec["Diagnostic-Code"])) {
+          $text = $rec["Diagnostic-Code"];
+          break;
+        }
+        elseif (isset($rec["Description"])) {
+          $text = $rec["Description"];
+          break;
+        }
+        // no diagnostic info present - try getting the human readable part
+        elseif (isset($rec["Status"])) {
+          $text = $rec["Status"];
+          $textpart = $multipart->getReadablePart();
+          if ($textpart !== NULL and isset($textpart->text)) {
+            $text .= " " . $textpart->text;
+          }
+          else {
+            $text .= " Delivery failed but no diagnostic code or description.";
+          }
+          break;
+        }
+      }
+    }
+    elseif ($part !== NULL and isset($part->text)) {
+      $text = $part->text;
+    }
+    elseif (($part = $multipart->getReadablePart()) !== NULL) {
+      if (isset($part->text)) {
+        $text = $part->text;
+      }
+      elseif ($part instanceof ezcMailMultipart) {
+        $text = self::getTextFromMultipart($part, $recursionLevel);
+      }
+    }
+    return $text;
   }
 
 }

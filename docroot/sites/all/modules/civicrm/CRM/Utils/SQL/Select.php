@@ -114,6 +114,7 @@ class CRM_Utils_SQL_Select implements ArrayAccess {
 
   private $mode = NULL;
   private $insertInto = NULL;
+  private $insertVerb = 'INSERT INTO ';
   private $insertIntoFields = array();
   private $selects = array();
   private $from;
@@ -404,6 +405,34 @@ class CRM_Utils_SQL_Select implements ArrayAccess {
   }
 
   /**
+   * Wrapper function of insertInto fn but sets insertVerb = "INSERT IGNORE INTO "
+   *
+   * @param string $table
+   *   The name of the other table (which receives new data).
+   * @param array $fields
+   *   The fields to fill in the other table (in order).
+   * @return CRM_Utils_SQL_Select
+   */
+  public function insertIgnoreInto($table, $fields = array()) {
+    $this->insertVerb = "INSERT IGNORE INTO ";
+    return $this->insertInto($table, $fields);
+  }
+
+  /**
+   * Wrapper function of insertInto fn but sets insertVerb = "REPLACE INTO "
+   *
+   * @param string $table
+   *   The name of the other table (which receives new data).
+   * @param array $fields
+   *   The fields to fill in the other table (in order).
+   */
+  public function replaceInto($table, $fields = array()) {
+    $this->insertVerb = "REPLACE INTO ";
+    return $this->insertInto($table, $fields);
+  }
+
+
+  /**
    * @param array $fields
    *   The fields to fill in the other table (in order).
    * @return CRM_Utils_SQL_Select
@@ -550,10 +579,11 @@ class CRM_Utils_SQL_Select implements ArrayAccess {
   public function toSQL() {
     $sql = '';
     if ($this->insertInto) {
-      $sql .= 'INSERT INTO ' . $this->insertInto . ' (';
+      $sql .= $this->insertVerb . $this->insertInto . ' (';
       $sql .= implode(', ', $this->insertIntoFields);
       $sql .= ")\n";
     }
+
     if ($this->selects) {
       $sql .= 'SELECT ' . $this->distinct . implode(', ', $this->selects) . "\n";
     }
@@ -591,6 +621,38 @@ class CRM_Utils_SQL_Select implements ArrayAccess {
       $sql = $this->interpolate($sql, $this->params, self::INTERPOLATE_OUTPUT);
     }
     return $sql;
+  }
+
+  /**
+   * Execute the query.
+   *
+   * To examine the results, use a function like `fetch()`, `fetchAll()`,
+   * `fetchValue()`, or `fetchMap()`.
+   *
+   * @param string|NULL $daoName
+   *   The return object should be an instance of this class.
+   *   Ex: 'CRM_Contact_BAO_Contact'.
+   * @param bool $i18nRewrite
+   *   If the system has multilingual features, should the field/table
+   *   names be rewritten?
+   * @return CRM_Core_DAO
+   * @see CRM_Core_DAO::executeQuery
+   * @see CRM_Core_I18n_Schema::rewriteQuery
+   */
+  public function execute($daoName = NULL, $i18nRewrite = TRUE) {
+    // Don't pass through $params. toSQL() handles interpolation.
+    $params = array();
+
+    // Don't pass through $abort, $trapException. Just use straight-up exceptions.
+    $abort = TRUE;
+    $trapException = FALSE;
+    $errorScope = CRM_Core_TemporaryErrorScope::useException();
+
+    // Don't pass through freeDAO. You can do it yourself.
+    $freeDAO = FALSE;
+
+    return CRM_Core_DAO::executeQuery($this->toSQL(), $params, $abort, $daoName,
+      $freeDAO, $i18nRewrite, $trapException);
   }
 
   /**

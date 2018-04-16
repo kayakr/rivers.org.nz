@@ -724,20 +724,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
    *
    * It would be good to sync it with the back-end function on abstractEditPayment & use one everywhere.
    *
-   * @param bool $is_pay_later_enabled
+   * @param bool $isPayLaterEnabled
    *
    * @throws \CRM_Core_Exception
    */
-  protected function assignPaymentProcessor($is_pay_later_enabled) {
+  protected function assignPaymentProcessor($isPayLaterEnabled) {
     $this->_paymentProcessors = CRM_Financial_BAO_PaymentProcessor::getPaymentProcessors(
       array(ucfirst($this->_mode) . 'Mode'),
       $this->_paymentProcessorIDs
     );
+    if ($isPayLaterEnabled) {
+      $this->_paymentProcessors[0] = CRM_Financial_BAO_PaymentProcessor::getPayment(0);
+    }
 
     if (!empty($this->_paymentProcessors)) {
-      if ($is_pay_later_enabled) {
-        $this->_paymentProcessors[0] = CRM_Financial_BAO_PaymentProcessor::getPayment(0);
-      }
       foreach ($this->_paymentProcessors as $paymentProcessorID => $paymentProcessorDetail) {
         if (empty($this->_paymentProcessor) && $paymentProcessorDetail['is_default'] == 1 || (count($this->_paymentProcessors) == 1)
         ) {
@@ -1524,6 +1524,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
       case 'EntityRef':
         return $this->addEntityRef($name, $label, $props, $required);
 
+      case 'Password':
+        return $this->add('password', $name, $label, $props, $required);
+
       // Check datatypes of fields
       // case 'Int':
       //case 'Float':
@@ -1790,13 +1793,15 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
    * @param bool $required
    * @param string $defaultCurrency
    * @param bool $freezeCurrency
+   * @param bool $setDefaultCurrency
    */
   public function addCurrency(
     $name = 'currency',
     $label = NULL,
     $required = TRUE,
     $defaultCurrency = NULL,
-    $freezeCurrency = FALSE
+    $freezeCurrency = FALSE,
+    $setDefaultCurrency = TRUE
   ) {
     $currencies = CRM_Core_OptionGroup::values('currencies_enabled');
     $options = array('class' => 'crm-select2 eight');
@@ -1812,7 +1817,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
       $config = CRM_Core_Config::singleton();
       $defaultCurrency = $config->defaultCurrency;
     }
-    $this->setDefaults(array($name => $defaultCurrency));
+    // In some case, setting currency field by default might override the default value
+    //  as encountered in CRM-20527 for batch data entry
+    if ($setDefaultCurrency) {
+      $this->setDefaults(array($name => $defaultCurrency));
+    }
   }
 
   /**
@@ -1856,14 +1865,16 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
     $props['select'] = CRM_Utils_Array::value('select', $props, array()) + $defaults;
 
-    $this->formatReferenceFieldAttributes($props);
+    $this->formatReferenceFieldAttributes($props, get_class($this));
     return $this->add('text', $name, $label, $props, $required);
   }
 
   /**
-   * @param $props
+   * @param array $props
+   * @param string $formName
    */
-  private function formatReferenceFieldAttributes(&$props) {
+  private function formatReferenceFieldAttributes(&$props, $formName) {
+    CRM_Utils_Hook::alterEntityRefParams($props, $formName);
     $props['data-select-params'] = json_encode($props['select']);
     $props['data-api-params'] = $props['api'] ? json_encode($props['api']) : NULL;
     $props['data-api-entity'] = $props['entity'];
@@ -2347,6 +2358,54 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     $name = trim($name);
     $this->assign('billingName', $name);
     return $name;
+  }
+
+  /**
+   * Get the currency for the form.
+   *
+   * @todo this should be overriden on the forms rather than having this
+   * historic, possible handling in here. As we clean that up we should
+   * add deprecation notices into here.
+   *
+   * @param array $submittedValues
+   *   Array allowed so forms inheriting this class do not break.
+   *   Ideally we would make a clear standard around how submitted values
+   *   are stored (is $this->_values consistently doing that?).
+   *
+   * @return string
+   */
+  public function getCurrency($submittedValues = array()) {
+    $currency = CRM_Utils_Array::value('currency', $this->_values);
+    // For event forms, currency is in a different spot
+    if (empty($currency)) {
+      $currency = CRM_Utils_Array::value('currency', CRM_Utils_Array::value('event', $this->_values));
+    }
+    if (empty($currency)) {
+      $currency = CRM_Utils_Request::retrieveValue('currency', 'String');
+    }
+    // @todo If empty there is a problem - we should probably put in a deprecation notice
+    // to warn if that seems to be happening.
+    return $currency;
+  }
+
+  /**
+   * Is the form in view or edit mode.
+   *
+   * The 'addField' function relies on the form action being one of a set list
+   * of actions. Checking for these allows for an early return.
+   *
+   * @return bool
+   */
+  protected function isFormInViewOrEditMode() {
+    return in_array($this->_action, [
+      CRM_Core_Action::UPDATE,
+      CRM_Core_Action::ADD,
+      CRM_Core_Action::VIEW,
+      CRM_Core_Action::BROWSE,
+      CRM_Core_Action::BASIC,
+      CRM_Core_Action::ADVANCED,
+      CRM_Core_Action::PREVIEW,
+    ]);
   }
 
 }

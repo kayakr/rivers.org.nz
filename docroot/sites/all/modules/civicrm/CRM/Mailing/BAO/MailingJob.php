@@ -69,10 +69,8 @@ class CRM_Mailing_BAO_MailingJob extends CRM_Mailing_DAO_MailingJob {
     $job->scheduled_date = $params['scheduled_date'];
     $job->is_test = $params['is_test'];
     $job->save();
-    $mailing = new CRM_Mailing_BAO_Mailing();
-    $mailing->id = $params['mailing_id'];
-    if ($mailing->id && $mailing->find(TRUE)) {
-      $mailing->getRecipients($job->id, $params['mailing_id'], TRUE, $mailing->dedupe_email);
+    if ($params['mailing_id']) {
+      CRM_Mailing_BAO_Mailing::getRecipients($params['mailing_id']);
       return $job;
     }
     else {
@@ -431,7 +429,9 @@ VALUES (%1, %2, %3, %4, %5, %6, %7)
     }
     else {
       // Creating 'child jobs'
-      for ($i = 0; $i < $recipient_count; $i = $i + $offset) {
+      $scheduled_unixtime = strtotime($this->scheduled_date);
+      for ($i = 0, $s = 0; $i < $recipient_count; $i = $i + $offset, $s++) {
+        $params[2][0] = date('Y-m-d H:i:s', $scheduled_unixtime + $s);
         $params[6][0] = $i;
         $params[7][0] = $offset;
         CRM_Core_DAO::executeQuery($sql, $params);
@@ -496,10 +496,13 @@ VALUES (%1, %2, %3, %4, %5, %6, %7)
   /**
    * Send the mailing.
    *
+   * @deprecated
+   *   This is used by CiviMail but will be made redundant by FlexMailer.
    * @param object $mailer
    *   A Mail object to send the messages.
    *
    * @param array $testParams
+   * @return bool
    */
   public function deliver(&$mailer, $testParams = NULL) {
     if (\Civi::settings()->get('experimentalFlexMailerEngine')) {
@@ -581,6 +584,8 @@ VALUES (%1, %2, %3, %4, %5, %6, %7)
   }
 
   /**
+   * @deprecated
+   *   This is used by CiviMail but will be made redundant by FlexMailer.
    * @param array $fields
    *   List of intended recipients.
    *   Each recipient is an array with keys 'hash', 'contact_id', 'email', etc.
@@ -914,18 +919,11 @@ AND    status IN ( 'Scheduled', 'Running', 'Paused' )
       if (!$activityTypeID) {
         if ($mailing->sms_provider_id) {
           $mailing->subject = $mailing->name;
-          $activityTypeID = CRM_Core_OptionGroup::getValue(
-            'activity_type',
-            'Mass SMS',
-            'name'
+          $activityTypeID = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'Mass SMS'
           );
         }
         else {
-          $activityTypeID = CRM_Core_OptionGroup::getValue(
-            'activity_type',
-            'Bulk Email',
-            'name'
-          );
+          $activityTypeID = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'Bulk Email');
         }
         if (!$activityTypeID) {
           CRM_Core_Error::fatal();
@@ -967,7 +965,7 @@ AND    civicrm_activity.source_record_id = %2
         if (CRM_Core_BAO_Email::isMultipleBulkMail()) {
           static $targetRecordID = NULL;
           if (!$targetRecordID) {
-            $activityContacts = CRM_Core_OptionGroup::values('activity_contacts', FALSE, FALSE, FALSE, NULL, 'name');
+            $activityContacts = CRM_Activity_BAO_ActivityContact::buildOptions('record_type_id', 'validate');
             $targetRecordID = CRM_Utils_Array::key('Activity Targets', $activityContacts);
           }
 

@@ -129,6 +129,7 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
     $this->_selectedOutput = CRM_Utils_Request::retrieve('select', 'String', $this);
     $this->assign('selectedOutput', $this->_selectedOutput);
 
+    CRM_Contact_Form_Task_EmailCommon::preProcessFromAddress($this);
     if ($this->_selectedOutput == 'email') {
       CRM_Utils_System::setTitle(ts('Email Invoice'));
     }
@@ -141,36 +142,12 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
    * Build the form object.
    */
   public function buildQuickForm() {
-    $session = CRM_Core_Session::singleton();
     $this->preventAjaxSubmit();
     if (CRM_Core_Permission::check('administer CiviCRM')) {
       $this->assign('isAdmin', 1);
     }
-    $contactID = $session->get('userID');
-    $contactEmails = CRM_Core_BAO_Email::allEmails($contactID);
-    $emails = array();
-    $fromDisplayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
-      $contactID, 'display_name'
-    );
-    foreach ($contactEmails as $emailId => $item) {
-      $email = $item['email'];
-      if ($email) {
-        $emails[$emailId] = '"' . $fromDisplayName . '" <' . $email . '> ';
-      }
-      if (isset($emails[$emailId])) {
-        $emails[$emailId] .= $item['locationType'];
-        if ($item['is_primary']) {
-          $emails[$emailId] .= ' ' . ts('(preferred)');
-        }
-        $emails[$emailId] = htmlspecialchars($emails[$emailId]);
-      }
-    }
-    $fromEmailAddress = CRM_Core_OptionGroup::values('from_email_address');
-    foreach ($fromEmailAddress as $key => $email) {
-      $fromEmailAddress[$key] = htmlspecialchars($fromEmailAddress[$key]);
-    }
-    $fromEmail = CRM_Utils_Array::crmArrayMerge($emails, $fromEmailAddress);
-    $this->add('select', 'from_email_address', ts('From Email Address'), array('' => '- select -') + $fromEmail);
+
+    $this->add('select', 'from_email_address', ts('From'), $this->_fromEmails, TRUE);
     if ($this->_selectedOutput != 'email') {
       $this->addElement('radio', 'output', NULL, ts('Email Invoice'), 'email_invoice');
       $this->addElement('radio', 'output', NULL, ts('PDF Invoice'), 'pdf_invoice');
@@ -286,12 +263,12 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
 
       // to get billing address if present
       $billingAddress = array();
-      foreach ($addressDetails as $key => $address) {
-        if ((isset($address['is_billing']) && $address['is_billing'] == 1) && (isset($address['is_primary']) && $address['is_primary'] == 1) && $address['contact_id'] == $contribution->contact_id) {
+      foreach ($addressDetails as $address) {
+        if (($address['is_billing'] == 1) && ($address['is_primary'] == 1) && ($address['contact_id'] == $contribution->contact_id)) {
           $billingAddress[$address['contact_id']] = $address;
           break;
         }
-        elseif (($address['is_billing'] == 0 && $address['is_primary'] == 1) || (isset($address['is_billing']) && $address['is_billing'] == 1) && $address['contact_id'] == $contribution->contact_id) {
+        elseif (($address['is_billing'] == 0 && $address['is_primary'] == 1) || ($address['is_billing'] == 1) && ($address['contact_id'] == $contribution->contact_id)) {
           $billingAddress[$address['contact_id']] = $address;
         }
       }
@@ -312,12 +289,14 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
           $creditNoteId = $contribution->creditnote_id;
         }
       }
-      $invoiceId = CRM_Utils_Array::value('invoice_prefix', $prefixValue) . "" . $contribution->id;
+      if (!$contribution->invoice_number) {
+        $contribution->invoice_number = CRM_Contribute_BAO_Contribution::getInvoiceNumber($contribution->id);
+      }
 
       //to obtain due date for PDF invoice
       $contributionReceiveDate = date('F j,Y', strtotime(date($input['receive_date'])));
       $invoiceDate = date("F j, Y");
-      $dueDate = date('F j ,Y', strtotime($contributionReceiveDate . "+" . $prefixValue['due_date'] . "" . $prefixValue['due_date_period']));
+      $dueDate = date('F j, Y', strtotime($contributionReceiveDate . "+" . $prefixValue['due_date'] . "" . $prefixValue['due_date_period']));
 
       if ($input['component'] == 'contribute') {
         $lineItem = CRM_Price_BAO_LineItem::getLineItemsByContributionID($contribID);
@@ -343,7 +322,7 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
       // retrieving the subtotal and sum of same tax_rate
       $dataArray = array();
       $subTotal = 0;
-      foreach ($lineItem as $entity_id => $taxRate) {
+      foreach ($lineItem as $taxRate) {
         if (isset($dataArray[(string) $taxRate['tax_rate']])) {
           $dataArray[(string) $taxRate['tax_rate']] = $dataArray[(string) $taxRate['tax_rate']] + CRM_Utils_Array::value('tax_amount', $taxRate);
         }
@@ -425,7 +404,8 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
         'component' => $input['component'],
         'id' => $contribution->id,
         'source' => $source,
-        'invoice_id' => $invoiceId,
+        'invoice_number' => $contribution->invoice_number,
+        'invoice_id' => $contribution->invoice_id,
         'resourceBase' => $config->userFrameworkResourceURL,
         'defaultCurrency' => $config->defaultCurrency,
         'amount' => $contribution->total_amount,
@@ -468,7 +448,7 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
         $tplParams['creditnote_id'] = $creditNoteId;
       }
 
-      $pdfFileName = "{$invoiceId}.pdf";
+      $pdfFileName = $contribution->invoice_number . ".pdf";
       $sendTemplateParams = array(
         'groupName' => 'msg_tpl_workflow_contribution',
         'valueName' => 'contribution_invoice_receipt',
@@ -476,30 +456,8 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
         'tplParams' => $tplParams,
         'PDFFilename' => $pdfFileName,
       );
-      $session = CRM_Core_Session::singleton();
-      $contactID = $session->get('userID');
-      //CRM-16319 - we dont store in userID in case the user is doing multiple
-      //transactions etc
-      if (empty($contactID)) {
-        $contactID = $session->get('transaction.userID');
-      }
-      // Fix Invoice email doesnot send out when completed payment using Paypal
-      if (empty($contactID)) {
-        $contactID = current($contactIds);
-      }
-      $contactEmails = CRM_Core_BAO_Email::allEmails($contactID);
-      $emails = array();
-      $fromDisplayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
-        $contactID, 'display_name'
-      );
 
-      foreach ($contactEmails as $emailId => $item) {
-        $email = $item['email'];
-        if ($email) {
-          $emails[$emailId] = '"' . $fromDisplayName . '" <' . $email . '> ';
-        }
-      }
-      $fromEmail = CRM_Utils_Array::crmArrayMerge($emails, CRM_Core_OptionGroup::values('from_email_address'));
+      $fromEmail = CRM_Core_BAO_Email::getFromEmail();
 
       // from email address
       if (isset($params['from_email_address'])) {
@@ -536,7 +494,7 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
 
         list($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplate::sendTemplate($sendTemplateParams);
         // functions call for adding activity with attachment
-        $pdfFileName = "{$invoiceId}.pdf";
+        $pdfFileName = "{$invoiceNumber}.pdf";
         $fileName = self::putFile($html, $pdfFileName);
         self::addActivities($subject, $contribution->contact_id, $fileName, $params);
       }
@@ -551,12 +509,10 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
 
         list($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplate::sendTemplate($sendTemplateParams);
         // functions call for adding activity with attachment
-        $pdfFileName = "{$invoiceId}.pdf";
+        $pdfFileName = "{$invoiceNumber}.pdf";
         $fileName = self::putFile($html, $pdfFileName);
         self::addActivities($subject, $contribution->contact_id, $fileName, $params);
       }
-
-      CRM_Core_DAO::setFieldValue('CRM_Contribute_DAO_Contribution', $contribution->id, 'invoice_id', $invoiceId);
       $invoiceTemplate->clearTemplateVars();
     }
 
@@ -565,7 +521,7 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
         return $html;
       }
       else {
-        $pdfFileName = "{$invoiceId}.pdf";
+        $pdfFileName = "{$invoiceNumber}.pdf";
         CRM_Utils_PDF_Utils::html2pdf($messageInvoice, $pdfFileName, FALSE, array(
           'margin_top' => 10,
           'margin_left' => 65,
@@ -613,15 +569,17 @@ class CRM_Contribute_Form_Task_Invoice extends CRM_Contribute_Form_Task {
     $config->doNotAttachPDFReceipt = 1;
 
     if (!empty($params['output']) && $params['output'] == 'pdf_invoice') {
-      $activityTypeID = CRM_Core_OptionGroup::getValue('activity_type',
-        'Downloaded Invoice',
-        'name'
+      $activityTypeID = CRM_Core_PseudoConstant::getKey(
+        'CRM_Activity_DAO_Activity',
+        'activity_type_id',
+        'Downloaded Invoice'
       );
     }
     else {
-      $activityTypeID = CRM_Core_OptionGroup::getValue('activity_type',
-        'Emailed Invoice',
-        'name'
+      $activityTypeID = CRM_Core_PseudoConstant::getKey(
+        'CRM_Activity_DAO_Activity',
+        'activity_type_id',
+        'Emailed Invoice'
       );
     }
 

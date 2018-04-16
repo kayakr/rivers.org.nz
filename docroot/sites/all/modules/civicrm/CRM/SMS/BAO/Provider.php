@@ -43,7 +43,8 @@ class CRM_SMS_BAO_Provider extends CRM_SMS_DAO_Provider {
    * @return null|string
    */
   public static function activeProviderCount() {
-    $activeProviders = CRM_Core_DAO::singleValueQuery('SELECT MAX(id) FROM civicrm_sms_provider WHERE is_active = 1');
+    $activeProviders = CRM_Core_DAO::singleValueQuery('SELECT count(id) FROM civicrm_sms_provider WHERE is_active = 1 AND (domain_id = %1 OR domain_id IS NULL)',
+       array(1 => array(CRM_Core_Config::domainID(), 'Positive')));
     return $activeProviders;
   }
 
@@ -82,7 +83,7 @@ class CRM_SMS_BAO_Provider extends CRM_SMS_DAO_Provider {
     $dao->find();
     while ($dao->fetch()) {
       CRM_Core_DAO::storeValues($dao, $temp);
-      $providers[] = $temp;
+      $providers[$dao->id] = $temp;
     }
     return $providers;
   }

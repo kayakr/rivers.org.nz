@@ -163,7 +163,7 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form {
         $finTypeId = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $values['membership_type_id'], 'financial_type_id');
         $finType = CRM_Contribute_PseudoConstant::financialType($finTypeId);
         if (!CRM_Core_Permission::check('view contributions of type ' . $finType)) {
-          CRM_Core_Error::fatal(ts('You do not have permission to access this page.'));
+          CRM_Core_Error::statusBounce(ts('You do not have permission to access this page.'));
         }
       }
       else {
@@ -377,7 +377,7 @@ SELECT r.id, c.id as cid, c.display_name as name, c.job_title as comment,
 
       $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership", $id, "membership_type_id");
 
-      $groupTree = CRM_Core_BAO_CustomGroup::getTree('Membership', $this, $id, 0, $memType);
+      $groupTree = CRM_Core_BAO_CustomGroup::getTree('Membership', NULL, $id, 0, $memType);
       CRM_Core_BAO_CustomGroup::buildCustomDataView($this, $groupTree, FALSE, NULL, NULL, NULL, $id);
 
       $isRecur = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership', $id, 'contribution_recur_id');

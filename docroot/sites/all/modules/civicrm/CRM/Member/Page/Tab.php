@@ -156,11 +156,14 @@ class CRM_Member_Page_Tab extends CRM_Core_Page {
         );
       }
 
-      //does membership have auto renew CRM-7137.
-      if (!empty($membership[$dao->id]['contribution_recur_id']) &&
-        !CRM_Member_BAO_Membership::isSubscriptionCancelled($membership[$dao->id]['membership_id'])
-      ) {
-        $membership[$dao->id]['auto_renew'] = 1;
+      // Display Auto-renew status on page (0=disabled, 1=enabled, 2=enabled, but error
+      if (!empty($membership[$dao->id]['contribution_recur_id'])) {
+        if (CRM_Member_BAO_Membership::isSubscriptionCancelled($membership[$dao->id]['membership_id'])) {
+          $membership[$dao->id]['auto_renew'] = 2;
+        }
+        else {
+          $membership[$dao->id]['auto_renew'] = 1;
+        }
       }
       else {
         $membership[$dao->id]['auto_renew'] = 0;
@@ -192,7 +195,14 @@ class CRM_Member_Page_Tab extends CRM_Core_Page {
 
     //Below code gives list of all Membership Types associated
     //with an Organization(CRM-2016)
-    $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypesByOrg($this->_contactId);
+    $membershipTypesResult = civicrm_api3('MembershipType', 'get', array(
+      'member_of_contact_id' => $this->_contactId,
+      'options' => array(
+        'limit' => 0,
+      ),
+    ));
+    $membershipTypes = CRM_Utils_Array::value('values', $membershipTypesResult, NULL);
+
     foreach ($membershipTypes as $key => $value) {
       $membershipTypes[$key]['action'] = CRM_Core_Action::formLink(self::membershipTypeslinks(),
         $mask,

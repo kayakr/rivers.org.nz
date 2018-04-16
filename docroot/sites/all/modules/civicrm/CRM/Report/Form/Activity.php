@@ -253,6 +253,10 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
             'title' => ts('Duration'),
             'type' => CRM_Utils_Type::T_INT,
           ),
+          'location' => array(
+            'title' => ts('Location'),
+            'type' => CRM_Utils_Type::T_STRING,
+          ),
           'details' => array(
             'title' => ts('Activity Details'),
           ),
@@ -278,6 +282,10 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
             'type' => CRM_Utils_Type::T_STRING,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Core_PseudoConstant::activityStatus(),
+          ),
+          'location' => array(
+            'title' => ts('Location'),
+            'type' => CRM_Utils_Type::T_TEXT,
           ),
           'details' => array(
             'title' => ts('Activity Details'),
@@ -492,7 +500,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
    * @param string $recordType
    */
   public function from($recordType) {
-    $activityContacts = CRM_Core_OptionGroup::values('activity_contacts', FALSE, FALSE, FALSE, NULL, 'name');
+    $activityContacts = CRM_Activity_BAO_ActivityContact::buildOptions('record_type_id', 'validate');
     $activityTypeId = CRM_Core_DAO::getFieldValue("CRM_Core_DAO_OptionGroup", 'activity_type', 'id', 'name');
     $assigneeID = CRM_Utils_Array::key('Activity Assignees', $activityContacts);
     $targetID = CRM_Utils_Array::key('Activity Targets', $activityContacts);
@@ -773,12 +781,14 @@ GROUP BY civicrm_activity_id $having {$this->_orderBy}";
     return $errors;
   }
 
-  public function postProcess() {
-    //reset value of activity_date
-    if (!empty($this->_resetDateFilter)) {
-      $this->_formValues["activity_date_time_relative"] = NULL;
-    }
-    $this->beginPostProcess();
+  /**
+   * @param $applyLimit
+   *
+   * @return string
+   */
+  public function buildQuery($applyLimit = TRUE) {
+    $activityContacts = CRM_Activity_BAO_ActivityContact::buildOptions('record_type_id', 'validate');
+    $sourceID = CRM_Utils_Array::key('Activity Source', $activityContacts);
 
     //Assign those recordtype to array which have filter operator as 'Is not empty' or 'Is empty'
     $nullFilters = array();
@@ -858,11 +868,41 @@ GROUP BY civicrm_activity_id $having {$this->_orderBy}";
         $this->alterSectionHeaderForDateTime('civireport_activity_temp_target', $section['tplField']);
       }
     }
-    $this->limit();
+
+    if ($applyLimit) {
+      $this->limit();
+    }
+
     $groupByFromSelect = CRM_Contact_BAO_Query::getGroupByFromSelectColumns($this->_selectClauses, 'civicrm_activity_id');
+
+    $this->_where = " WHERE (1)";
+    $this->buildPermissionClause();
+    if ($this->_aclWhere) {
+      $this->_where .= " AND {$this->_aclWhere} ";
+    }
+
     $sql = "{$this->_select}
-FROM civireport_activity_temp_target tar
-{$groupByFromSelect} {$this->_having} {$this->_orderBy} {$this->_limit}";
+      FROM civireport_activity_temp_target tar
+      INNER JOIN civicrm_activity {$this->_aliases['civicrm_activity']} ON {$this->_aliases['civicrm_activity']}.id = tar.civicrm_activity_id
+      INNER JOIN civicrm_activity_contact {$this->_aliases['civicrm_activity_contact']} ON {$this->_aliases['civicrm_activity_contact']}.activity_id = {$this->_aliases['civicrm_activity']}.id
+      AND {$this->_aliases['civicrm_activity_contact']}.record_type_id = {$sourceID}
+      LEFT JOIN civicrm_contact contact_civireport ON contact_civireport.id = {$this->_aliases['civicrm_activity_contact']}.contact_id
+      {$this->_where} {$groupByFromSelect} {$this->_having} {$this->_orderBy} {$this->_limit}";
+
+    CRM_Utils_Hook::alterReportVar('sql', $this, $this);
+    $this->addToDeveloperTab($sql);
+
+    return $sql;
+  }
+
+  public function postProcess() {
+    //reset value of activity_date
+    if (!empty($this->_resetDateFilter)) {
+      $this->_formValues["activity_date_time_relative"] = NULL;
+    }
+
+    $this->beginPostProcess();
+    $sql = $this->buildQuery(TRUE);
     $this->buildRows($sql, $rows);
 
     // format result set.

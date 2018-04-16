@@ -45,6 +45,9 @@ function civicrm_api3_contribution_create(&$params) {
   $values = array();
   _civicrm_api3_custom_format_params($params, $values, 'Contribution');
   $params = array_merge($params, $values);
+  // The BAO should not clean money - it should be done in the form layer & api wrapper
+  // (although arguably the api should expect pre-cleaned it seems to do some cleaning.)
+  $params['skipCleanMoney'] = TRUE;
 
   if (CRM_Financial_BAO_FinancialType::isACLFinancialTypeStatus()) {
     if (empty($params['id'])) {
@@ -192,7 +195,7 @@ function _civicrm_api3_contribution_create_legacy_support_45(&$params) {
     $params['soft_credit'][] = array(
       'contact_id'          => $params['honor_contact_id'],
       'amount'              => $params['total_amount'],
-      'soft_credit_type_id' => CRM_Utils_Array::value('honor_type_id', $params, CRM_Core_OptionGroup::getValue('soft_credit_type', 'in_honor_of', 'name')),
+      'soft_credit_type_id' => CRM_Utils_Array::value('honor_type_id', $params, CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_ContributionSoft', 'soft_credit_type_id', 'in_honor_of')),
     );
   }
 }
@@ -356,7 +359,7 @@ function _civicrm_api3_contribution_get_spec(&$params) {
 
   $params['financial_type_id']['api.aliases'] = array('contribution_type_id');
   $params['payment_instrument_id']['api.aliases'] = array('contribution_payment_instrument', 'payment_instrument');
-  $params['contact_id'] = $params['contribution_contact_id'];
+  $params['contact_id'] = CRM_Utils_Array::value('contribution_contact_id', $params);
   $params['contact_id']['api.aliases'] = array('contribution_contact_id');
   unset($params['contribution_contact_id']);
 }
@@ -525,15 +528,14 @@ function civicrm_api3_contribution_completetransaction(&$params) {
   }
   $contribution = new CRM_Contribute_BAO_Contribution();
   $contribution->id = $params['id'];
-  $contribution->find(TRUE);
-  if (!$contribution->id == $params['id']) {
+  if (!$contribution->find(TRUE)) {
     throw new API_Exception('A valid contribution ID is required', 'invalid_data');
   }
 
   if (!$contribution->loadRelatedObjects($input, $ids, TRUE)) {
     throw new API_Exception('failed to load related objects');
   }
-  elseif ($contribution->contribution_status_id == CRM_Core_OptionGroup::getValue('contribution_status', 'Completed', 'name')) {
+  elseif ($contribution->contribution_status_id == CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_Contribution', 'contribution_status_id', 'Completed')) {
     throw new API_Exception(ts('Contribution already completed'), 'contribution_completed');
   }
   $input['trxn_id'] = !empty($params['trxn_id']) ? $params['trxn_id'] : $contribution->trxn_id;

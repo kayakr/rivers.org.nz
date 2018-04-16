@@ -255,6 +255,12 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
           'end_date' => array(
             'title' => ts('Relationship End Date'),
           ),
+          'is_permission_a_b' => array(
+            'title' => ts('Is permission A over B?'),
+          ),
+          'is_permission_b_a' => array(
+            'title' => ts('Is permission B over A?'),
+          ),
           'description' => array(
             'title' => ts('Description'),
           ),
@@ -297,6 +303,37 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
           'end_date' => array(
             'title' => ts('End Date'),
             'type' => CRM_Utils_Type::T_DATE,
+          ),
+          'active_period_date' => array(
+            'title' => ts('Active Period'),
+            'type' => CRM_Utils_Type::T_DATE,
+          ),
+          'is_permission_a_b' => array(
+            'title' => ts('Does contact A have permission over contact B?'),
+            'operatorType' => CRM_Report_Form::OP_SELECT,
+            'options' => array(
+              '' => ts('- Any -'),
+              1 => ts('Yes'),
+              0 => ts('No'),
+            ),
+            'type' => CRM_Utils_Type::T_INT,
+          ),
+          'is_permission_b_a' => array(
+            'title' => ts('Does contact B have permission over contact A?'),
+            'operatorType' => CRM_Report_Form::OP_SELECT,
+            'options' => array(
+              '' => ts('- Any -'),
+              1 => ts('Yes'),
+              0 => ts('No'),
+            ),
+            'type' => CRM_Utils_Type::T_INT,
+          ),
+        ),
+
+        'order_bys' => array(
+          'start_date' => array(
+            'title' => ts('Start Date'),
+            'name' => 'start_date',
           ),
         ),
         'grouping' => 'relation-fields',
@@ -438,7 +475,12 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             $from = CRM_Utils_Array::value("{$fieldName}_from", $this->_params);
             $to = CRM_Utils_Array::value("{$fieldName}_to", $this->_params);
 
-            $clause = $this->dateClause($field['name'], $relative, $from, $to, $field['type']);
+            if ($fieldName == 'active_period_date') {
+              $clause = $this->activeClause($field['name'], $relative, $from, $to, $field['type']);
+            }
+            else {
+              $clause = $this->dateClause($field['name'], $relative, $from, $to, $field['type']);
+            }
           }
           else {
             $op = CRM_Utils_Array::value("{$fieldName}_op", $this->_params);
@@ -519,13 +561,12 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         }
       }
     }
-
-    if (empty($whereClauses)) {
-      $this->_where = 'WHERE ( 1 ) ';
-      $this->_having = '';
+    $this->_where = "WHERE ( {$this->_aliases['civicrm_contact']}.is_deleted = 0 AND {$this->_aliases['civicrm_contact_b']}.is_deleted = 0 ) ";
+    if ($whereClauses) {
+      $this->_where .= ' AND ' . implode(' AND ', $whereClauses);
     }
     else {
-      $this->_where = 'WHERE ' . implode(' AND ', $whereClauses);
+      $this->_having = '';
     }
 
     if ($this->_aclWhere) {
@@ -605,9 +646,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     $this->_groupBy = CRM_Contact_BAO_Query::getGroupByFromSelectColumns($this->_selectClauses, $groupBy);
   }
 
-  public function postProcess() {
-    $this->beginPostProcess();
-
+  public function beginPostProcessCommon() {
     $originalRelationshipTypeIdValue = CRM_Utils_Array::value('relationship_type_id_value', $this->_params);
     if ($originalRelationshipTypeIdValue) {
       $relationshipTypes = array();
@@ -622,11 +661,16 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
       $this->relationType = $direction[0];
       $this->_params['relationship_type_id_value'] = $relationshipTypes;
     }
+  }
+
+  public function postProcess() {
+    $this->beginPostProcess();
 
     $this->buildACLClause(array(
       $this->_aliases['civicrm_contact'],
       $this->_aliases['civicrm_contact_b'],
     ));
+
     $sql = $this->buildQuery();
     $this->buildRows($sql, $rows);
 
@@ -772,6 +816,44 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
       $clause = "(start_date >= CURDATE() OR end_date < CURDATE())";
     }
     return $clause;
+  }
+
+  /**
+   * Get SQL where clause for a active period field.
+   *
+   * @param string $fieldName
+   * @param string $relative
+   * @param string $from
+   * @param string $to
+   * @param string $type
+   * @param string $fromTime
+   * @param string $toTime
+   *
+   * @return null|string
+   */
+  public function activeClause(
+    $fieldName,
+    $relative, $from, $to, $type = NULL, $fromTime = NULL, $toTime = NULL
+    ) {
+    $clauses = array();
+    if (in_array($relative, array_keys($this->getOperationPair(CRM_Report_Form::OP_DATE)))) {
+      return NULL;
+    }
+
+    list($from, $to) = $this->getFromTo($relative, $from, $to, $fromTime, $toTime);
+
+    if ($from) {
+      $from = ($type == CRM_Utils_Type::T_DATE) ? substr($from, 0, 8) : $from;
+    }
+
+    if ($to) {
+      $to = ($type == CRM_Utils_Type::T_DATE) ? substr($to, 0, 8) : $to;
+    }
+
+    if ($from || $to) {
+      return CRM_Contact_BAO_Query::getRelationshipActivePeriodClauses($from, $to, FALSE);
+    }
+    return NULL;
   }
 
 }

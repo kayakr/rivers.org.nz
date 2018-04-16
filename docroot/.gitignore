@@ -6,3 +6,4 @@ sites/*/files
 sites/*/private
 
 sites/all/modules/civicrm/custom_extensions/cache/*
+sites/all/modules/civicrm/custom_extensions/cache

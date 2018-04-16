@@ -533,8 +533,17 @@ abstract class CRM_Core_Payment {
 
   /**
    * Get array of fields that should be displayed on the payment form.
-   * @todo make payment type an option value & use it in the function name - currently on debit & credit card work
+   *
+   * Common results are
+   *   array('credit_card_type', 'credit_card_number', 'cvv2', 'credit_card_exp_date')
+   *   or
+   *   array('account_holder', 'bank_account_number', 'bank_identification_number', 'bank_name')
+   *   or
+   *   array()
+   *
    * @return array
+   *   Array of payment fields appropriate to the payment processor.
+   *
    * @throws CiviCRM_API3_Exception
    */
   public function getPaymentFormFields() {
@@ -653,6 +662,10 @@ abstract class CRM_Core_Payment {
   public function getPaymentFormFieldsMetadata() {
     //@todo convert credit card type into an option value
     $creditCardType = array('' => ts('- select -')) + CRM_Contribute_PseudoConstant::creditCard();
+    $isCVVRequired = Civi::settings()->get('cvv_backoffice_required');
+    if (!$this->isBackOffice()) {
+      $isCVVRequired = TRUE;
+    }
     return array(
       'credit_card_number' => array(
         'htmlType' => 'text',
@@ -677,7 +690,7 @@ abstract class CRM_Core_Payment {
           'maxlength' => 10,
           'autocomplete' => 'off',
         ),
-        'is_required' => Civi::settings()->get('cvv_backoffice_required'),
+        'is_required' => $isCVVRequired,
         'rules' => array(
           array(
             'rule_message' => ts('Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.'),
@@ -973,6 +986,32 @@ abstract class CRM_Core_Payment {
   }
 
   /**
+   * Get the currency for the transaction.
+   *
+   * Handle any inconsistency about how it is passed in here.
+   *
+   * @param $params
+   *
+   * @return string
+   */
+  protected function getCurrency($params) {
+    return CRM_Utils_Array::value('currencyID', $params, CRM_Utils_Array::value('currency', $params));
+  }
+
+  /**
+   * Get the currency for the transaction.
+   *
+   * Handle any inconsistency about how it is passed in here.
+   *
+   * @param $params
+   *
+   * @return string
+   */
+  protected function getAmount($params) {
+    return CRM_Utils_Money::format($params['amount'], NULL, NULL, TRUE);
+  }
+
+  /**
    * Get url to return to after cancelled or failed transaction.
    *
    * @param string $qfKey
@@ -1132,7 +1171,7 @@ abstract class CRM_Core_Payment {
    */
   public function doPayment(&$params, $component = 'contribute') {
     $this->_component = $component;
-    $statuses = CRM_Contribute_BAO_Contribution::buildOptions('contribution_status_id');
+    $statuses = CRM_Contribute_BAO_Contribution::buildOptions('contribution_status_id', 'validate');
 
     // If we have a $0 amount, skip call to processor and set payment_status to Completed.
     // Conceivably a processor might override this - perhaps for setting up a token - but we don't
@@ -1437,11 +1476,10 @@ abstract class CRM_Core_Payment {
 
         case 'recur':
           $sql = "
-    SELECT con.contact_id
+    SELECT DISTINCT con.contact_id
       FROM civicrm_contribution_recur rec
 INNER JOIN civicrm_contribution con ON ( con.contribution_recur_id = rec.id )
-     WHERE rec.id = %1
-  GROUP BY rec.id";
+     WHERE rec.id = %1";
           $contactID = CRM_Core_DAO::singleValueQuery($sql, array(1 => array($entityID, 'Integer')));
           $entityArg = 'crid';
           break;

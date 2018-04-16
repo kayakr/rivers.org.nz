@@ -223,6 +223,8 @@ class CRM_Report_Form_Contribute_Bookkeeping extends CRM_Report_Form {
             'type' => CRM_Utils_Type::T_INT,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Contribute_PseudoConstant::financialAccount(NULL, NULL, 'accounting_code', 'accounting_code'),
+            'name' => 'accounting_code',
+            'alias' => 'financial_account_civireport_credit',
           ),
           'credit_contact_id' => array(
             'title' => ts('Financial Account Owner - Credit'),
@@ -245,6 +247,8 @@ class CRM_Report_Form_Contribute_Bookkeeping extends CRM_Report_Form {
             'type' => CRM_Utils_Type::T_STRING,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Contribute_PseudoConstant::financialAccount(),
+            'name' => 'id',
+            'alias' => 'financial_account_civireport_credit',
           ),
         ),
       ),
@@ -503,8 +507,6 @@ class CRM_Report_Form_Contribute_Bookkeeping extends CRM_Report_Form {
               LEFT JOIN civicrm_batch batch
                     ON  ent_batch.batch_id = batch.id";
     }
-
-    $this->getPermissionedFTQuery($this, "civicrm_line_item_1");
   }
 
   public function orderBy() {

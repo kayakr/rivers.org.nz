@@ -153,7 +153,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form_Search {
    */
   public function buildQuickForm() {
     parent::buildQuickForm();
-    $this->addSortNameField();
+    $this->addContactSearchFields();
 
     CRM_Member_BAO_Query::buildSearchForm($this);
 
@@ -190,6 +190,36 @@ class CRM_Member_Form_Search extends CRM_Core_Form_Search {
    */
   protected function getSortNameLabelWithOutEmail() {
     return ts('Member Name');
+  }
+
+  /**
+   * Get the label for the tag field.
+   *
+   * We do this in a function so the 'ts' wraps the whole string to allow
+   * better translation.
+   *
+   * @return string
+   */
+  protected function getTagLabel() {
+    return ts('Member Tag(s)');
+  }
+
+  /**
+   * Get the label for the group field.
+   *
+   * @return string
+   */
+  protected function getGroupLabel() {
+    return ts('Member Group(s)');
+  }
+
+  /**
+   * Get the label for the group field.
+   *
+   * @return string
+   */
+  protected function getContactTypeLabel() {
+    return ts('Member Contact Type');
   }
 
   /**
@@ -353,8 +383,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form_Search {
 
     //LCD also allow restrictions to membership owner via GET
     $owner = CRM_Utils_Request::retrieve('owner', 'String');
-    if ($owner) {
-      $this->_formValues['member_is_primary'] = $this->_defaults['member_is_primary'] = 2;
+    if (in_array($owner, array('0', '1'))) {
+      $this->_formValues['member_is_primary'] = $this->_defaults['member_is_primary'] = $owner;
     }
   }
 

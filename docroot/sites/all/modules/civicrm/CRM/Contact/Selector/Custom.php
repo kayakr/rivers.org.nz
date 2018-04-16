@@ -297,7 +297,7 @@ class CRM_Contact_Selector_Custom extends CRM_Contact_Selector {
       $contactQueryObj = $this->_search->getQueryObj();
     }
 
-    $dao = CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
+    $dao = CRM_Core_DAO::executeQuery($sql);
 
     $columns = $this->_search->columns();
     $columnNames = array_values($columns);
@@ -424,7 +424,7 @@ class CRM_Contact_Selector_Custom extends CRM_Contact_Selector {
    *
    * @return Object
    */
-  public function contactIDQuery($params, $action, $sortID, $displayRelationshipType = NULL, $queryOperator = 'AND') {
+  public function contactIDQuery($params, $sortID, $displayRelationshipType = NULL, $queryOperator = 'AND') {
     // $action, $displayRelationshipType and $queryOperator are unused. I have
     // no idea why they are there.
 

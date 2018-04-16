@@ -99,6 +99,13 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
           'country_id' => array(
             'title' => ts('Country'),
           ),
+          'odd_street_number' => array(
+            'title' => ts('Odd/Even Street Number'),
+            'type' => CRM_Utils_Type::T_INT,
+            'no_display' => TRUE,
+            'required' => TRUE,
+            'dbAlias' => '(address_civireport.street_number % 2)',
+          ),
         ),
         'filters' => array(
           'street_number' => array(
@@ -108,6 +115,18 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
           ),
           'street_address' => NULL,
           'city' => NULL,
+        ),
+        'order_bys' => array(
+          'street_name' => array(
+            'title' => ts('Street Name'),
+          ),
+          'street_number' => array(
+            'title' => ts('Street Number'),
+          ),
+          'odd_street_number' => array(
+            'title' => ts('Odd/Even Street Number'),
+            'dbAlias' => 'civicrm_address_odd_street_number',
+          ),
         ),
         'grouping' => 'location-fields',
       ),
@@ -220,18 +239,6 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom
     if ($this->_aclWhere) {
       $this->_where .= " AND {$this->_aclWhere} ";
     }
-  }
-
-  public function orderBy() {
-    $this->_orderBy = "";
-    foreach ($this->_columns as $tableName => $table) {
-      if (array_key_exists('order_bys', $table)) {
-        foreach ($table['order_bys'] as $fieldName => $field) {
-          $this->_orderBy[] = $field['dbAlias'];
-        }
-      }
-    }
-    $this->_orderBy = "ORDER BY " . implode(', ', $this->_orderBy) . " ";
   }
 
   public function postProcess() {

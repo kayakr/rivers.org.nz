@@ -51,10 +51,17 @@ class CRM_Financial_Form_Payment extends CRM_Core_Form {
   public $isBackOffice = FALSE;
 
   /**
+   * @var String
+   */
+  public $_formName = '';
+
+  /**
    * Set variables up before form is built.
    */
   public function preProcess() {
     parent::preProcess();
+
+    $this->_formName = CRM_Utils_Request::retrieve('formName', 'String', $this);
 
     $this->_values['custom_pre_id'] = CRM_Utils_Request::retrieve('pre_profile_id', 'Integer', $this);
 
@@ -82,9 +89,14 @@ class CRM_Financial_Form_Payment extends CRM_Core_Form {
   }
 
   /**
+   * Get currency
+   *
+   * @param array $submittedValues
+   *   Required for consistency with other form methods.
+   *
    * @return string
    */
-  public function getCurrency() {
+  public function getCurrency($submittedValues = array()) {
     return $this->currency;
   }
 
@@ -108,15 +120,18 @@ class CRM_Financial_Form_Payment extends CRM_Core_Form {
    * Add JS to show icons for the accepted credit cards.
    *
    * @param int $paymentProcessorID
+   * @param string $region
    */
-  public static function addCreditCardJs($paymentProcessorID = NULL) {
+  public static function addCreditCardJs($paymentProcessorID = NULL, $region = 'billing-block') {
     $creditCards = CRM_Financial_BAO_PaymentProcessor::getCreditCards($paymentProcessorID);
     $creditCardTypes = CRM_Core_Payment_Form::getCreditCardCSSNames($creditCards);
     CRM_Core_Resources::singleton()
-      ->addScriptFile('civicrm', 'templates/CRM/Core/BillingBlock.js', 10, 'html-header', FALSE)
+      // CRM-20516: add BillingBlock script on billing-block region
+      //  to support this feature in payment form snippet too.
+      ->addScriptFile('civicrm', 'templates/CRM/Core/BillingBlock.js', 10, $region, FALSE)
       // workaround for CRM-13634
       // ->addSetting(array('config' => array('creditCardTypes' => $creditCardTypes)));
-      ->addScript('CRM.config.creditCardTypes = ' . json_encode($creditCardTypes) . ';', '-9999', 'html-header');
+      ->addScript('CRM.config.creditCardTypes = ' . json_encode($creditCardTypes) . ';', '-9999', $region);
   }
 
 }

@@ -50,6 +50,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
   public $_totalAmount;
 
   /**
+   * Monetary fields that may be submitted.
+   *
+   * These should get a standardised format in the beginPostProcess function.
+   *
+   * These fields are common to many forms. Some may override this.
+   */
+  protected $submittableMoneyFields = ['total_amount', 'net_amount', 'non_deductible_amount', 'fee_amount', 'tax_amount', 'amount'];
+
+  /**
    * Set variables up before form is built.
    */
   public function preProcess() {
@@ -205,6 +214,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
 
       $taxAmount = 0;
       foreach ($this->_params as $k => $v) {
+        $this->cleanMoneyFields($v);
         if ($v == 'skip') {
           continue;
         }
@@ -398,6 +408,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $now = date('YmdHis');
 
     $this->_params = $this->get('params');
+    $this->cleanMoneyFields($this->_params);
+
     if (!empty($this->_params[0]['contact_id'])) {
       // unclear when this would be set & whether it could be checked in getContactID.
       // perhaps it relates to when cid is in the url
@@ -814,7 +826,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
           }
 
           //get event custom field information
-          $groupTree = CRM_Core_BAO_CustomGroup::getTree('Event', $this, $this->_eventId, 0, $this->_values['event']['event_type_id']);
+          $groupTree = CRM_Core_BAO_CustomGroup::getTree('Event', NULL, $this->_eventId, 0, $this->_values['event']['event_type_id']);
           $primaryParticipant['eventCustomFields'] = $groupTree;
 
           // call postprocess hook before leaving
@@ -981,6 +993,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
 
     if ($paymentProcessor) {
       $contribParams['payment_instrument_id'] = $paymentProcessor['payment_instrument_id'];
+      $contribParams['payment_processor'] = $paymentProcessor['id'];
     }
 
     if (!$pending && $result) {
@@ -1026,7 +1039,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
           $form->_values
         )
       );
-      if ($eventStartDate) {
+      if (strtotime($eventStartDate) > strtotime(date('Ymt'))) {
         $contribParams['revenue_recognition_date'] = date('Ymd', strtotime($eventStartDate));
       }
     }
@@ -1037,10 +1050,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
       $contribParams['address_id'] = CRM_Contribute_BAO_Contribution::createAddress($params, $form->_bltID);
     }
 
-    $contribParams['payment_processor'] = CRM_Utils_Array::value('payment_processor', $params);
     $contribParams['skipLineItem'] = 1;
+    $contribParams['skipCleanMoney'] = 1;
     // create contribution record
-    $contribution = CRM_Contribute_BAO_Contribution::add($contribParams, $ids);
+    $contribution = CRM_Contribute_BAO_Contribution::add($contribParams);
     // CRM-11124
     CRM_Event_BAO_Participant::createDiscountTrxn($form->_eventId, $contribParams, NULL, CRM_Price_BAO_PriceSet::parseFirstPriceSetValueIDFromParams($params));
 
@@ -1296,7 +1309,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $_REQUEST['id'] = $form->_eventId = $params['id'];
     $form->controller = new CRM_Event_Controller_Registration();
     $form->_params = $params['params'];
-    $form->_amount = $form->_totalAmount = CRM_Utils_Array::value('totalAmount', $params);
+    // This happens in buildQuickForm so emulate here.
+    $form->_amount = $form->_totalAmount = CRM_Utils_Rule::cleanMoney(CRM_Utils_Array::value('totalAmount', $params));
     $form->set('params', $params['params']);
     $form->_values['custom_pre_id'] = array();
     $form->_values['custom_post_id'] = array();
@@ -1305,6 +1319,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $eventParams = array('id' => $params['id']);
     CRM_Event_BAO_Event::retrieve($eventParams, $form->_values['event']);
     $form->set('registerByID', $params['registerByID']);
+    if (!empty($params['paymentProcessorObj'])) {
+      $form->_paymentProcessor = $params['paymentProcessorObj'];
+    }
     $form->postProcess();
   }
 
@@ -1327,6 +1344,21 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
       CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/event/register', "id={$this->_eventId}"));
     }
     return array();
+  }
+
+  /**
+   * Clean money fields from the form.
+   *
+   * @param array $params
+   */
+  protected function cleanMoneyFields(&$params) {
+    foreach ($this->submittableMoneyFields as $moneyField) {
+      foreach ($params as $index => $paramField) {
+        if (isset($paramField[$moneyField])) {
+          $params[$index][$moneyField] = CRM_Utils_Rule::cleanMoney($paramField[$moneyField]);
+        }
+      }
+    }
   }
 
 }

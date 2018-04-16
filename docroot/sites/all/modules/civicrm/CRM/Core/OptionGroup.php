@@ -342,6 +342,7 @@ WHERE  v.option_group_id = g.id
    * @return null
    */
   public static function getLabel($groupName, $value, $onlyActiveValue = TRUE) {
+    Civi::log()->warning('Deprecated function, use CRM_Core_PseudoConstant::getLabel', array('civi.tag' => 'deprecated'));
     if (empty($groupName) ||
       empty($value)
     ) {
@@ -394,6 +395,8 @@ WHERE  v.option_group_id = g.id
     if (empty($label)) {
       return NULL;
     }
+
+    Civi::log()->warning('Deprecated function, use CRM_Core_PseudoConstant::getKey', array('civi.tag' => 'deprecated'));
 
     $query = "
 SELECT  v.label as label ,v.{$valueField} as value
@@ -673,6 +676,12 @@ WHERE  v.option_group_id = g.id
     );
   }
 
+  /**
+   * Flush all the places where option values are cached.
+   *
+   * Note that this is called from CRM_Core_PseudoConstant::flush() so we should resist
+   * the intuitive urge to flush that class.
+   */
   public static function flushAll() {
     self::$_values = array();
     self::$_cache = array();

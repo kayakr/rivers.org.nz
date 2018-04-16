@@ -129,6 +129,8 @@ function civicrm_api3_contact_create($params) {
     _civicrm_api3_object_to_array_unique_fields($contact, $values[$contact->id]);
   }
 
+  $values = _civicrm_api3_contact_formatResult($params, $values);
+
   return civicrm_api3_create_success($values, $params, 'Contact', 'create');
 }
 
@@ -151,6 +153,12 @@ function _civicrm_api3_contact_create_spec(&$params) {
     'description' => 'Throw error if contact create matches dedupe rule',
     'type' => CRM_Utils_Type::T_BOOLEAN,
   );
+  $params['skip_greeting_processing'] = array(
+    'title' => 'Skip Greeting processing',
+    'description' => 'Do not process greetings, (these can be done by scheduled job and there may be a preference to do so for performance reasons)',
+    'type' => CRM_Utils_Type::T_BOOLEAN,
+    'api.default' => 0,
+  );
   $params['prefix_id']['api.aliases'] = array('individual_prefix', 'individual_prefix_id');
   $params['suffix_id']['api.aliases'] = array('individual_suffix', 'individual_suffix_id');
   $params['gender_id']['api.aliases'] = array('gender');
@@ -168,7 +176,37 @@ function civicrm_api3_contact_get($params) {
   $options = array();
   _civicrm_api3_contact_get_supportanomalies($params, $options);
   $contacts = _civicrm_api3_get_using_query_object('Contact', $params, $options);
+  $contacts = _civicrm_api3_contact_formatResult($params, $contacts);
   return civicrm_api3_create_success($contacts, $params, 'Contact');
+}
+
+/**
+ * Filter the result.
+ *
+ * @param array $result
+ *
+ * @return array
+ * @throws \CRM_Core_Exception
+ */
+function _civicrm_api3_contact_formatResult($params, $result) {
+  $apiKeyPerms = array('edit api keys', 'administer CiviCRM');
+  $allowApiKey = empty($params['check_permissions']) || CRM_Core_Permission::check(array($apiKeyPerms));
+  if (!$allowApiKey) {
+    if (is_array($result)) {
+      // Single-value $result
+      if (isset($result['api_key'])) {
+        unset($result['api_key']);
+      }
+
+      // Multi-value $result
+      foreach ($result as $key => $row) {
+        if (is_array($row)) {
+          unset($result[$key]['api_key']);
+        }
+      }
+    }
+  }
+  return $result;
 }
 
 /**
@@ -492,11 +530,6 @@ function _civicrm_api3_contact_check_params(&$params) {
       break;
   }
 
-  // Fixme: This really needs to be handled at a lower level. @See CRM-13123
-  if (isset($params['preferred_communication_method'])) {
-    $params['preferred_communication_method'] = CRM_Utils_Array::implodePadded($params['preferred_communication_method']);
-  }
-
   if (!empty($params['contact_sub_type']) && !empty($params['contact_type'])) {
     if (!(CRM_Contact_BAO_ContactType::isExtendsContactType($params['contact_sub_type'], $params['contact_type']))) {
       throw new API_Exception("Invalid or Mismatched Contact Subtype: " . implode(', ', (array) $params['contact_sub_type']));
@@ -591,7 +624,6 @@ function _civicrm_api3_greeting_format_params($params) {
 
     $nullValue = FALSE;
     $filter = array(
-      'contact_type' => $params['contact_type'],
       'greeting_type' => "{$key}{$greeting}",
     );
 
@@ -621,11 +653,6 @@ function _civicrm_api3_greeting_format_params($params) {
     }
 
     if ($greetingId) {
-
-      if (!array_key_exists($greetingId, $greetings)) {
-        throw new API_Exception(ts('Invalid %1 greeting Id', array(1 => $key)));
-      }
-
       if (!$customGreeting && ($greetingId == array_search('Customized', $greetings))) {
         throw new API_Exception(ts('Please provide a custom value for %1 greeting',
             array(1 => $key)
@@ -1254,6 +1281,11 @@ function _civicrm_api3_contact_getlist_params(&$request) {
   // Contact api doesn't support array(LIKE => 'foo') syntax
   if (!empty($request['input'])) {
     $request['params'][$request['search_field']] = $request['input'];
+    // Temporarily override wildcard setting
+    if (Civi::settings()->get('includeWildCardInName') != $request['add_wildcard']) {
+      Civi::$statics['civicrm_api3_contact_getlist']['override_wildcard'] = !$request['add_wildcard'];
+      Civi::settings()->set('includeWildCardInName', $request['add_wildcard']);
+    }
   }
 }
 
@@ -1305,6 +1337,11 @@ function _civicrm_api3_contact_getlist_output($result, $request) {
       }
       $output[] = $data;
     }
+  }
+  // Restore wildcard override by _civicrm_api3_contact_getlist_params
+  if (isset(Civi::$statics['civicrm_api3_contact_getlist']['override_wildcard'])) {
+    Civi::settings()->set('includeWildCardInName', Civi::$statics['civicrm_api3_contact_getlist']['override_wildcard']);
+    unset(Civi::$statics['civicrm_api3_contact_getlist']['override_wildcard']);
   }
   return $output;
 }
