@@ -106,7 +106,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
   public static function &fields() {
     if (!isset(Civi::$statics[__CLASS__]['fields'])) {
       Civi::$statics[__CLASS__]['fields'] = array(
-        'id' => [
+        'id' => array(
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
           'required' => TRUE,
@@ -114,8 +114,8 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
-        'group_name' => [
+        ),
+        'group_name' => array(
           'name' => 'group_name',
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('Group Name'),
@@ -127,8 +127,8 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
-        'path' => [
+        ),
+        'path' => array(
           'name' => 'path',
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('Path'),
@@ -139,8 +139,8 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
-        'data' => [
+        ),
+        'data' => array(
           'name' => 'data',
           'type' => CRM_Utils_Type::T_LONGTEXT,
           'title' => ts('Data'),
@@ -149,8 +149,8 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
-        'component_id' => [
+        ),
+        'component_id' => array(
           'name' => 'component_id',
           'type' => CRM_Utils_Type::T_INT,
           'description' => 'Component that this menu item belongs to',
@@ -159,16 +159,16 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
           'FKClassName' => 'CRM_Core_DAO_Component',
-          'html' => [
+          'html' => array(
             'type' => 'Select',
-          ],
-          'pseudoconstant' => [
+          ),
+          'pseudoconstant' => array(
             'table' => 'civicrm_component',
             'keyColumn' => 'id',
             'labelColumn' => 'name',
-          ]
-        ],
-        'created_date' => [
+          ),
+        ),
+        'created_date' => array(
           'name' => 'created_date',
           'type' => CRM_Utils_Type::T_TIMESTAMP,
           'title' => ts('Created Date'),
@@ -178,8 +178,8 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
-        'expired_date' => [
+        ),
+        'expired_date' => array(
           'name' => 'expired_date',
           'type' => CRM_Utils_Type::T_TIMESTAMP,
           'title' => ts('Expired Date'),
@@ -190,7 +190,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'entity' => 'Cache',
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
-        ],
+        ),
       );
       CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'fields_callback', Civi::$statics[__CLASS__]['fields']);
     }
