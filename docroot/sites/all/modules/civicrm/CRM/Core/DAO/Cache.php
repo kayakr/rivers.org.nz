@@ -236,7 +236,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
    * @return array
    */
   public static function &import($prefix = FALSE) {
-    $r = CRM_Core_DAO_AllCoreTables::getImports(__CLASS__, 'cache', $prefix, []);
+    $r = CRM_Core_DAO_AllCoreTables::getImports(__CLASS__, 'cache', $prefix, array());
     return $r;
   }
 
@@ -248,7 +248,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
    * @return array
    */
   public static function &export($prefix = FALSE) {
-    $r = CRM_Core_DAO_AllCoreTables::getExports(__CLASS__, 'cache', $prefix, []);
+    $r = CRM_Core_DAO_AllCoreTables::getExports(__CLASS__, 'cache', $prefix, array());
     return $r;
   }
 
@@ -260,19 +260,19 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
    * @return array
    */
   public static function indices($localize = TRUE) {
-    $indices = [
-      'UI_group_path_date' => [
+    $indices = array(
+      'UI_group_path_date' => array(
         'name' => 'UI_group_path_date',
-        'field' => [
+        'field' => array(
           0 => 'group_name',
           1 => 'path',
           2 => 'created_date',
-        ],
+        ),
         'localizable' => FALSE,
         'unique' => TRUE,
         'sig' => 'civicrm_cache::1::group_name::path::created_date',
-      ],
-    ];
+      ),
+    );
     return ($localize && !empty($indices)) ? CRM_Core_DAO_AllCoreTables::multilingualize(__CLASS__, $indices) : $indices;
   }
 
