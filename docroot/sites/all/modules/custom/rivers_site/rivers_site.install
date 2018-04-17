@@ -177,6 +177,15 @@ function rivers_site_update_7013() {
 }
 
 /**
+ * #43 Enable Rivers Theme feature.
+ */
+function rivers_site_update_7014() {
+  _rivers_site_enable_module(array(
+    'rivers_theme',
+  ));
+}
+
+/**
  * Helper function for enabling modules.
  *
  * @param string|array $modulenames

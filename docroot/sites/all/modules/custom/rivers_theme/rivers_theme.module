@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Rivers Theme feature.
+ */
+
+include_once 'rivers_theme.features.inc';
