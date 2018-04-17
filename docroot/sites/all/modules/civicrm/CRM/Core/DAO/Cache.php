@@ -105,7 +105,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
    */
   public static function &fields() {
     if (!isset(Civi::$statics[__CLASS__]['fields'])) {
-      Civi::$statics[__CLASS__]['fields'] = [
+      Civi::$statics[__CLASS__]['fields'] = array(
         'id' => [
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
@@ -191,7 +191,7 @@ class CRM_Core_DAO_Cache extends CRM_Core_DAO {
           'bao' => 'CRM_Core_BAO_Cache',
           'localizable' => 0,
         ],
-      ];
+      );
       CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'fields_callback', Civi::$statics[__CLASS__]['fields']);
     }
     return Civi::$statics[__CLASS__]['fields'];
