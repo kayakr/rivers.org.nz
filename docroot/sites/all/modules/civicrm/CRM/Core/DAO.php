@@ -648,7 +648,7 @@ class CRM_Core_DAO extends DB_DataObject {
         }
         else {
           if (!$serializeArrays && is_array($pValue) && !empty($value['serialize'])) {
-            Civi::log()->warning(ts('use copyParams to serialize arrays (' . __CLASS__ . '.' . $name . ')'), ['civi.tag' => 'deprecated']);
+            Civi::log()->warning(ts('use copyParams to serialize arrays (' . __CLASS__ . '.' . $name . ')'), array('civi.tag' => 'deprecated'));
           }
           $this->$dbName = $pValue;
           $allNull = FALSE;
