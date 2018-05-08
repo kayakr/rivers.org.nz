@@ -118,7 +118,9 @@
 <div class="main-container <?php print $container_class; ?>">
 
   <header role="banner" id="page-header">
+    <?php if (!$is_front): ?><a href="/"><?php endif; ?>
     <img src="/sites/all/themes/riversorgnz/images/wwnz_logo4.gif"/>
+    <?php if (!$is_front): ?></a><?php endif; ?>
     <?php if (!empty($site_slogan)): ?>
       <p class="col-xs-offset-6 col-xs-6 col-sm-offset-6 col-sm-6 col-md-offset-6 col-md-6 col-lg-offset-4 col-lg-8 lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
