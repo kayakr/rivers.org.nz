@@ -25,6 +25,19 @@ function riversorgnz_preprocess_page(&$variables) {
       }
     }
   }
+
+  // #43 Add javascript to trigger bs dropdown.
+  drupal_add_js("jQuery(document).ready(function () { jQuery('.dropdown-toggle').dropdown(); });", 'inline');
+}
+
+/**
+ * Override THEMENAME_menu_tree__MENUNAME().
+ * @param $variables
+ *
+ * @return string
+ */
+function riversorgnz_menu_tree__user_menu($variables) {
+  return '<ul class="menu">' . $variables['tree'] . '</ul>';
 }
 
 /**
