@@ -2,20 +2,23 @@
  * Place your custom styles here.
  */
 
+/* not sure why this is needed - it breaks xs nav
 #navbar {
   height: 5px;
-}
+}*/
 #navbar-collapse .navbar-nav li a {
   top: -1px;
 }
 
 #block-search-form {
   display: inline-block;
+  float: none;
 }
 
 /* Navigation */
 #block-system-user-menu {
-    float: right;
+  display: inline-block;
+  float: right;
 }
 #block-system-user-menu h2 {
     display: none;
@@ -25,6 +28,52 @@
 }
 #block-system-user-menu .nav li {
     float: left;
+}
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {
+  #block-system-user-menu {
+    float: none;
+  }
+  .navbar #block-search-form {
+    float: right;
+  }
+  .navbar #block-search-form .form-text {
+    display: none;
+  }
+}
+
+/* xs, Mobile nav */
+#navbar {
+  height: 50px;
+}
+@media (max-width: 767px) {
+  #navbar {
+    height: auto;
+  }
+
+  /* Hide Whitewater NZ text in logo by making page title non-transparent */
+  h1.page-header {
+    background: white;
+    margin-top: 50px;
+  }
+  /* Hide slogan */
+  #page-header p {
+    display: none;
+  }
+
+  /* Hide breadcrumb */
+  .breadcrumb {
+    display: none;
+  }
+
+  .main-container>.row {
+    margin-top: 80px;
+  }
+
+  #block-views-rivers-news-latest-news h2 {
+    display: none;
+  }
 }
 
 .main-container {
@@ -41,7 +90,7 @@
 }
 
 .main-container>.row>section {
-  margin-top: 35px;
+  margin-top: 15px;
 }
 
 .breadcrumb {
@@ -51,6 +100,10 @@
 
 .front h1.page-header {
   display: none;
+}
+
+.footer {
+  margin-top: 0px;
 }
 
 /* Homepage news block */
@@ -83,9 +136,9 @@
     clear: both;
 }
 
-#block-rivers-forum-rivers-forum-summary {
+/*#block-rivers-forum-rivers-forum-summary {
   clear: left;
-}
+}*/
 
 
 /* customisations for rivers.org.nz /constitution. */
