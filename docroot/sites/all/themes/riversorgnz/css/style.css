@@ -136,6 +136,38 @@
     clear: both;
 }
 
+/* forums block */
+#block-rivers-forum-rivers-forum-summary {
+  background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;
+  border-radius: 5px;
+}
+#block-rivers-forum-rivers-forum-summary h2 {
+  margin-top: 3px;
+  margin-left: 15px;
+  font-size: 20px;
+  color: white;
+}
+#block-rivers-forum-rivers-forum-summary ul {
+  padding-left: 0;
+}
+#block-rivers-forum-rivers-forum-summary ul li {
+  list-style-type: none;
+}
+#block-rivers-forum-rivers-forum-summary ul li a {
+  color: white;
+}
+
+#block-rivers-issue-rivers-issue {
+  background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;
+  border-radius: 5px;
+}
+#block-rivers-issue-rivers-issue h2 {
+  margin-top: 3px;
+  margin-left: 15px;
+  font-size: 20px;
+  color: white;
+}
+
 /*#block-rivers-forum-rivers-forum-summary {
   clear: left;
 }*/
