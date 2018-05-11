@@ -10,26 +10,6 @@
 function rivers_navigation_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_about:node/1207.
-  $menu_links['main-menu_about:node/1207'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/1207',
-    'router_path' => 'node/%',
-    'link_title' => 'About',
-    'options' => array(
-      'attributes' => array(
-        'title' => 'About Whitewater NZ, Membership. Executive, Constitution, etc.',
-      ),
-      'identifier' => 'main-menu_about:node/1207',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -45,
-    'customized' => 1,
-  );
   // Exported menu link: main-menu_events:event.
   $menu_links['main-menu_events:event'] = array(
     'menu_name' => 'main-menu',
@@ -44,7 +24,7 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -48,
+    'weight' => -47,
     'customized' => 1,
   );
   // Exported menu link: main-menu_forums:forum.
@@ -64,7 +44,7 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 1,
     'expanded' => 0,
-    'weight' => -47,
+    'weight' => -46,
     'customized' => 1,
   );
   // Exported menu link: main-menu_guide:nz.
@@ -84,7 +64,7 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -46,
+    'weight' => -45,
     'customized' => 1,
   );
   // Exported menu link: main-menu_home:<front>.
@@ -95,6 +75,9 @@ function rivers_navigation_menu_default_menu_links() {
     'link_title' => 'Home',
     'options' => array(
       'identifier' => 'main-menu_home:<front>',
+      'attributes' => array(
+        'title' => 'Homepage',
+      ),
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -121,27 +104,7 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-  );
-  // Exported menu link: user-menu_join:node/1192.
-  $menu_links['user-menu_join:node/1192'] = array(
-    'menu_name' => 'user-menu',
-    'link_path' => 'node/1192',
-    'router_path' => 'node/%',
-    'link_title' => 'Join',
-    'options' => array(
-      'attributes' => array(
-        'title' => 'Join us to help save NZ\'s rivers',
-      ),
-      'identifier' => 'user-menu_join:node/1192',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -50,
+    'weight' => -48,
     'customized' => 1,
   );
   // Exported menu link: user-menu_log-out:user/logout.
@@ -158,8 +121,9 @@ function rivers_navigation_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -47,
+    'weight' => -50,
     'customized' => 1,
+    'parent_identifier' => 'user-menu_my-account:user',
   );
   // Exported menu link: user-menu_login:user/login.
   $menu_links['user-menu_login:user/login'] = array(
@@ -190,24 +154,25 @@ function rivers_navigation_menu_default_menu_links() {
     'options' => array(
       'alter' => TRUE,
       'identifier' => 'user-menu_user-account:user',
+      'attributes' => array(
+        'title' => '',
+      ),
     ),
     'module' => 'system',
     'hidden' => 0,
     'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
     'weight' => -48,
     'customized' => 1,
   );
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('About');
   t('Events');
   t('Forums');
   t('Guide');
   t('Home');
-  t('Join');
   t('Log out');
   t('Login');
   t('News');
