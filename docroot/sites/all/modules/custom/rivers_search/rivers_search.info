@@ -1,0 +1,8 @@
+name = Rivers Search
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = features
+dependencies[] = search
+features[features_api][] = api:2
+features[user_permission][] = search content
