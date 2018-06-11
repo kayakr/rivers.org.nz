@@ -90,7 +90,7 @@
 }
 
 .main-container>.row>section {
-  margin-top: 15px;
+  margin-top: 30px;
 }
 
 .breadcrumb {
@@ -137,27 +137,58 @@
 }
 
 /* forums block */
-#block-rivers-forum-rivers-forum-summary {
-  background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;
-  border-radius: 5px;
+#block-rivers-forum-rivers-forum-summary,
+#block-rivers-issue-rivers-issue {
+  /*background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;*/
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  padding-right: 0;
 }
-#block-rivers-forum-rivers-forum-summary h2 {
-  margin-top: 3px;
+/* sm */
+@media (max-width: 991px) {
+  #block-rivers-forum-rivers-forum-summary,
+  #block-rivers-issue-rivers-issue {
+    padding-right: 15px;
+  }
+}
+
+#block-rivers-forum-rivers-forum-summary .panel-heading,
+#block-rivers-issue-rivers-issue .panel-heading {
+  padding-top: 0;
+  background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;
+  border-radius: 5px 5px 0 0;
+  color: white;
+  border: none;
+}
+#block-rivers-forum-rivers-forum-summary h2,
+#block-rivers-issue-rivers-issue h2 {
+  margin-top: 4px;
+  padding-top: 1px;
   margin-left: 15px;
   font-size: 20px;
   color: white;
 }
-#block-rivers-forum-rivers-forum-summary ul {
+#block-rivers-forum-rivers-forum-summary .panel-body,
+#block-rivers-issue-rivers-issue .panel-body {
+  padding: 5px;
+  background: #009eac;
+  border-radius: 0 0 5px 5px;
+}
+#block-rivers-forum-rivers-forum-summary ul,
+#block-rivers-issue-rivers-issue ul {
   padding-left: 0;
 }
-#block-rivers-forum-rivers-forum-summary ul li {
+#block-rivers-forum-rivers-forum-summary ul li,
+#block-rivers-issue-rivers-issue ul li {
   list-style-type: none;
 }
-#block-rivers-forum-rivers-forum-summary ul li a {
+#block-rivers-forum-rivers-forum-summary ul li a,
+#block-rivers-issue-rivers-issue ul li a {
   color: white;
 }
 
-#block-rivers-issue-rivers-issue {
+/*#block-rivers-issue-rivers-issue {
   background: #009eac url(../images/quotes.gif) no-repeat 4px 7px;
   border-radius: 5px;
 }
@@ -166,7 +197,7 @@
   margin-left: 15px;
   font-size: 20px;
   color: white;
-}
+}*/
 
 /*#block-rivers-forum-rivers-forum-summary {
   clear: left;
@@ -233,6 +264,13 @@ span.amendment2016 {
 .view-rivers-calendar .today {
     font-weight: bold;
 }
+/* Events block on homepage */
+#block-views-rivers-calendar-block-2 .view-rivers-calendar ul {
+  padding-left: 0;
+}
+#block-views-rivers-calendar-block-2 .view-rivers-calendar li  {
+  list-style-type: none;
+}
 
 /* Section node page */
 .node-section .info {
@@ -272,6 +310,24 @@ span.amendment2016 {
 }
 .node-forum .comment-wrapper .links {
     float: right;
+}
+
+.user-picture {
+  width: 80px;
+  float: left;
+  margin-right: 1em;
+}
+.node-forum .field-name-taxonomy-forums {
+  display: none
+}
+.node-forum footer {
+  display: none;
+}
+#comments {
+  padding-top: 1em;
+}
+.comment {
+  border-top: 1px solid #009eac;
 }
 
 
