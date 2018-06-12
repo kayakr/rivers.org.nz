@@ -49,6 +49,7 @@
 }
 @media (max-width: 767px) {
   #navbar {
+    margin-top: 0;
     height: auto;
   }
 
