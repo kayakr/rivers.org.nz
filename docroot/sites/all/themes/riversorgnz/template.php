@@ -37,7 +37,7 @@ function riversorgnz_preprocess_page(&$variables) {
  * @return string
  */
 function riversorgnz_menu_tree__user_menu($variables) {
-  return '<ul class="menu">' . $variables['tree'] . '</ul>';
+  return '<ul class="menu nav navbar-nav">' . $variables['tree'] . '</ul>';
 }
 
 /**
