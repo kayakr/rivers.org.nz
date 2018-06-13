@@ -272,6 +272,21 @@ span.amendment2016 {
 #block-views-rivers-calendar-block-2 .view-rivers-calendar li  {
   list-style-type: none;
 }
+.node-rivers-event .field-name-field-status .event-changed,
+#block-views-rivers-calendar-block-2 .view-rivers-calendar li .views-field-field-status .event-changed {
+  padding: 3px;
+  background: #fff080;
+  color: black;
+}
+.node-rivers-event .field-name-field-status .event-cancelled,
+#block-views-rivers-calendar-block-2 .view-rivers-calendar li .views-field-field-status .event-cancelled {
+  padding: 3px;
+  background: #fb8654;
+  color: black;
+}
+#block-views-rivers-calendar-block-2 .date-display-remaining {
+  visibility: hidden;
+}
 
 /* Section node page */
 .node-section .info {
