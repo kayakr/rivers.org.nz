@@ -21,6 +21,13 @@ function rivers_site_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['error-403'] = array(
+    'title' => 'Access denied',
+    'page callback' => 'rivers_access_denied',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   return $items;
 }
 
@@ -30,6 +37,16 @@ function rivers_site_menu() {
 function rivers_site_home() {
   return '<!--{rivers homepage}-->'; /* empty page */
 }
+
+/* Custom landing page that we can render a login form onto. */
+function rivers_access_denied() {
+  $output = drupal_get_form('user_login_block');
+  $output['#prefix'] = '<p>You must be logged in to access this page.</p>';
+
+  return $output;
+}
+
+
 
 /**
  * Implements hook_block_info().
