@@ -60,6 +60,8 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'access CiviMail subscribe/unsubscribe pages',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -123,6 +125,7 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'access contact reference fields',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
     ),
     'module' => 'civicrm',
   );
@@ -492,6 +495,7 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'make online contributions',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
     ),
     'module' => 'civicrm',
   );
