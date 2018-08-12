@@ -207,6 +207,15 @@ function rivers_site_update_7016() {
 }
 
 /**
+ * #54 Enable User Restrictions.
+ */
+function rivers_site_update_7017() {
+  _rivers_site_enable_module(array(
+    'user_restrictions',
+  ));
+}
+
+/**
  * Helper function for enabling modules.
  *
  * @param string|array $modulenames
