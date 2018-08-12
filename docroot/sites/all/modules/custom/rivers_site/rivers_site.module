@@ -72,9 +72,9 @@ function rivers_site_block_view($delta = '') {
           <div itemscope itemtype="http://schema.org/Organization">
             <span itemprop="name" style="display: none">Whitewater NZ</span>
             <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-              <span itemprop="streetAddress">PO Box 284</span>,
-              <span itemprop="addressLocality">Wellington</span>,
-              <span itemprop="postalCode">6140</span>
+              c/- <span itemprop="streetAddress">7 Ensors Place</span>,
+              <span itemprop="addressLocality">Waikuku Beach</span>,
+              <span itemprop="postalCode">7402</span>
               <span itemprop="addressCountry">New Zealand</span>.
               <a itemprop="email" href="/contact/admin">whitewaternz@rivers.org.nz</a>
             </div>
