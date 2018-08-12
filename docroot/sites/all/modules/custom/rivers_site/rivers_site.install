@@ -44,6 +44,9 @@ function rivers_site_install() {
     'rivers_forum',
     'globalredirect',
     'rivers_section_events',
+    'rivers_theme',
+    'honeypot',
+    'rivers_spam',
   );
   foreach ($modules as $module) {
     echo "Enabling $module\n";
@@ -182,6 +185,24 @@ function rivers_site_update_7013() {
 function rivers_site_update_7014() {
   _rivers_site_enable_module(array(
     'rivers_theme',
+  ));
+}
+
+/**
+ * #54 Enable Honeypot.
+ */
+function rivers_site_update_7015() {
+  _rivers_site_enable_module(array(
+    'honeypot',
+  ));
+}
+
+/**
+ * #54 Enable Rivers Spam feature.
+ */
+function rivers_site_update_7016() {
+  _rivers_site_enable_module(array(
+    'rivers_spam',
   ));
 }
 
