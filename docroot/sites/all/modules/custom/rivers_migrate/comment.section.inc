@@ -10,6 +10,8 @@ class RiversSectionDrupalComment6Migration extends DrupalComment6Migration {
     //$this->addFieldMapping('pid', 'pid');
     //$this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
+    $this->addFieldMapping('comment_body', 'comment')
+      ->callbacks(array($this, 'mapBody'));
     //$this->addFieldMapping('body:format', NULL, FALSE)
     //  ->defaultValue('filtered_html');
 
@@ -32,6 +34,16 @@ class RiversSectionDrupalComment6Migration extends DrupalComment6Migration {
 
     //$this->addFieldMapping('field_files:language')
     //  ->defaultValue(LANGUAGE_NONE);
+  }
+
+  /**
+   * Change embedded file links from private (system/files) to public (sites/default/files).
+   * @param $value
+   * @return mixed
+   */
+  public function mapBody($value) {
+    $value = rivers_migrate_map_body($value);
+    return $value;
   }
 
   public function prepareRow($row) {

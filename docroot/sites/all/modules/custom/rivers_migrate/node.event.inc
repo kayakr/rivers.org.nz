@@ -12,6 +12,8 @@ class RiversEventDrupalNode6Migration extends DrupalNode6Migration {
     //$this->addFieldMapping('vid', 'vid');
     $this->addFieldMapping('is_new')->defaultvalue(TRUE);
 
+    $this->addFieldMapping('body', 'body')
+      ->callbacks(array($this, 'mapBody'));
     $this->addFieldMapping('body:format', NULL, FALSE)
       ->defaultValue('full_html');
 
@@ -63,6 +65,17 @@ class RiversEventDrupalNode6Migration extends DrupalNode6Migration {
       'path', // Don't want original path as we regenerate & redirect.
       'field_date:rrule',
     ));
+  }
+
+  /**
+   * Change embedded file links from private (system/files) to public (sites/default/files).
+   * @param $value
+   * @return mixed
+   */
+  public function mapBody($value) {
+    $value = rivers_migrate_map_body($value);
+
+    return $value;
   }
 
   // Map from Event Type term tid, but looking up term name.

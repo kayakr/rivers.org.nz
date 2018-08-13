@@ -70,14 +70,7 @@ class RiversStoryDrupalNode6Migration extends DrupalNode6Migration {
    * @return mixed
    */
   public function mapBody($value) {
-    $value = str_replace('system/files', 'sites/default/files', $value);
-    $value = str_replace('http://rivers.org.nz/sites/default/files', '/sites/default/files', $value);
-    // Fix for hand-crafted image tag.
-    $value = str_replace('imagecache/home_slide', 'styles/home_slide', $value);
-    $value = str_replace('home_slide/story_highlight', 'home_slide/public/story_highlight', $value);
-    // Fix hard-coded URLs
-    $value = str_replace('http://rivers.org.nz/event', '/event', $value);
-
+    $value = rivers_migrate_map_body($value);
     return $value;
   }
 
