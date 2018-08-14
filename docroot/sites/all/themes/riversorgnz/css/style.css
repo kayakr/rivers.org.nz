@@ -366,6 +366,7 @@ body {
 }
 
 /* /user/register page */
+#user-profile-form .label,
 #user-register-form .label {
   color: #000;
 }
