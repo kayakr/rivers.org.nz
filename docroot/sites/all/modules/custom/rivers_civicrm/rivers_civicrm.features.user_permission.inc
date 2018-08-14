@@ -126,6 +126,7 @@ function rivers_civicrm_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -144,6 +145,8 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'access uploaded files',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -496,6 +499,7 @@ function rivers_civicrm_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -541,6 +545,7 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'profile edit',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -568,6 +573,7 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'profile view',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
@@ -694,6 +700,8 @@ function rivers_civicrm_user_default_permissions() {
     'name' => 'view public CiviMail content',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'civicrm',
   );
