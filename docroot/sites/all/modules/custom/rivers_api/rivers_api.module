@@ -15,28 +15,31 @@ include_once 'rivers_api.features.inc';
  */
 function rivers_api_rest_server_request_parsers_alter(&$parsers) {;
   // Add our own custom parser.
-  $parsers['application/vnd.rivers+hal+json;version=1.0'] = 'RiversServicesParserJSONv1';
+  $parsers['application/vnd.rivers.v1.hal+json'] = 'RiversServicesParserJSONv1';
+  $parsers['application/vnd.rivers.v2.hal+json'] = 'ServicesHALJSONFormatterV2';
 }
 
 /**
+ * Map request media type to formatter (handler).
  * Define combined HAL+JSON response formatter.
  *
  * Implements hook_rest_server_response_formatters_alter().
  */
 function rivers_api_rest_server_response_formatters_alter(&$formatters) {
-  // Give this a name befitting of the source of the rest-breaking requirements.
+
+  // Map no-version to latest version.
   $formatters['hal+json'] = array(
     'mime types' => array('application/hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatterV2',
+  );
+  $formatters['v1.hal+json'] = array(
+    'mime types' => array('application/vnd.rivers.v1.hal+json'),
     'formatter class' => 'ServicesHALJSONFormatter',
   );
-  $formatters['hal+json+v1'] = array(
-    'mime types' => array('application/vnd.rivers+hal+json;version=1.0'),
-    'formatter class' => 'ServicesHALJSONFormatter',
+  $formatters['v2.hal+json'] = array(
+    'mime types' => array('application/vnd.rivers.v2.hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatterV2',
   );
-  //$formatters['hal+json+v2'] = array(
-  //  'mime types' => array('application/vnd.rivers+hal+json;version=2.0'),
-  //  'formatter class' => 'ServicesHALJSONFormatterV2',
-  //);
 }
 
 /**
@@ -129,7 +132,7 @@ function rivers_api_services_resources() {
       'retrieve' => array(
         'help' => 'Retrieves a Section',
         'file' => array('file' => 'inc', 'module' => 'rivers_api'),
-        'callback' => '_rivers_api_place_retrieve',
+        'callback' => '_rivers_api_section_retrieve',
         'access callback' => '_rivers_api_access',
         'access arguments' => array('view'),
         'access arguments append' => TRUE,

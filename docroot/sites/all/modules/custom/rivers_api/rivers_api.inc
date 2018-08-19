@@ -30,28 +30,33 @@
 /**
  * Callback for retrieving a Section resource.
  *
- * @todo: test loaded node is a Section.
+ * @todo: what id node is unpublished?
  *
- * @param int $nid service_request_id
+ * @param int $nid section_id
  * @return array $request
  */
-function _rivers_api_place_retrieve($nid, $parameters) {
-  //xdebug_break();
-  // added optional parameters achieving this:
-  // http://lists.open311.org/groups/discuss/messages/topic/AaxmrRLUHToO7jCQdjAXy
+function _rivers_api_section_retrieve($nid, $parameters) {
+
   $node = node_load($nid);
+
+  // Check loaded node is a Section.
+  // Also catches no node exists for $nid.
+  if ($node->type != 'section') {
+    return services_error(t('No such section with id: @id.', array('@id' => $nid)), 404);
+  }
 
   // Maps internal node attributes to attributes to be exposed via API.
   $output = _rivers_api_map_node_to_section($node, $parameters);
+  $output['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
+
   return $output;
 }
 
 /**
  * Return Sections according to filter parameters.
- * @todo: use a view?
  */
 function _rivers_api_section_index($page, $parameters) {
-  // @todo: can't rely on parameters being validated against definition.
+  // @todo: can't rely on parameters being validated against definition!
   // page should be int, but 'b' is allowed through to here.
   if (!is_numeric($page)) {
     $page = 0;
@@ -59,12 +64,13 @@ function _rivers_api_section_index($page, $parameters) {
 
   $nodes = array();
   $page_size = 10;
-//xdebug_break();
+
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'section')
     ->propertyCondition('status', 1)
-    ->range((int)$page, $page_size);
+    ->range((int)$page * $page_size, $page_size);
+  // @todo: what are sort default, options?
   //->addMetaData('account', user_load(1)); // Run the query as user 1.
   $result = $query->execute();
 
@@ -79,8 +85,11 @@ function _rivers_api_section_index($page, $parameters) {
     }
   }
 
+  // Meta information.
   $nodes['page'] = (int)$page;
   $nodes['page_size'] = $page_size;
+  // @todo: api docs
+  $nodes['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
 
   return $nodes;
 }
@@ -95,6 +104,7 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   $object = entity_metadata_wrapper('node', $node);
 
   $section = array();
+  $section['@id'] = url('node/' . $node->nid, array('absolute' => TRUE));
   $section['id'] = $node->nid;
   $section['vid'] = $node->vid; // version.
   $section['name'] = $node->title;
@@ -109,7 +119,6 @@ function _rivers_api_map_node_to_section($node, $parameters) {
 
   $section['character'] = $object->field_character->value();
 
-
   //$place['type'] = $object->field_type->value(); // field_view_field('node', $node, 'field_place_type');
   //$place['height'] = $object->field_height->value();
   //$place['description'] = $object->field_description->value->value(); //->value; // Safe value.
@@ -117,85 +126,10 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   // JSON HAL.
   $section['_links'] = array(
     'self' => array(
-      'href' => $endpoint_path . '/place/' . $node->nid,
+      'href' => $endpoint_path . '/section/' . $node->nid,
       'url' => url('node/' . $node->nid, array('absolute' => TRUE)),
-    ), // , array('absolute' => TRUE)
+    ),
   );
-/*
-  // A Place will have a parent (except top place: NZ).
-  $parent = nodehierarchy_get_node_parent($node->nid);
-  if (!empty($parent)) {
-    //$place['_links']['parent']['href'] = $endpoint_path . '/place/' . $parent->nid;
-    //$place['_links']['parent']['url'] = url('node/' . $parent->nid);
-    $place['_links']['parent'] = _climbnz_api_map_node_to_place_summary($parent);
-  }
-  // HAL embedded.
-  if (!empty($parent)) {
-    $place['_embedded']['parent'] = _climbnz_api_map_node_to_place($parent, $parameters);
-  }
-
-  // A Place could have multiple Parents.
-  // Order of parents is not meaningful... (or does primary parent get output first)?
-  $node_parents = nodehierarchy_get_node_parents($node->nid);
-  //flog_it(__FUNCTION__ . ': node_parents=' . print_r($node_parents, TRUE));
-  $parents = array();
-  if (count($node_parents)) {
-    foreach ($node_parents as $key => $parent) {
-      if (!empty($parent)) {
-        //flog_it(__FUNCTION__ . ': parent nid=' . $parent->nid . ', title=' . $parent->title);
-        $parents[$key] = _climbnz_api_map_node_to_place_summary($parent, $parameters);
-      }
-    }
-  }
-  if (!empty($parents)) {
-    $place['_links']['parents'] = $parents;
-  }
-
-  // Children Places.
-  /*
-  $child_places_data = climbnz_places_by_place($node->nid);
-  $child_places = array();
-  if (count($child_places_data)) {
-    foreach ($child_places_data as $key => $child_place) {
-      $child_place_data = _climbnz_api_map_node_to_place_summary($child_place->_field_data['nid']['entity']);
-      $child_places[$key] = $child_place_data;
-    }
-    if (!empty($child_places)) {
-      $place['_links']['children'] = $child_places;
-    }
-  }
-  */
-/*
-  // Ancestors. The primary lineage of a Place up to top place (NZ).
-  // Note that array order is meaningful.
-  $ancestor_nids = nodehierarchy_get_node_primary_ancestor_nids($node->nid);
-  //flog_it(__FUNCTION__ . ': ancestor_nids=' . print_r($ancestor_nids, TRUE));
-  $ancestors = array();
-  if (!empty($ancestor_nids)) {
-    foreach ($ancestor_nids as $key => $ancestor_nid) {
-      $ancestor = node_load($ancestor_nid);
-      $ancestors[$key] = _climbnz_api_map_node_to_place_summary($ancestor);
-    };
-  }
-  if (!empty($ancestors)) {
-    $place['_links']['ancestors'] = $ancestors;
-  }
-
-  // @todo: Get Routes for this Place.
-  /*
-   * $routes_data = climbnz_routes_by_place($node->nid);
-  $routes = array();
-  if (count($routes_data)) {
-    foreach ($routes_data as $key => $route) {
-      $route_data = _climbnz_api_map_node_to_route_summary($route->_field_data['nid']['entity']);
-      $routes[$key] = $route_data;
-    }
-    if (!empty($routes)) {
-      $place['_links']['routes'] = $routes;
-    }
-  }
-  */
-
 
   return $section;
 }
