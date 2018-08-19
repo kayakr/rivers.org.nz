@@ -296,6 +296,7 @@ span.amendment2016 {
     float: left;
     padding: 10px;
     background: #eee;
+    overflow: hidden;
 }
 .node-section .info h3 {
   margin-top: 0;
@@ -366,6 +367,7 @@ body {
 }
 
 /* /user/register page */
+#crm-container label,
 #user-profile-form .label,
 #user-register-form .label {
   color: #000;
