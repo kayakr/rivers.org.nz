@@ -103,6 +103,12 @@
 .front h1.page-header {
   display: none;
 }
+.front .alert-info {
+  margin-bottom: 0;
+}
+#block-rivers-blocks-rivers-welcome-d7 h2 {
+  margin-top: -5px;
+}
 
 .footer {
   margin-top: 0px;
