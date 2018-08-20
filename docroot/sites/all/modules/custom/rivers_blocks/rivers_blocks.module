@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Declare blocks for some pages, e.g. safety course
+ */
+
+include_once 'rivers_blocks.features.inc';
+
+/**
+ * Implements hook_block_info().
+ */
+function rivers_blocks_block_info() {
+
+  $blocks['rivers_safety_course'] = array(
+    'info' => t('Rivers safety course funding'),
+    'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+  $blocks['rivers_welcome_d7'] = array(
+    'info' => t('Welcome to new site'),
+    'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rivers_blocks_block_view($delta = '') {
+  switch ($delta) {
+    case 'rivers_safety_course':
+      $block['subject'] = 'Important information re safety funding';
+      $block['content'] = "<p>We're sorry to report that the funding for this financial year is not being supported by Water Safety NZ as they are not targeting their efforts on whitewater kayaking safety (since June 2015). This is unfortunate and Whitewater New Zealand is appealing to Water Safety NZ to reconsider this position.</p>
+
+<p>In the meantime though, we're sorry but there is no subsidy available..</p>";
+      return $block;
+
+    case 'rivers_welcome_d7':
+      $block['subject'] = t('Welcome to the updated rivers.org.nz');
+      $block['content'] = t('Welcome to the sixth major iteration of rivers.org.nz.
+      <ul>
+        <li>A new responsive theme based on Bootstrap means the site should be more usable on tablet and mobile.</li>
+        <li>Galleries have been dropped for the time-being.</li>
+        <li>API for river section data is in development.</li>
+      </ul>  
+	<p>Most things should <em>just work</em> but if you notice an issue please <a href="mailto:webmaster[at]rivers.org.nz?subject=rivers.org.nz">get in touch</a> or add an issue directly at Gitlab <a href="https://gitlab.com/kayakr/rivers.org.nz">https://gitlab.com/kayakr/rivers.org.nz</a>. Enjoy!</p>');
+
+      return $block;
+  }
+}

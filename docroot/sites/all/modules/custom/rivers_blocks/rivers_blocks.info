@@ -1,0 +1,11 @@
+name = Rivers Blocks
+description = Miscellaneous blocks for safety, welcome to updated site, etc.
+core = 7.x
+package = rivers.org.nz
+version = 7.x-1.0-alpha1
+dependencies[] = context
+dependencies[] = ctools
+features[context][] = rivers_blocks_d7
+features[ctools][] = context:context:3
+features[features_api][] = api:2
+features_exclude[dependencies][rivers_blocks] = rivers_blocks
