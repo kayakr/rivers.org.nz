@@ -25,6 +25,51 @@
 include_once 'rivers_guide.features.inc';
 
 /**
+ * Implements hook_block_info().
+ */
+function rivers_guide_block_info() {
+
+  $blocks['rivers_guide_editor_intro'] = array(
+    'info' => t('Rivers guide editor intro'),
+    'cache' => DRUPAL_NO_CACHE, //DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
+  $blocks['rivers_guide_editor'] = array(
+    'info' => t('Rivers guide editor'),
+    'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function rivers_guide_block_view($delta = '') {
+  switch ($delta) {
+    case 'rivers_guide_editor_intro':
+      drupal_add_css('sites/all/modules/custom/rivers_guide/rivers_guide.css');
+      $block['subject'] = 'Important information re River Guide contributions';
+      $block['content'] = '<ol>
+<li>Ensure you have permission to post the material.</li>
+<li>All guide contributions are published via a <a href="http://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a> licence.</li>
+</ol>';
+      return $block;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function rivers_guide_form_alter(array &$form, array &$form_state = array(), $form_id = NULL) {
+  switch ($form['#form_id']) {
+    case 'section_node_form':
+      $form['title']['#description'] = t('This is the title description.');
+      break;
+  }
+}
+
+/**
  * Force numeric operators like >, < for class filter.
  * Implements hook_field_views_data_views_data_alter().
  */
