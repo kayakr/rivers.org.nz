@@ -25,18 +25,20 @@
 include_once 'rivers_guide.features.inc';
 
 /**
- * Implements hook_init().
- */
-function rivers_guide_init() {
-//  flog_it(__FUNCTION__ . ': flog is working.');
-}
-
-/**
  * Force numeric operators like >, < for class filter.
  * Implements hook_field_views_data_views_data_alter().
  */
 function rivers_guide_field_views_data_views_data_alter(&$data, $field) {
   //flog_it(__FUNCTION__ . ': data=' . print_r($data, TRUE) . ', field='. print_r($field, TRUE));
+  xdebug_break();
+}
+
+/**
+ * https://drupal.stackexchange.com/questions/108085/drupal-how-to-create-a-custom-exposed-filter-in-views-3-in-drupal-7
+ *
+ * Implements hook_views_data_alter().
+ */
+function rivers_guide_views_data_alter(&$data) {
   //xdebug_break();
 }
 
@@ -46,7 +48,6 @@ function rivers_guide_field_views_data_views_data_alter(&$data, $field) {
  */
 function rivers_guide_views_pre_view(&$view, &$display_id, &$args) {
 
-  //flog_it(__FUNCTION__ . ': view->name=' . $view->name . ', args=' . print_r($args, TRUE));
   switch($view->name) {
     case 'rivers_sections':
 

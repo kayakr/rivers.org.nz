@@ -434,9 +434,16 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-body'.
   $field_instances['node-section-body'] = array(
     'bundle' => 'section',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'summary' => '',
+        'value' => '',
+        'format' => 'filtered_html',
+      ),
+    ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Any additional information, including more details of the run, rapids, put in and take out, hydro development and other information.
+Put any other data here until it finds a home elsewhere...',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -461,11 +468,34 @@ function rivers_guide_field_default_field_instances() {
     'label' => 'Body',
     'required' => 0,
     'settings' => array(
-      'display_summary' => TRUE,
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'display_summary' => 1,
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
@@ -807,7 +837,7 @@ function rivers_guide_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => 'Average gradient in metres per kilometre.',
+    'description' => 'Average gradient of section in m/km. Specify peak gradient(s) if there is a distinct difference to average.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -874,10 +904,11 @@ function rivers_guide_field_default_field_instances() {
     'default_value' => array(
       0 => array(
         'value' => '',
+        'format' => 'filtered_html',
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Early or notable descents, other historic information.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -904,14 +935,36 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_history',
     'label' => 'History',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'weight' => 8,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 5,
@@ -980,13 +1033,9 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_length'.
   $field_instances['node-section-field_length'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'In kilometres.',
+    'description' => 'Length in kilometres of run along river centerline.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1028,7 +1077,7 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_length',
     'label' => 'Length',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
       'max' => '',
       'min' => 0,
@@ -1052,7 +1101,7 @@ function rivers_guide_field_default_field_instances() {
     'bundle' => 'section',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Use metric units, usually metre (m).',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1081,6 +1130,28 @@ function rivers_guide_field_default_field_instances() {
     'label' => 'Level',
     'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -1100,13 +1171,9 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_maps'.
   $field_instances['node-section-field_maps'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'e.g. NZ Topo T19',
+    'description' => 'NZ Topo 50 map sheets, e.g. BW17, from https://data.linz.govt.nz/layer/50767-nz-topo50-maps/. Was NZMS 260 maps https://data.linz.govt.nz/layer/51579-nzms-260-map-sheets/',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1133,17 +1200,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_maps',
     'label' => 'Maps',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => 6,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1279,13 +1367,11 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_put_in'.
   $field_instances['node-section-field_put_in'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Brief description, e.g. Poutu intake.',
+    'description' => 'Name or short description of put in to section, e.g. Poutu intake. Section description can include additional details.
+
+',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1312,17 +1398,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_put_in',
     'label' => 'Put in',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => 2,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1338,7 +1445,7 @@ function rivers_guide_field_default_field_instances() {
     'default_value_function' => '',
     'default_value_php' => '',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Regions are based on boundaries of NZ Territorial Authorities, specifically regional councils.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -1356,7 +1463,7 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_region',
     'label' => 'Region',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -1372,13 +1479,13 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_river_name'.
   $field_instances['node-section-field_river_name'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => '<ol>
+  <li>Drop \'River\' from the River name and Section Name. Keep less common descriptors such as Stream, Creek, Falls.</li>
+  <li>Questions over placenames should be resolved using the <a href="https://www.linz.govt.nz/regulatory/place-names/find-place-name/new-zealand-gazetteer-place-names">LINZ NZ Geographic Placenames Database</a>.</li>
+  <lI>Use tohutō (macrons) for vowels, e.g.  ā, ē, ī, ō, ū, where appropriate.</li>
+</ol>',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -1404,17 +1511,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_river_name',
     'label' => 'River Name',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => -3,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1426,13 +1554,9 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_shuttle'.
   $field_instances['node-section-field_shuttle'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Length in km (add km), or reference helicopter operators.',
+    'description' => 'Short description of usual shuttle arrangements. Show length in km (add km), or reference helicopter operators.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1459,17 +1583,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_shuttle',
     'label' => 'Shuttle',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => 5,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1520,13 +1665,9 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_take_out'.
   $field_instances['node-section-field_take_out'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Name or short description of take out for section. Section description can include additional details.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1553,17 +1694,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_take_out',
     'label' => 'Take out',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => 4,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1575,13 +1737,9 @@ function rivers_guide_field_default_field_instances() {
   // Exported field_instance: 'node-section-field_time'.
   $field_instances['node-section-field_time'] = array(
     'bundle' => 'section',
-    'default_value' => array(
-      0 => array(
-        'value' => '',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'e.g. 2-4 hours, 1-2 days.',
+    'description' => 'Time at median or typical flow to complete a run, e.g. 2-4 hours, 1-2 days.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -1608,17 +1766,38 @@ function rivers_guide_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_time',
     'label' => 'Time',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'weight' => 0,
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 1,
         'size' => 60,
       ),
       'type' => 'text_textfield',
@@ -1762,37 +1941,50 @@ function rivers_guide_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('<ol>
+  <li>Drop \'River\' from the River name and Section Name. Keep less common descriptors such as Stream, Creek, Falls.</li>
+  <li>Questions over placenames should be resolved using the <a href="https://www.linz.govt.nz/regulatory/place-names/find-place-name/new-zealand-gazetteer-place-names">LINZ NZ Geographic Placenames Database</a>.</li>
+  <lI>Use tohutō (macrons) for vowels, e.g.  ā, ē, ī, ō, ū, where appropriate.</li>
+</ol>');
   t('A comma-separated list of people who made significant contributions to this material.');
   t('Alternate Name');
   t('An alternate name for the Section (e.g. for Lower Taipo, an alternate name is Taipo Gorge).');
-  t('Average gradient in metres per kilometre.');
+  t('Any additional information, including more details of the run, rapids, put in and take out, hydro development and other information.
+Put any other data here until it finds a home elsewhere...');
+  t('Average gradient of section in m/km. Specify peak gradient(s) if there is a distinct difference to average.');
   t('Body');
-  t('Brief description, e.g. Poutu intake.');
   t('Character');
   t('Class');
   t('Comment');
   t('Credits');
   t('Debris left over after upgrade from Drupal 6');
+  t('Early or notable descents, other historic information.');
   t('File attachments');
   t('Gauge');
   t('Gauge (NIWA)');
   t('Gradient');
   t('History');
   t('Hot tip');
-  t('In kilometres.');
   t('Is there a mandatory portage under normal conditions? ');
   t('Is this Section in NZ Whitewater 4th Edition, 2006? If so, enter the page number.');
   t('Length');
-  t('Length in km (add km), or reference helicopter operators.');
+  t('Length in kilometres of run along river centerline.');
   t('Level');
   t('Location');
   t('Map region');
   t('Maps');
+  t('NZ Topo 50 map sheets, e.g. BW17, from https://data.linz.govt.nz/layer/50767-nz-topo50-maps/. Was NZMS 260 maps https://data.linz.govt.nz/layer/51579-nzms-260-map-sheets/');
   t('NZ Whitewater 4th Edition 2006');
+  t('Name or short description of put in to section, e.g. Poutu intake. Section description can include additional details.
+
+');
+  t('Name or short description of take out for section. Section description can include additional details.');
   t('Portage?');
   t('Put in');
   t('Region');
+  t('Regions are based on boundaries of NZ Territorial Authorities, specifically regional councils.');
   t('River Name');
+  t('Short description of usual shuttle arrangements. Show length in km (add km), or reference helicopter operators.');
   t('Shuttle');
   t('Site Id');
   t('Summarise the nature of the section.');
@@ -1800,11 +1992,11 @@ function rivers_guide_field_default_field_instances() {
   t('Take out');
   t('Taxonomy upgrade extras');
   t('Time');
+  t('Time at median or typical flow to complete a run, e.g. 2-4 hours, 1-2 days.');
   t('URL of flow info, flow phone number, NIWA gauge id');
   t('Upstream of');
+  t('Use metric units, usually metre (m).');
   t('Use river scale I to IV for typical flows. A range of difficulty is indicated with a hyphen. Use brackets for out-of-character rapids, e.g. III (IV).');
-  t('e.g. 2-4 hours, 1-2 days.');
-  t('e.g. NZ Topo T19');
   t('geojson');
 
   return $field_instances;
