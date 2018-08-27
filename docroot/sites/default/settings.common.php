@@ -26,10 +26,9 @@ switch ($_SERVER['HTTP_HOST']) {
     $conf['environment'] = 'staging';
     break;
 
-
+  // rivers.org.nz
   default:
     $conf['environment'] = 'production';
-    $conf['environment'] = 'development'; // for site install...
 }
 
 // File system
@@ -127,9 +126,9 @@ switch ($conf['environment']) {
 
   // Simplehost 'staging'
   case 'uat':
-    ini_set('error_reporting', E_ALL);
+    ini_set('error_reporting', E_ALL ^E_NOTICE ^E_WARNING);
     ini_set('display_errors', TRUE);
-    ini_set('memory_limit', '156M');
+    ini_set('memory_limit', '164M');
     // c/- PreviousNext
     // Memory allocation to be 256MB. This is to cover cron etc.
     if (isset($_GET['q']) && (strpos($_GET['q'], 'admin') === 0 || strpos($_GET['q'], 'en/admin') === 0)) {
