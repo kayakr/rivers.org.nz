@@ -166,15 +166,18 @@ switch ($conf['environment']) {
     break;
 
   case 'production':
+    // Define base_url for Link Checker.
+    $base_url = 'https://rivers.org.nz';
+
     ini_set('error_reporting', E_ALL ^E_NOTICE);
     ini_set('display_errors', FALSE);
 
-    $conf['file_private_path'] = '/home/rivers.org.nz';
+    // Define private filesystem for Backup and Migrate.
+    $conf['file_private_path'] = '/home/rivers/files_rivers';
 
     // Flog.
     $conf['flog_path'] = $conf['file_directory_path'];
     $conf['flog_enabled'] = TRUE;
-    $conf['flog_file'] = 'drupal-de53477a4016158f6a16ec9c919f60c31c8e26d0.log';
 
     $conf['environment_indicator_overwritten_name'] = 'LIVE';
     $conf['environment_indicator_overwrite'] = FALSE;
