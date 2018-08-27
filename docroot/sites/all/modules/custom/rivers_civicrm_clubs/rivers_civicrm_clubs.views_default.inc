@@ -27,6 +27,7 @@ function rivers_civicrm_clubs_views_default_views() {
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -53,6 +54,7 @@ function rivers_civicrm_clubs_views_default_views() {
   $handler->display->display_options['fields']['counter']['table'] = 'views';
   $handler->display->display_options['fields']['counter']['field'] = 'counter';
   $handler->display->display_options['fields']['counter']['label'] = '';
+  $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
   $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   $handler->display->display_options['fields']['counter']['reverse'] = 0;
@@ -102,17 +104,15 @@ function rivers_civicrm_clubs_views_default_views() {
   $handler->display->display_options['fields']['url']['location_op'] = '0';
   $handler->display->display_options['fields']['url']['is_primary'] = 0;
   $handler->display->display_options['fields']['url']['website_type'] = '0';
+  /* Field: CiviCRM Address: Contact ID */
+  $handler->display->display_options['fields']['contact_id']['id'] = 'contact_id';
+  $handler->display->display_options['fields']['contact_id']['table'] = 'civicrm_address';
+  $handler->display->display_options['fields']['contact_id']['field'] = 'contact_id';
+  $handler->display->display_options['fields']['contact_id']['exclude'] = TRUE;
   /* Sort criterion: CiviCRM Contacts: Display Name */
   $handler->display->display_options['sorts']['display_name']['id'] = 'display_name';
   $handler->display->display_options['sorts']['display_name']['table'] = 'civicrm_contact';
   $handler->display->display_options['sorts']['display_name']['field'] = 'display_name';
-  /* Filter criterion: CiviCRM Contacts: Contact Type */
-  $handler->display->display_options['filters']['contact_type']['id'] = 'contact_type';
-  $handler->display->display_options['filters']['contact_type']['table'] = 'civicrm_contact';
-  $handler->display->display_options['filters']['contact_type']['field'] = 'contact_type';
-  $handler->display->display_options['filters']['contact_type']['value'] = array(
-    'Organization' => 'Organization',
-  );
   /* Filter criterion: CiviCRM Member: Membership Type */
   $handler->display->display_options['filters']['membership_type']['id'] = 'membership_type';
   $handler->display->display_options['filters']['membership_type']['table'] = 'civicrm_membership';
@@ -120,6 +120,24 @@ function rivers_civicrm_clubs_views_default_views() {
   $handler->display->display_options['filters']['membership_type']['value'] = array(
     3 => '3',
   );
+  /* Filter criterion: CiviCRM Contacts: Contact Type */
+  $handler->display->display_options['filters']['contact_type']['id'] = 'contact_type';
+  $handler->display->display_options['filters']['contact_type']['table'] = 'civicrm_contact';
+  $handler->display->display_options['filters']['contact_type']['field'] = 'contact_type';
+  $handler->display->display_options['filters']['contact_type']['value'] = array(
+    'Organization' => 'Organization',
+  );
+  /* Filter criterion: CiviCRM Address: Contact ID */
+  $handler->display->display_options['filters']['contact_id']['id'] = 'contact_id';
+  $handler->display->display_options['filters']['contact_id']['table'] = 'civicrm_address';
+  $handler->display->display_options['filters']['contact_id']['field'] = 'contact_id';
+  $handler->display->display_options['filters']['contact_id']['operator'] = 'not empty';
+  /* Filter criterion: CiviCRM Address: Contact ID */
+  $handler->display->display_options['filters']['contact_id_1']['id'] = 'contact_id_1';
+  $handler->display->display_options['filters']['contact_id_1']['table'] = 'civicrm_address';
+  $handler->display->display_options['filters']['contact_id_1']['field'] = 'contact_id';
+  $handler->display->display_options['filters']['contact_id_1']['operator'] = '!=';
+  $handler->display->display_options['filters']['contact_id_1']['value'] = '9387';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
