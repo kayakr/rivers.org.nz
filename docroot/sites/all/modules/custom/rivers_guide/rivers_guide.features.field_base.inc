@@ -757,7 +757,6 @@ function rivers_guide_field_default_field_bases() {
         'Rain' => 'Rain',
       ),
       'allowed_values_function' => '',
-      'allowed_values_php' => '',
     ),
     'translatable' => 0,
     'type' => 'list_text',
