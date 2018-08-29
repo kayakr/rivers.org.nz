@@ -15,7 +15,7 @@ include_once 'rivers_api.features.inc';
  */
 function rivers_api_rest_server_request_parsers_alter(&$parsers) {;
   // Add our own custom parser.
-  $parsers['application/vnd.rivers.v1.hal+json'] = 'RiversServicesParserJSONv1';
+  $parsers['application/vnd.rivers.v1.hal+json'] = 'ServicesParserJSONv1';
   $parsers['application/vnd.rivers.v2.hal+json'] = 'ServicesHALJSONFormatterV2';
 }
 
@@ -30,7 +30,11 @@ function rivers_api_rest_server_response_formatters_alter(&$formatters) {
   // Map no-version to latest version.
   $formatters['hal+json'] = array(
     'mime types' => array('application/hal+json'),
-    'formatter class' => 'ServicesHALJSONFormatterV2',
+    'formatter class' => 'ServicesHALJSONFormatter',
+  );
+  $formatters['v0.1.hal+json'] = array(
+    'mime types' => array('application/vnd.rivers.v0.1.hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatter',
   );
   $formatters['v1.hal+json'] = array(
     'mime types' => array('application/vnd.rivers.v1.hal+json'),

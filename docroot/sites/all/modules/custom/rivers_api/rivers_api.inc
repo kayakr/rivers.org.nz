@@ -5,29 +5,6 @@
  */
 
 /**
- * Callback for listing places.
- * @todo: Apply filter criteria.
- *
- * @param object $data
- * @return object $request
- */
-/*function _climbnz_api_places(){
-
-  // toDo:  make these key/value available via administration interface
-
-  $discovery['changeset'] = "2012-11-26 00:18";
-  $discovery['contact'] = "Bundesstadt Bonn, Amt 10-11, Berliner Platz 2, 53111 Bonn, fon: +49 228 77369";
-  $discovery['key_service'] = "You can request a key here: not yet";
-  $discovery['endpoints']['specification'] = "http://wiki.open311.org/GeoReport_v2";
-  $discovery['endpoints']['endpoint']['url'] = "http://anliegen.bonn.de/georeport/v2";
-  $discovery['endpoints']['endpoint']['changeset'] = "2012-11-26 00:18";
-  $discovery['endpoints']['endpoint']['type'] = "production";
-  $discovery['endpoints']['endpoint']['formats'] = array('format' => 'text/xml','format' =>'application/json');
-
-  return $discovery;
-}*/
-
-/**
  * Callback for retrieving a Section resource.
  *
  * @todo: what id node is unpublished?
