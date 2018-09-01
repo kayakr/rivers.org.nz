@@ -96,6 +96,14 @@ function _rivers_api_map_node_to_section($node, $parameters) {
 
   $section['character'] = $object->field_character->value();
 
+  $section['description'] = $object->body->value->value();
+
+  $section['credits'] = $object->field_credits->value();
+  $section['gradient'] = $object->field_gradient->value();
+  $section['gradient_unit'] = 'm/km';
+  $section['length'] = $object->field_length->value();
+  $section['length_unit'] = 'km';
+
   //$place['type'] = $object->field_type->value(); // field_view_field('node', $node, 'field_place_type');
   //$place['height'] = $object->field_height->value();
   //$place['description'] = $object->field_description->value->value(); //->value; // Safe value.
@@ -103,7 +111,7 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   // JSON HAL.
   $section['_links'] = array(
     'self' => array(
-      'href' => $endpoint_path . '/section/' . $node->nid,
+      'href' => url('node/' . $node->nid),
       'url' => url('node/' . $node->nid, array('absolute' => TRUE)),
     ),
   );

@@ -10,6 +10,6 @@ dependencies[] = xautoload
 features[ctools][] = services:services:3
 features[features_api][] = api:2
 features[services_endpoint][] = rivers_api
-files[] = RiversServicesParserJSONv1.inc
-files[] = ServicesHALJSONFormatter.inc
-files[] = ServicesHALJSONFormatterV2.inc
+; use XAutoload for all classes in .inc files
+files[] = *.inc
+

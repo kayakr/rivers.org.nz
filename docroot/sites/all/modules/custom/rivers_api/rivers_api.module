@@ -30,19 +30,17 @@ function rivers_api_rest_server_response_formatters_alter(&$formatters) {
   // Map no-version to latest version.
   $formatters['hal+json'] = array(
     'mime types' => array('application/hal+json'),
-    'formatter class' => 'ServicesHALJSONFormatter',
+    'formatter class' => 'ServicesHALJSONFormatterV0_0_1',
   );
-  $formatters['v0.1.hal+json'] = array(
-    'mime types' => array('application/vnd.rivers.v0.1.hal+json'),
-    'formatter class' => 'ServicesHALJSONFormatter',
+
+  // Try SemVer per https://semver.org/.
+  $formatters['v0.0.1.hal+json'] = array(
+    'mime types' => array('application/vnd.rivers.v0.0.1.hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatterV0_0_1',
   );
-  $formatters['v1.hal+json'] = array(
-    'mime types' => array('application/vnd.rivers.v1.hal+json'),
-    'formatter class' => 'ServicesHALJSONFormatter',
-  );
-  $formatters['v2.hal+json'] = array(
-    'mime types' => array('application/vnd.rivers.v2.hal+json'),
-    'formatter class' => 'ServicesHALJSONFormatterV2',
+  $formatters['v0.0.2.hal+json'] = array(
+    'mime types' => array('application/vnd.rivers.v0.0.2.hal+json'),
+    'formatter class' => 'ServicesHALJSONFormatterV0_0_2',
   );
 }
 
@@ -57,7 +55,7 @@ function _rivers_api_endpoint_path() {
 }
 
 /**
- * Access callback for ClimbNZ API.
+ * Access callback for rivers.org.nz API.
  * If we arrive here, it's because OAuth has authenticated the session.
  * User is probably anonymous (given OAuth2 Client Credentials flow.
  * Could use this to fine-tune access to specific resources...
@@ -66,7 +64,7 @@ function _rivers_api_access($op, $args) {
 
   global $user;
   //$access = FALSE;
-  return true;
+  //return true;
 
   switch ($op) {
     case 'view':
@@ -91,46 +89,6 @@ function _rivers_api_access($op, $args) {
  */
 function rivers_api_services_resources() {
   return array(
-    /*    'places' => array(
-          'index' => array(
-            'help' => 'List places',
-            'file' => array('file' => 'inc', 'module' => 'climbnz_api'),
-            'callback' => '_climbnz_api_places',
-            'access callback' => '_climbnz_api_access',
-            'access arguments' => array('view'),
-            'access arguments append' => TRUE,
-            'args' => array()
-          ),
-        ),
-
-        'index' => array(
-          'help' => 'Retrieves a listing of notes',
-          'file' => array('type' => 'inc', 'module' => 'noteresource', 'name' => 'noteresource'),
-          'callback' => '_noteresource_index',
-          'access callback' => 'user_access',
-          'access arguments' => array('access content'),
-          'access arguments append' => FALSE,
-          'args' => array(
-            array(
-             'name' => 'page',
-             'type' => 'int',
-             'description' => '',
-             'source' => array(
-               'param' => 'page',
-             ),
-             'optional' => TRUE,
-             'default value' => 0,
-            ),
-            array(
-             'name' => 'parameters',
-             'type' => 'array',
-             'description' => '',
-             'source' => 'param',
-             'optional' => TRUE,
-             'default value' => array(),
-            ),
-          ),
-        ),*/
 
     'section' => array(
       'retrieve' => array(
@@ -208,4 +166,39 @@ function rivers_api_services_resources() {
       ),
     ),
   );
+}
+
+
+/**
+ * Handle content negotiation via section path, e.g.
+ * /nz/canterbury/ashley/ashley-gorge
+ *
+ * Implements hook_node_view().
+ */
+function rivers_api_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'section' && $view_mode == 'full') {
+    if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'application/') {
+      // Return via services, force path to be Section node.
+      $_GET['q'] = 'api/section/' . $node->nid;
+      $endpoint_name = 'rivers_api';
+      return services_endpoint_callback($endpoint_name);
+    }
+  }
+}
+
+/**
+ * Handle content negotation via section index path,
+ * e.g. /nz.
+ *
+ * Implements hook_views_pre_view().
+ */
+function rivers_api_views_pre_view(&$view, &$display_id, &$args) {
+  if ($view->name == 'rivers_sections' && $display_id == 'page') {
+    if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'application/') {
+      // Return via Services, force path to be Section index.
+      $_GET['q'] = 'api/section';
+      $endpoint_name = 'rivers_api';
+      return services_endpoint_callback($endpoint_name);
+    }
+  }
 }
