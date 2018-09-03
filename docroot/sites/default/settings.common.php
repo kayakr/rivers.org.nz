@@ -46,8 +46,6 @@ switch ($conf['environment']) {
     ini_set('error_reporting', E_ALL);
     ini_set('display_errors', TRUE);
     ini_set('memory_limit', '156M');
-    //ini_set('xdebug.remote_autostart', 1);
-    //ini_set('xdebug.remote_mode', 'jit');
 
     // File system.
     $conf['file_private_path'] = '/Users/jonathan/Sites/files_rivers_dev';
@@ -122,6 +120,7 @@ switch ($conf['environment']) {
     $conf['environment_indicator_overwritten_position'] = 'top';
     $conf['environment_indicator_overwritten_fixed'] = FALSE;
 
+    global $databases;
     $databases['default']['default']['prefix']= array(
       'default' => '',
       'civicrm_account_contact'                  => '`rivers_civicrm`.',
@@ -316,7 +315,6 @@ switch ($conf['environment']) {
     $conf['mail_redirect_domain'] = 'huntdesign.co.nz';
 
     // Environment & Environment Indicator.
-
     $conf['environment_indicator_overwrite'] = TRUE;
     $conf['environment_indicator_overwritten_name'] = strtoupper($conf['environment']);
     $conf['environment_indicator_overwritten_color'] = '#fa630a';
