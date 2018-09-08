@@ -155,6 +155,17 @@ function rivers_api_services_resources() {
             'default value' => 0,
           ),
           array(
+            'name' => 'page_size',
+            'type' => 'int',
+            'description' => 'Rows of dataset to return',
+            'source' => array(
+              'param' => 'page_size',
+            ),
+            'optional' => TRUE,
+            'default value' => 10,
+          ),
+          // any additional parameters.
+          array(
             'name' => 'parameters',
             'type' => 'array',
             'description' => '',

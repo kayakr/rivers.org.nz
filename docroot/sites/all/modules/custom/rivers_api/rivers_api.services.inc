@@ -22,8 +22,8 @@ function rivers_api_default_services_endpoint() {
       'json' => TRUE,
       'bencode' => FALSE,
       'hal+json' => TRUE,
-      'v1.hal+json' => TRUE,
-      'v2.hal+json' => TRUE,
+      'vnd.rivers.v0.0.1.hal+json' => TRUE,
+      'vnd.rivers.v0.0.2.hal+json' => TRUE,
       'jsonp' => FALSE,
       'php' => FALSE,
       'xml' => FALSE,
@@ -41,7 +41,7 @@ function rivers_api_default_services_endpoint() {
     ),
   );
   $endpoint->resources = array(
-    'node' => array(
+    /*'node' => array(
       //'alias' => 'section',
       'operations' => array(
         'retrieve' => array(
@@ -51,7 +51,7 @@ function rivers_api_default_services_endpoint() {
           'enabled' => '1',
         ),
       ),
-    ),
+    ),*/
     'section' => array(
       'operations' => array(
         /*'create' => array(

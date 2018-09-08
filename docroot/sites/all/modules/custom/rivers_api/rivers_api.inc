@@ -7,7 +7,7 @@
 /**
  * Callback for retrieving a Section resource.
  *
- * @todo: what id node is unpublished?
+ * @todo: what if node is unpublished?
  *
  * @param int $nid section_id
  * @return array $request
@@ -16,7 +16,7 @@ function _rivers_api_section_retrieve($nid, $parameters) {
 
   $node = node_load($nid);
 
-  // Check loaded node is a Section.
+  // Check node is a Section.
   // Also catches no node exists for $nid.
   if ($node->type != 'section') {
     return services_error(t('No such section with id: @id.', array('@id' => $nid)), 404);
@@ -32,21 +32,26 @@ function _rivers_api_section_retrieve($nid, $parameters) {
 /**
  * Return Sections according to filter parameters.
  */
-function _rivers_api_section_index($page, $parameters) {
+function _rivers_api_section_index($page, $page_size, $parameters) {
   // @todo: can't rely on parameters being validated against definition!
   // page should be int, but 'b' is allowed through to here.
   if (!is_numeric($page)) {
     $page = 0;
   }
+  else {
+    $page = (int)$page;
+  }
+
+  // Defaults defined in rivers_api_services_resources() apply here.
+  // e.g. page_size = 10;
 
   $nodes = array();
-  $page_size = 10;
 
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'section')
     ->propertyCondition('status', 1)
-    ->range((int)$page * $page_size, $page_size);
+    ->range((int)$page * $page_size, (int)$page_size);
   // @todo: what are sort default, options?
   //->addMetaData('account', user_load(1)); // Run the query as user 1.
   $result = $query->execute();
@@ -58,13 +63,38 @@ function _rivers_api_section_index($page, $parameters) {
 
   if (count($nodes)) {
     foreach ($nodes as $nid => $node) {
+      watchdog('rivers_api', 'Loading nid=@nid', array('@nid' => $nid));
       $nodes[$nid] = _rivers_api_map_node_to_section($node, $parameters);
     }
   }
 
   // Meta information.
-  $nodes['page'] = (int)$page;
+  $nodes['count'] = count($nodes);
+  $nodes['page'] = $page;
   $nodes['page_size'] = $page_size;
+
+  // HAL+JSON
+  // @todo: only output next link if more nodes exists. Need to do full count...
+  if ($page > 0) {
+    $nodes['_links'] = array(
+      'self' => array(
+        'href' => url('nz', array('query' => array('page' => $page))),
+        'url' => url('nz', array('absolute' => TRUE)),
+      ),
+      'prev' => array(
+         'href' => url('nz', array('query' => array('page' => $page - 1))),
+      )
+    );
+  }
+  else {
+    $nodes['_links'] = array(
+      'self' => array(
+        'href' => url('nz'),
+        'url' => url('nz', array('absolute' => TRUE)),
+      ),
+    );
+  }
+
   // @todo: api docs
   $nodes['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
 
@@ -90,13 +120,16 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   // https://www.computerminds.co.uk/articles/rendering-drupal-7-fields-right-way
   $field_class = field_get_items('node', $node, 'field_class');
 
-  $section['class'] = drupal_render(field_view_value('node', $node, 'field_class', $field_class[0]));
+  $class_value = field_view_value('node', $node, 'field_class', $field_class[0]);
+  $section['class'] = drupal_render($class_value);
 
   $section['class_numeric'] = $object->field_class->value();
 
   $section['character'] = $object->field_character->value();
 
-  $section['description'] = $object->body->value->value();
+  if (isset($node->body[LANGUAGE_NONE][0])) {
+    $section['description'] = $object->body->value->value();
+  }
 
   $section['credits'] = $object->field_credits->value();
   $section['gradient'] = $object->field_gradient->value();
@@ -108,7 +141,7 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   //$place['height'] = $object->field_height->value();
   //$place['description'] = $object->field_description->value->value(); //->value; // Safe value.
 
-  // JSON HAL.
+  // HAL+JSON.
   $section['_links'] = array(
     'self' => array(
       'href' => url('node/' . $node->nid),
