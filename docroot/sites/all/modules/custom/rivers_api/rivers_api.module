@@ -162,7 +162,7 @@ function rivers_api_services_resources() {
               'param' => 'page_size',
             ),
             'optional' => TRUE,
-            'default value' => 10,
+            'default value' => 20,
           ),
           // any additional parameters.
           array(

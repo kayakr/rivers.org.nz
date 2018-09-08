@@ -32,7 +32,7 @@ function _rivers_api_section_retrieve($nid, $parameters) {
 /**
  * Return Sections according to filter parameters.
  */
-function _rivers_api_section_index($page, $page_size, $parameters) {
+function _rivers_api_section_index($page, $page_size = 20, $parameters) {
   // @todo: can't rely on parameters being validated against definition!
   // page should be int, but 'b' is allowed through to here.
   if (!is_numeric($page)) {
@@ -44,9 +44,17 @@ function _rivers_api_section_index($page, $page_size, $parameters) {
 
   // Defaults defined in rivers_api_services_resources() apply here.
   // e.g. page_size = 10;
-
   $nodes = array();
+  $output = array();
 
+  // Get total number of sections via count.
+  $query_total = new EntityFieldQuery();
+  $query_total->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'section')
+    ->propertyCondition('status', 1);
+  $total = $query_total->count()->execute();
+
+  // Get the sections for the current page.
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'section')
@@ -64,19 +72,20 @@ function _rivers_api_section_index($page, $page_size, $parameters) {
   if (count($nodes)) {
     foreach ($nodes as $nid => $node) {
       watchdog('rivers_api', 'Loading nid=@nid', array('@nid' => $nid));
-      $nodes[$nid] = _rivers_api_map_node_to_section($node, $parameters);
+      $output['sections'][] = _rivers_api_map_node_to_section($node, $parameters);
     }
   }
 
   // Meta information.
-  $nodes['count'] = count($nodes);
-  $nodes['page'] = $page;
-  $nodes['page_size'] = $page_size;
+  $output['count'] = count($nodes);
+  $output['page'] = $page;
+  $output['page_size'] = (int)$page_size;
+  $output['total'] = (int)$total;
 
   // HAL+JSON
   // @todo: only output next link if more nodes exists. Need to do full count...
   if ($page > 0) {
-    $nodes['_links'] = array(
+    $output['_links'] = array(
       'self' => array(
         'href' => url('nz', array('query' => array('page' => $page))),
         'url' => url('nz', array('absolute' => TRUE)),
@@ -87,7 +96,7 @@ function _rivers_api_section_index($page, $page_size, $parameters) {
     );
   }
   else {
-    $nodes['_links'] = array(
+    $output['_links'] = array(
       'self' => array(
         'href' => url('nz'),
         'url' => url('nz', array('absolute' => TRUE)),
@@ -96,9 +105,9 @@ function _rivers_api_section_index($page, $page_size, $parameters) {
   }
 
   // @todo: api docs
-  $nodes['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
+  $output['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
 
-  return $nodes;
+  return $output;
 }
 
 /**
@@ -114,32 +123,64 @@ function _rivers_api_map_node_to_section($node, $parameters) {
   $section['@id'] = url('node/' . $node->nid, array('absolute' => TRUE));
   $section['id'] = $node->nid;
   $section['vid'] = $node->vid; // version.
-  $section['name'] = $node->title;
-  $section['name_alternate'] = $object->field_alternate_name->value();
+
+  $section['region'] = $object->field_region->value();
+  $section['river_name'] = $object->field_river_name->value(array('sanitize' => TRUE));
+  //$section['name'] = $node->title;
+  $section['name'] = $object->title->value(array('sanitize' => TRUE));
+
+  $section['name_alternate'] = $object->field_alternate_name->value(array('sanitize' => TRUE));
 
   // https://www.computerminds.co.uk/articles/rendering-drupal-7-fields-right-way
   $field_class = field_get_items('node', $node, 'field_class');
 
   $class_value = field_view_value('node', $node, 'field_class', $field_class[0]);
   $section['class'] = drupal_render($class_value);
-
+  $section['portage'] = $object->field_portage->value();
   $section['class_numeric'] = $object->field_class->value();
 
-  $section['character'] = $object->field_character->value();
+  $section['character'] = $object->field_character->value(array('sanitize' => TRUE));
 
   if (isset($node->body[LANGUAGE_NONE][0])) {
-    $section['description'] = $object->body->value->value();
+    $section['description'] = $object->body->value->value(array('sanitize' => TRUE));
   }
 
-  $section['credits'] = $object->field_credits->value();
-  $section['gradient'] = $object->field_gradient->value();
+  $section['credits'] = $object->field_credits->value(array('sanitize' => TRUE));
+  $section['gradient'] = $object->field_gradient->value(array('sanitize' => TRUE));
   $section['gradient_unit'] = 'm/km';
-  $section['length'] = $object->field_length->value();
+  $section['length'] = $object->field_length->value(array('sanitize' => TRUE));
   $section['length_unit'] = 'km';
 
-  //$place['type'] = $object->field_type->value(); // field_view_field('node', $node, 'field_place_type');
-  //$place['height'] = $object->field_height->value();
-  //$place['description'] = $object->field_description->value->value(); //->value; // Safe value.
+  // field_gauge
+  // field_gauge_niwa
+
+  $section['hot_tip'] = $object->field_hot_tip->value(array('sanitize' => TRUE));
+  $section['level'] = $object->field_level->value(array('sanitize' => TRUE));
+  $section['maps'] = $object->field_maps->value(array('sanitize' => TRUE));
+  $section['level'] = $object->field_level->value(array('sanitize' => TRUE));
+  // NZ Whitewater 4th Edition 2006.
+  $section['nzww_2006'] = $object->field_nzww->value(array('sanitize' => TRUE));
+  // field_portage (above)
+  // field_river_name (above)
+  // field_region (above)
+  $section['shuttle'] = $object->field_shuttle->value(array('sanitize' => TRUE));
+  $section['time'] = $object->field_time->value(array('sanitize' => TRUE));
+  // field_tags
+  $section['tags'] = $object->field_tags->value();
+  $section['put_in'] = $object->field_put_in->value(array('sanitize' => TRUE));
+  $section['take_out'] = $object->field_take_out->value(array('sanitize' => TRUE));
+  // field_upstream_of (below, in _links).
+  // field_poi
+
+  //$wrapper = _wrapper_debug($object);
+
+  if ($object->field_history->value()) {
+    $section['history'] = $object->field_history->value->value(array('sanitize' => TRUE));
+  }
+
+  // Properties.
+  $section['created'] = date('c', $object->created->value());
+  $section['changed'] = date('c', $object->changed->value());
 
   // HAL+JSON.
   $section['_links'] = array(
@@ -149,7 +190,17 @@ function _rivers_api_map_node_to_section($node, $parameters) {
     ),
   );
 
+  if ($object->field_upstream_of->value()) {
+    $section['_links']['upstream_of'] = _rivers_api_map_node_to_section($object->field_upstream_of->value());
+  }
+
   return $section;
 }
 
-
+function _wrapper_debug($w) {
+  $values = array();
+  foreach ($w->getPropertyInfo() as $key => $val) {
+    $values[$key] = $w->$key->value();
+  }
+  return $values;
+}
