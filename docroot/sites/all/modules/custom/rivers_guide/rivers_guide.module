@@ -236,7 +236,7 @@ function rivers_guide_field_formatter_view($entity_type, $entity, $field, $insta
         if (!empty($item['nid'])) {
           $node = node_load($item['nid']);
           $section_name = $node->field_river_name[LANGUAGE_NONE][0]['value'] . '/' . $node->title;
-          if (isset($node->field_alternate_name[LANGUAGE_NONE][0])) {
+          if (isset($node->field_alternate_name[LANGUAGE_NONE][0]) && $node->field_alternate_name[LANGUAGE_NONE][0]['value'] != '') {
             $section_name .= ' (' . $node->field_alternate_name[LANGUAGE_NONE][0]['value'] . ')';
           }
           $output .= l($section_name, 'node/' . $item['nid']);
