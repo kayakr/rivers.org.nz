@@ -1,7 +1,72 @@
 <?php
 /**
  * @file
- * Code for the Article feature.
+ * Code for the Article feature incl. custom formatter.
  */
 
 include_once 'rivers_article.features.inc';
+
+/**
+ * Inject article topic (e.g. Safety) into breadcrumb.
+ * Implements hook_menu_breadcrumb_alter().
+ */
+function rivers_article_menu_breadcrumb_alter(&$active_trail, $item) {
+  if ($item['map'][0] == 'node') {
+    $node = $item['map'][1];
+    if ($node->type == 'article') {
+      // Is there a tag?
+      if (isset($node->field_topic[LANGUAGE_NONE][0])) {
+        $term = $node->field_topic[LANGUAGE_NONE][0]['taxonomy_term'];
+        // $term->name
+        $active_trail[2] = $active_trail[1];
+        $active_trail[1] = array(
+          'title' => $term->name,
+          'href' => 'taxonomy/term/' . $term->tid,
+          'localized_options' => array(),
+        );
+      }
+    }
+  }
+}
+
+
+/**
+ * Register custom formatter for Article Body field, so we can show summary
+ * above body field.
+ *
+ * Implements hook_field_formatter_info().
+ */
+function rivers_article_field_formatter_info() {
+  return array(
+    'rivers_article_body_formatter' => array( //Machine name of the formatter
+      'label' => t('Summary and Body'),
+      'field types' => array('text_with_summary'), // Long text with summary
+      //'settings'  => array( //Array of the settings we'll create
+      //  'pic_size' => 'small', //give a default value for when the form is first loaded
+      //  'tooltip' => 'Link to user Facebook page', //ditto
+      //),
+    ),
+  );
+}
+
+/**
+ * Somehow this gets invoked when Portage formatter above is specified in views,
+ * for field_portage.
+ *
+ * Implements hook_field_formatter_view().
+ */
+function rivers_article_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+
+  $element = array();
+
+  // from text_field_formatter_view: text_default
+  foreach ($items as $delta => $item) {
+    $output = '<div class="summary">' . $item['safe_summary'] . '</div>';
+    $output .= '<div class="body">';
+    $output .= _text_sanitize($instance, $langcode, $item, 'value');
+    $output .= '</div><!--/body-->';
+    $element[$delta] = array('#markup' => $output);
+  }
+
+  return $element;
+}
