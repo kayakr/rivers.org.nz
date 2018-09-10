@@ -624,7 +624,7 @@ Put any other data here until it finds a home elsewhere...',
       ),
     ),
     'deleted' => 0,
-    'description' => 'Use river scale I to IV for typical flows. A range of difficulty is indicated with a hyphen. Use brackets for out-of-character rapids, e.g. III (IV).',
+    'description' => 'Use river scale I to VI for typical flows. A range of difficulty is indicated with a hyphen. Use brackets for out-of-character rapids, e.g. III (IV).',
     'display' => array(
       'default' => array(
         'label' => 'inline',
