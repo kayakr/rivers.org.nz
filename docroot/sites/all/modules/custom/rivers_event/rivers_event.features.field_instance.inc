@@ -237,9 +237,9 @@ function rivers_event_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'node_reference',
+        'module' => 'rivers_guide',
         'settings' => array(),
-        'type' => 'node_reference_default',
+        'type' => 'rivers_guide_node_reference_formatter',
         'weight' => 5,
       ),
       'teaser' => array(
