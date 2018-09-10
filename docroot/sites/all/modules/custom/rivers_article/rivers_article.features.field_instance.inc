@@ -19,9 +19,9 @@ function rivers_article_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'text',
+        'module' => 'rivers_article',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'rivers_article_body_formatter',
         'weight' => 0,
       ),
       'teaser' => array(
