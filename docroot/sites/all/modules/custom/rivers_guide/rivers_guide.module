@@ -196,6 +196,10 @@ function rivers_guide_field_formatter_info() {
       //  'tooltip' => 'Link to user Facebook page', //ditto
       //),
     ),
+    'rivers_guide_node_reference_formatter' => array(
+      'label' => t('River/Section (alternate)'),
+      'field types' => array('node_reference'),
+    ),
   );
 }
 
@@ -210,19 +214,39 @@ function rivers_guide_field_formatter_view($entity_type, $entity, $field, $insta
   $element = array();
 
   $output = '';
-  foreach ($items as $delta => $item) {
-    if (!empty($item['value'])) {
-      $output .= '(P)';
-    }
-  }
-  /*$options = array(
-    'html'        => TRUE, // This tells Drupal that we're sending HTML, not plain text, otherwise it would encode it
-    'attributes'  => array(
-      'title' => $tooltip, // This sets our tooltip
-      ),
-    );*/
-  if(isset($output)) {
-    $element[0]['#markup'] = ' <span class="portage">' . $output . '</span>'; // Assign it to the #markup of the element
+
+  switch ($display['type']) {
+
+    case 'rivers_guide_portage_formatter':
+      foreach ($items as $delta => $item) {
+        if (!empty($item['value'])) {
+          $output .= '(P)';
+        }
+      }
+      if (isset($output)) {
+        // Assign it to the #markup of the element.
+        $element[0]['#markup'] = ' <span class="portage">' . $output . '</span>';
+      }
+      break;
+
+    // Change link to show River name/Section name (alternate name).
+    case 'rivers_guide_node_reference_formatter':
+
+      foreach ($items as $delta => $item) {
+        if (!empty($item['nid'])) {
+          $node = node_load($item['nid']);
+          $section_name = $node->field_river_name[LANGUAGE_NONE][0]['value'] . '/' . $node->title;
+          if (isset($node->field_alternate_name[LANGUAGE_NONE][0])) {
+            $section_name .= ' (' . $node->field_alternate_name[LANGUAGE_NONE][0]['value'] . ')';
+          }
+          $output .= l($section_name, 'node/' . $item['nid']);
+        }
+      }
+      if (isset($output)) {
+        // Assign it to the #markup of the element.
+        $element[0]['#markup'] = $output;
+      }
+      break;
   }
 
   return $element;
