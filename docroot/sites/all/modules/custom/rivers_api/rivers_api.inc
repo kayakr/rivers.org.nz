@@ -9,7 +9,7 @@ function rivers_api_licence() {
 }
 
 function rivers_api_attribution() {
-  return t('<a href="https://rivers.org.nz/nz">Whitewater NZ River Guide</a> licenced per <a href="https://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a>.');
+  return t('<a href="https://rivers.org.nz/nz">Whitewater NZ River Guide</a> licensed per <a href="https://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a>.');
 }
 
 /**
