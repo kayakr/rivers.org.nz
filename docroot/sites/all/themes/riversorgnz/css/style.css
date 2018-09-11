@@ -89,6 +89,7 @@
 #page-header img {
   position: absolute;
   top: -65px;
+  left: 0; /* Stop Firefox blowout */
 }
 
 .main-container>.row>section {
