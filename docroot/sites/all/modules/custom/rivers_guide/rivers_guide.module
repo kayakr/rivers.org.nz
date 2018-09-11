@@ -52,7 +52,7 @@ function rivers_guide_block_view($delta = '') {
       $block['subject'] = 'Important information re River Guide contributions';
       $block['content'] = '<ol>
 <li>Ensure you have permission to post the material.</li>
-<li>All guide contributions are published via a <a href="http://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a> licence.</li>
+<li>All guide contributions are published via a <a href="https://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a> licence.</li>
 </ol>';
       return $block;
   }

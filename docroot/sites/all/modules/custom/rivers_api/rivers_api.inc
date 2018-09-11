@@ -4,6 +4,14 @@
  * Implement service resource callbacks.
  */
 
+function rivers_api_licence() {
+  return 'https://creativecommons.org/licenses/by-sa/3.0/nz/';
+}
+
+function rivers_api_attribution() {
+  return t('<a href="https://rivers.org.nz/nz">Whitewater NZ River Guide</a> licenced per <a href="https://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a>.');
+}
+
 /**
  * Callback for retrieving a Section resource.
  *
@@ -24,7 +32,8 @@ function _rivers_api_section_retrieve($nid, $parameters) {
 
   // Maps internal node attributes to attributes to be exposed via API.
   $output = _rivers_api_map_node_to_section($node, $parameters);
-  $output['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
+  $output['licence'] = rivers_api_licence();
+  $output['licence_attribution'] = rivers_api_attribution();
 
   return $output;
 }
@@ -105,7 +114,8 @@ function _rivers_api_section_index($page, $page_size = 20, $parameters) {
   }
 
   // @todo: api docs
-  $output['licence'] = t('http://creativecommons.org/licenses/by-sa/3.0/nz/');
+  $output['licence'] = rivers_api_licence();
+  $output['licence_attribution'] = rivers_api_attribution();
 
   return $output;
 }
