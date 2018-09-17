@@ -385,3 +385,13 @@ body {
 #user-register-form .label {
   color: #000;
 }
+
+/* Developers */
+div.geshifilter {
+  margin: 0.5em 0;
+  border: none;
+}
+div.geshifilter pre {
+  border: none;
+  background: transparent;
+}
