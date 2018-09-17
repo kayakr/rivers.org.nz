@@ -75,7 +75,7 @@ function rivers_guide_form_alter(array &$form, array &$form_state = array(), $fo
  */
 function rivers_guide_field_views_data_views_data_alter(&$data, $field) {
   //flog_it(__FUNCTION__ . ': data=' . print_r($data, TRUE) . ', field='. print_r($field, TRUE));
-  xdebug_break();
+  //xdebug_break();
 }
 
 /**
