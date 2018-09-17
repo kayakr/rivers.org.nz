@@ -9,7 +9,7 @@ function rivers_api_licence() {
 }
 
 function rivers_api_attribution() {
-  return t('<a href="https://rivers.org.nz/nz">Whitewater NZ River Guide</a> licensed per <a href="https://creativecommons.org/licenses/by-sa/3.0/nz">Creative Commons CC-BY-SA</a>.');
+  return t('<a href="https://rivers.org.nz/nz">Whitewater NZ River Guide</a> licensed per <a href="https://creativecommons.org/licenses/by-sa/3.0/nz/">Creative Commons CC-BY-SA</a>.');
 }
 
 /**
@@ -42,6 +42,11 @@ function _rivers_api_section_retrieve($nid, $parameters) {
  * Return Sections according to filter parameters.
  */
 function _rivers_api_section_index($page, $page_size = 20, $parameters) {
+  // for now, if we get parameter 'args', it implies a further path has been specified, e.g. canterbury/ashley
+  if (isset($_GET['args'])) {
+    return services_error(t('Path filters @args not accepted on section index.', array('@args' => $_GET['args'])), 406);
+  }
+
   // @todo: can't rely on parameters being validated against definition!
   // page should be int, but 'b' is allowed through to here.
   if (!is_numeric($page)) {

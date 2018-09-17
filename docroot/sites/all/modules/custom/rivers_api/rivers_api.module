@@ -208,6 +208,10 @@ function rivers_api_views_pre_view(&$view, &$display_id, &$args) {
     if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'application/') {
       // Return via Services, force path to be Section index.
       $_GET['q'] = 'api/section';
+      // If we have args[0]='canterbury', args[1]='ashley' etc. pass through, then error.
+      if (count($args)) {
+        $_GET['args'] = implode('/', $args);
+      }
       $endpoint_name = 'rivers_api';
       return services_endpoint_callback($endpoint_name);
     }
