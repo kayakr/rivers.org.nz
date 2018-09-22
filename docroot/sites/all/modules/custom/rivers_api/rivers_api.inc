@@ -92,29 +92,38 @@ function _rivers_api_section_index($page, $page_size = 20, $parameters) {
 
   // Meta information.
   $output['count'] = count($nodes);
+  $output['total'] = (int)$total;
   $output['page'] = $page;
   $output['page_size'] = (int)$page_size;
-  $output['total'] = (int)$total;
+  $output['page_total'] = floor($total / $page_size);
 
-  // HAL+JSON
-  // @todo: only output next link if more nodes exists. Need to do full count...
-  if ($page > 0) {
-    $output['_links'] = array(
-      'self' => array(
-        'href' => url('nz', array('query' => array('page' => $page))),
-        'url' => url('nz', array('absolute' => TRUE)),
-      ),
-      'prev' => array(
-         'href' => url('nz', array('query' => array('page' => $page - 1))),
-      )
-    );
-  }
-  else {
+  // HAL+JSON, links to self, prev and next pages.
+  if ($page == 0) {
     $output['_links'] = array(
       'self' => array(
         'href' => url('nz'),
         'url' => url('nz', array('absolute' => TRUE)),
       ),
+    );
+  }
+  else {
+    $output['_links'] = array(
+      'self' => array(
+        'href' => url('nz', array('query' => array('page' => $page))),
+        'url' => url('nz', array('query' => array('page' => $page), 'absolute' => TRUE)),
+      ),
+    );
+  }
+
+  // Output prev and next page links.
+  if ($page > 0) {
+    $output['_links']['prev'] = array(
+      'href' => url('nz', array('query' => array('page' => $page - 1))),
+    );
+  }
+  if ($page < $output['page_total']) {
+    $output['_links']['next'] = array(
+      'href' => url('nz', array('query' => array('page' => $page + 1))),
     );
   }
 
