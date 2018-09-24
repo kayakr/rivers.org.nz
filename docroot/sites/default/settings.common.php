@@ -367,8 +367,9 @@ switch ($conf['environment']) {
     ini_set('error_reporting', E_ALL ^E_NOTICE);
     ini_set('display_errors', FALSE);
 
+    $conf['file_directory_path'] = 'sites/default/files';
     // Define private filesystem for Backup and Migrate.
-    $conf['file_private_path'] = '/home/rivers/files_rivers';
+    $conf['file_private_path'] = '/var/lib/sitedata/drupal/rivers/files_private';
 
     // Flog.
     $conf['flog_path'] = $conf['file_directory_path'];
@@ -376,9 +377,7 @@ switch ($conf['environment']) {
 
     $conf['environment_indicator_overwritten_name'] = 'LIVE';
     $conf['environment_indicator_overwrite'] = FALSE;
-
-    $conf['file_directory_path'] = 'sites/default/files';
-
+    
     $conf['reverse_proxy'] = true;
     $conf['reverse_proxy_header'] = 'HTTP_X_FORWARDED_FOR';
 
