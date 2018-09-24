@@ -74,7 +74,6 @@ function riversorgnz_preprocess_comment(&$variables) {
  */
 function riversorgnz_preprocess_block(&$variables) {
   // Override Latest news view block to add Bootstrap classes.
-  xdebug_break();
   switch ($variables['block_html_id']) {
     case 'block-views-rivers-calendar-block-2':
     case 'block-views-rivers-news-latest-news':

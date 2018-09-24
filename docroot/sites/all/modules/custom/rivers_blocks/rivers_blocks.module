@@ -14,7 +14,7 @@ function rivers_blocks_block_info() {
 
   $blocks['rivers_catalyst_cloud'] = array(
     'info' => t('Catalyst Cloud'),
-    'cache' => DRUPAL_NO_CACHE, // change to DRUPAL_CACHE_GLOBAL when done.
+    'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
   );
 
   $blocks['rivers_safety_course'] = array(
