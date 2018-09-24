@@ -333,6 +333,22 @@ switch ($conf['environment']) {
     ini_set('error_reporting', E_ALL ^E_NOTICE);
     ini_set('display_errors', FALSE);
 
+    ini_set('memory_limit', '164M');
+    // c/- PreviousNext
+    // Memory allocation to be 256MB. This is to cover cron etc.
+    if (isset($_GET['q']) && (strpos($_GET['q'], 'admin') === 0 || strpos($_GET['q'], 'en/admin') === 0)) {
+      ini_set('memory_limit', '196M');
+    }
+    // Node edit pages are memory heavy too.
+    if (isset($_GET['q']) && preg_match('@^node\/([0-9]+)\/edit$@', $_GET['q'])) {
+      ini_set('memory_limit', '196M');
+    }
+
+    // Memory allocation to be 256MB. This is to cover cron etc.
+    if (isset($_GET['q']) && (strpos($_GET['q'], 'batch') === 0)) {
+      ini_set('memory_limit', '196M');
+    }
+
     // Define private filesystem for Backup and Migrate.
     $conf['file_private_path'] = '/home/rivers/files_rivers';
 
@@ -370,9 +386,9 @@ switch ($conf['environment']) {
     $conf['reverse_proxy_addresses'] = array('127.0.0.1');
 
     // Connection details for Catalyst Squid proxies.
-    $conf['proxy_server'] = 'ext-proxy-staging.catalyst.net.nz';
+    $conf['proxy_server'] = 'ext-proxy-prod.catalyst.net.nz';
     $conf['proxy_port'] = '3128';
-    $conf['proxy_exceptions'] = array('cat-chcsc-staging-solr.servers.catalyst.net.nz');
+    $conf['proxy_exceptions'] = array('cat-chcsc-prod-solr1.servers.catalyst.net.nz');
 
     $conf['omit_vary_cookie'] = true;
 
