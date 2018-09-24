@@ -13,22 +13,24 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
 }
 
 // Set environment based on host.
-switch ($_SERVER['HTTP_HOST']) {
-  case '3rivers.local':
-    $conf['environment'] = 'development';
-    break;
+if (!isset($conf['environment')) {
+  switch ($_SERVER['HTTP_HOST']) {
+    case '3rivers.local':
+      $conf['environment'] = 'development';
+      break;
 
-  case 'd7.rivers.org.nz':
-    $conf['environment'] = 'uat';
-    break;
+    case 'd7.rivers.org.nz':
+      $conf['environment'] = 'uat';
+      break;
 
-  case 'rivers.catalystdemo.net.nz':
-    $conf['environment'] = 'staging';
-    break;
+    case 'rivers.catalystdemo.net.nz':
+      $conf['environment'] = 'staging';
+      break;
 
-  // rivers.org.nz
-  default:
-    $conf['environment'] = 'production';
+    // rivers.org.nz
+    default:
+      $conf['environment'] = 'production';
+  }
 }
 
 // File system
