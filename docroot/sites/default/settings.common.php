@@ -13,7 +13,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
 }
 
 // Set environment based on host.
-if (!isset($conf['environment')) {
+if (!isset($conf['environment'])) {
   switch ($_SERVER['HTTP_HOST']) {
     case '3rivers.local':
       $conf['environment'] = 'development';
