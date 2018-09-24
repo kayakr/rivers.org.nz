@@ -326,7 +326,7 @@ switch ($conf['environment']) {
     $conf['environment_indicator_overwritten_fixed'] = FALSE;
     break;
 
-  case 'production':
+/*  case 'production':
     // Define base_url for Link Checker.
     $base_url = 'https://rivers.org.nz';
 
@@ -358,9 +358,9 @@ switch ($conf['environment']) {
 
     $conf['environment_indicator_overwritten_name'] = 'LIVE';
     $conf['environment_indicator_overwrite'] = FALSE;
-    break;
+    break;*/
 
-  case 'production-catalyst':
+  case 'production':
     // Define base_url for Link Checker.
     $base_url = 'https://rivers.org.nz';
 
@@ -377,7 +377,7 @@ switch ($conf['environment']) {
 
     $conf['environment_indicator_overwritten_name'] = 'LIVE';
     $conf['environment_indicator_overwrite'] = FALSE;
-    
+
     $conf['reverse_proxy'] = true;
     $conf['reverse_proxy_header'] = 'HTTP_X_FORWARDED_FOR';
 
