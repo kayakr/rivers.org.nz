@@ -114,6 +114,23 @@
 .footer {
   margin-top: 0px;
 }
+/* xs */
+@media (max-width: 767px) {
+  #block-rivers-blocks-rivers-catalyst-cloud {
+    margin-top: 2em;
+    text-align: center;
+  }
+}
+/* sm+ */
+@media (min-width: 768px) {
+  #block-rivers-blocks-rivers-catalyst-cloud {
+    float: right;
+  }
+}
+
+.block-masquerade  {
+  clear: both;
+}
 
 /* Homepage news block */
 #block-views-rivers-news-latest-news {

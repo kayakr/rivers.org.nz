@@ -74,6 +74,7 @@ function riversorgnz_preprocess_comment(&$variables) {
  */
 function riversorgnz_preprocess_block(&$variables) {
   // Override Latest news view block to add Bootstrap classes.
+  xdebug_break();
   switch ($variables['block_html_id']) {
     case 'block-views-rivers-calendar-block-2':
     case 'block-views-rivers-news-latest-news':
@@ -83,6 +84,10 @@ function riversorgnz_preprocess_block(&$variables) {
     case 'block-rivers-forum-rivers-forum-summary':
     case 'block-rivers-issue-rivers-issue':
       $variables['classes_array'][] = 'col-md-3';
+      break;
+
+    case 'block-rivers-blocks-rivers-catalyst-cloud':
+      $variables['classes_array'][] = 'col-xs-12 col-sm-3';
       break;
   }
 }

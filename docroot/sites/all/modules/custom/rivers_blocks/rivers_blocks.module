@@ -12,10 +12,16 @@ include_once 'rivers_blocks.features.inc';
  */
 function rivers_blocks_block_info() {
 
+  $blocks['rivers_catalyst_cloud'] = array(
+    'info' => t('Catalyst Cloud'),
+    'cache' => DRUPAL_NO_CACHE, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
   $blocks['rivers_safety_course'] = array(
     'info' => t('Rivers safety course funding'),
     'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
   );
+
   $blocks['rivers_welcome_d7'] = array(
     'info' => t('Welcome to new site'),
     'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
@@ -29,6 +35,12 @@ function rivers_blocks_block_info() {
  */
 function rivers_blocks_block_view($delta = '') {
   switch ($delta) {
+    case 'rivers_catalyst_cloud':
+      $block['subject'] = '';
+      $path = drupal_get_path('theme', 'riversorgnz');
+      $block['content'] = '<a href="https://catalystcloud.nz" title="Powered by Catalyst Cloud"><img class="img-responsive" src="/' . $path . '/images/powered-by-cc-logo-transparent-RGB.png"/></a>';
+      return $block;
+
     case 'rivers_safety_course':
       $block['subject'] = 'Important information re safety funding';
       $block['content'] = "<p>We're sorry to report that the funding for this financial year is not being supported by Water Safety NZ as they are not targeting their efforts on whitewater kayaking safety (since June 2015). This is unfortunate and Whitewater New Zealand is appealing to Water Safety NZ to reconsider this position.</p>
