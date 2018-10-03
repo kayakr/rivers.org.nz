@@ -32,7 +32,7 @@ function rivers_civicrm_executive_views_pre_render(&$view) {
       'Administration',
     );
     $results_ordered = array();
-    foreach ($view->result as $result) {
+    foreach ($view->result as $row_id => $result) {
       $exec_position = array_search($result->civicrm_relationship_description, $exec_order);
       if ($exec_position !== FALSE) {
         //if ($result->civicrm_relationship_description == 'Conservation') {
@@ -42,6 +42,7 @@ function rivers_civicrm_executive_views_pre_render(&$view) {
       }
       else {
         // We encountered an Exec role without an order.
+        $results_ordered[99 + $row_id] = $result;
       }
     }
     // Sort array by keys (that are the role index positions).

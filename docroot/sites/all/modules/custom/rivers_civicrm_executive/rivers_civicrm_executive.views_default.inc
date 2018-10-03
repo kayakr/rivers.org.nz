@@ -22,7 +22,7 @@ function rivers_civicrm_executive_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Whitewater NZ Executive Committee';
+  $handler->display->display_options['title'] = 'Whitewater NZ Board';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'none';
@@ -77,10 +77,21 @@ function rivers_civicrm_executive_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'As elected at the 2016 AGM.
+  $handler->display->display_options['header']['area']['content'] = 'As elected at the 2018 AGM.
 
-The Executive and Officers of the Whitewater NZ are recreational kayakers who contribute their time and energy to the sport they love. They welcome contact with fellow paddlers, so feel free to get in touch.';
+The Board of the Whitewater NZ are recreational kayakers who contribute their time and energy to the sport they love. They welcome contact with fellow paddlers, so feel free to get in touch.';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  /* Footer: Global: Text area */
+  $handler->display->display_options['footer']['area']['id'] = 'area';
+  $handler->display->display_options['footer']['area']['table'] = 'views';
+  $handler->display->display_options['footer']['area']['field'] = 'area';
+  $handler->display->display_options['footer']['area']['content'] = 'At AGM 2017 a revised <a href="/constitution">constitution</a> was adopted, changing the governance structure of Whitewater NZ from an Executive Committee to a Board structure.';
+  $handler->display->display_options['footer']['area']['format'] = 'filtered_html';
+  /* Field: CiviCRM Address: Contact ID */
+  $handler->display->display_options['fields']['contact_id']['id'] = 'contact_id';
+  $handler->display->display_options['fields']['contact_id']['table'] = 'civicrm_address';
+  $handler->display->display_options['fields']['contact_id']['field'] = 'contact_id';
+  $handler->display->display_options['fields']['contact_id']['exclude'] = TRUE;
   /* Field: CiviCRM Relationships: Description */
   $handler->display->display_options['fields']['description']['id'] = 'description';
   $handler->display->display_options['fields']['description']['table'] = 'civicrm_relationship';
@@ -90,7 +101,6 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['display_name']['id'] = 'display_name';
   $handler->display->display_options['fields']['display_name']['table'] = 'civicrm_contact';
   $handler->display->display_options['fields']['display_name']['field'] = 'display_name';
-  $handler->display->display_options['fields']['display_name']['label'] = 'Name';
   $handler->display->display_options['fields']['display_name']['link_to_civicrm_contact'] = 0;
   /* Field: CiviCRM Email: Email Address */
   $handler->display->display_options['fields']['email']['id'] = 'email';
@@ -99,7 +109,7 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['email']['label'] = 'Email';
   $handler->display->display_options['fields']['email']['location_type'] = '1';
   $handler->display->display_options['fields']['email']['location_op'] = '0';
-  $handler->display->display_options['fields']['email']['is_primary'] = 0;
+  $handler->display->display_options['fields']['email']['is_primary'] = 1;
   /* Field: CiviCRM Address: City / Suburb */
   $handler->display->display_options['fields']['city']['id'] = 'city';
   $handler->display->display_options['fields']['city']['table'] = 'civicrm_address';
@@ -112,9 +122,13 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
   $handler->display->display_options['fields']['text_link']['table'] = 'civicrm_contact';
   $handler->display->display_options['fields']['text_link']['field'] = 'text_link';
   $handler->display->display_options['fields']['text_link']['label'] = 'Ops';
-  $handler->display->display_options['fields']['text_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['text_link']['link_to_civicrm_contact'] = 'edit';
   $handler->display->display_options['fields']['text_link']['link_text'] = 'Edit';
+  /* Field: CiviCRM Contacts: Text Link */
+  $handler->display->display_options['fields']['text_link_1']['id'] = 'text_link_1';
+  $handler->display->display_options['fields']['text_link_1']['table'] = 'civicrm_contact';
+  $handler->display->display_options['fields']['text_link_1']['field'] = 'text_link';
+  $handler->display->display_options['fields']['text_link_1']['link_text'] = 'View';
   /* Sort criterion: CiviCRM Note: Note */
   $handler->display->display_options['sorts']['note']['id'] = 'note';
   $handler->display->display_options['sorts']['note']['table'] = 'civicrm_note';
@@ -146,7 +160,7 @@ The Executive and Officers of the Whitewater NZ are recreational kayakers who co
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'about/executive';
+  $handler->display->display_options['path'] = 'about/board';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Whitewater NZ Executive';
   $handler->display->display_options['menu']['weight'] = '0';
