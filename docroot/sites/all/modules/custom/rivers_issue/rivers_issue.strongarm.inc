@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * rivers_issue.strongarm.inc
@@ -58,6 +59,27 @@ function rivers_issue_strongarm() {
   $strongarm->name = 'comment_subject_field_rivers_issue';
   $strongarm->value = 1;
   $export['comment_subject_field_rivers_issue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'diff_enable_revisions_page_node_rivers_issue';
+  $strongarm->value = 1;
+  $export['diff_enable_revisions_page_node_rivers_issue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'diff_show_preview_changes_node_rivers_issue';
+  $strongarm->value = 1;
+  $export['diff_show_preview_changes_node_rivers_issue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'diff_view_mode_preview_node_rivers_issue';
+  $strongarm->value = 'full';
+  $export['diff_view_mode_preview_node_rivers_issue'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -143,6 +165,13 @@ function rivers_issue_strongarm() {
   $strongarm->name = 'node_submitted_rivers_issue';
   $strongarm->value = 0;
   $export['node_submitted_rivers_issue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_rivers_issue_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_rivers_issue_pattern'] = $strongarm;
 
   return $export;
 }
