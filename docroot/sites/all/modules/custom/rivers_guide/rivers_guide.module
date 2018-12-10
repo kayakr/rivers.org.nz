@@ -364,3 +364,19 @@ function rivers_guide_menu_breadcrumb_alter(&$active_trail, $item) {
     $active_trail = $breadcrumb_new;
   }
 }
+
+/**
+ * #72 Hutt Gorge in the guide is returning 301 Moved Permanently and redirecting to the API
+ * Looks like text/html on same path /nz/wellington/hutt/hutt-gorge as application/hal+json
+ * is being cached, causing api requests to get HTML.
+ *
+ * Implements hook_node_view().
+ */
+function rivers_guide_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'section' && $view_mode == 'full') {
+    if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'text/html') {
+      drupal_add_http_header('Vary', 'Accept', TRUE);
+    }
+  }
+}
+
