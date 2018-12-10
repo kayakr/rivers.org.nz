@@ -188,8 +188,15 @@ function rivers_api_services_resources() {
  */
 function rivers_api_node_view($node, $view_mode, $langcode) {
   if ($node->type == 'section' && $view_mode == 'full') {
+    watchdog('rivers_api', "node_view=@nid, HTTP_ACCEPT=@accept", array(
+      '@nid' => $node->nid,
+      '@accept' => $_SERVER['HTTP_ACCEPT'],
+    ), WATCHDOG_DEBUG);
     if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'application/') {
       // Return via services, force path to be Section node.
+      $_GET['node_view_redirect'] = 1;
+      drupal_add_http_header('X-Node-View-Redirect', '1');
+
       $_GET['q'] = 'api/section/' . $node->nid;
       $endpoint_name = 'rivers_api';
       return services_endpoint_callback($endpoint_name);
