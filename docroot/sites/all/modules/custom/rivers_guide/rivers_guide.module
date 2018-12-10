@@ -374,7 +374,7 @@ function rivers_guide_menu_breadcrumb_alter(&$active_trail, $item) {
  */
 function rivers_guide_node_view($node, $view_mode, $langcode) {
   if ($node->type == 'section' && $view_mode == 'full') {
-    if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'text/html') {
+    if (substr($_SERVER['HTTP_ACCEPT'], 0, 9) == 'text/html') {
       drupal_add_http_header('Vary', 'Accept', TRUE);
     }
   }
