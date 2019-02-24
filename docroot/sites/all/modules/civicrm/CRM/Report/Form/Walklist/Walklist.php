@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,14 +28,9 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
-  protected $_addressField = FALSE;
-
-  protected $_emailField = FALSE;
-
-  protected $_phoneField = FALSE;
 
   protected $_summary = NULL;
 
@@ -81,36 +76,6 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
           ),
         ),
       ),
-      'civicrm_address' => array(
-        'dao' => 'CRM_Core_DAO_Address',
-        'fields' => array(
-          'street_number' => array(
-            'title' => ts('Street Number'),
-            'type' => 1,
-          ),
-          'street_address' => NULL,
-          'city' => NULL,
-          'postal_code' => NULL,
-          'state_province_id' => array(
-            'title' => ts('State/Province'),
-            'default' => TRUE,
-            'type' => CRM_Utils_Type::T_INT,
-          ),
-          'country_id' => array(
-            'title' => ts('Country'),
-          ),
-        ),
-        'filters' => array(
-          'street_number' => array(
-            'title' => ts('Street Number'),
-            'type' => 1,
-            'name' => 'street_number',
-          ),
-          'street_address' => NULL,
-          'city' => NULL,
-        ),
-        'grouping' => 'location-fields',
-      ),
       'civicrm_email' => array(
         'dao' => 'CRM_Core_DAO_Email',
         'fields' => array('email' => array('default' => TRUE)),
@@ -121,7 +86,7 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
         'fields' => array('phone' => NULL),
         'grouping' => 'location-fields',
       ),
-    );
+    ) + $this->getAddressColumns(array('group_bys' => FALSE));
     parent::__construct();
   }
 
@@ -130,6 +95,7 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
   }
 
   public function select() {
+    // @todo remove this function & use parent.
     $select = array();
 
     $this->_columnHeaders = array();
@@ -138,15 +104,6 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
         if (!empty($field['required']) ||
           !empty($this->_params['fields'][$fieldName])
         ) {
-          if ($tableName == 'civicrm_address') {
-            $this->_addressField = TRUE;
-          }
-          elseif ($tableName == 'civicrm_email') {
-            $this->_emailField = TRUE;
-          }
-          elseif ($tableName == 'civicrm_phone') {
-            $this->_phoneField = TRUE;
-          }
 
           $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
           $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
@@ -164,17 +121,10 @@ class CRM_Report_Form_Walklist_Walklist extends CRM_Report_Form {
     $this->_from = "
 FROM       civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
 ";
-    if ($this->_addressField) {
-      $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
-    }
 
-    if ($this->_emailField) {
-      $this->_from .= "LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND {$this->_aliases['civicrm_email']}.is_primary = 1\n";
-    }
-
-    if ($this->_phoneField) {
-      $this->_from .= "LEFT JOIN civicrm_phone {$this->_aliases['civicrm_phone']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND {$this->_aliases['civicrm_phone']}.is_primary = 1\n";
-    }
+    $this->joinAddressFromContact();
+    $this->joinPhoneFromContact();
+    $this->joinEmailFromContact();
   }
 
   public function where() {
@@ -240,22 +190,6 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom
   public function alterDisplay(&$rows) {
     $entryFound = FALSE;
     foreach ($rows as $rowNum => $row) {
-      // handle state province
-      if (array_key_exists('civicrm_address_state_province_id', $row)) {
-        if ($value = $row['civicrm_address_state_province_id']) {
-          $rows[$rowNum]['civicrm_address_state_province_id'] = CRM_Core_PseudoConstant::stateProvince($value);
-        }
-        $entryFound = TRUE;
-      }
-
-      // handle country
-      if (array_key_exists('civicrm_address_country_id', $row)) {
-        if ($value = $row['civicrm_address_country_id']) {
-          $rows[$rowNum]['civicrm_address_country_id'] = CRM_Core_PseudoConstant::country($value);
-        }
-        $entryFound = TRUE;
-      }
-
       // convert display name to links
       if (array_key_exists('civicrm_contact_sort_name', $row) &&
         array_key_exists('civicrm_contact_id', $row)
@@ -267,6 +201,8 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom
         $rows[$rowNum]['civicrm_contact_sort_name_link'] = $url;
         $entryFound = TRUE;
       }
+
+      $entryFound = $this->alterDisplayAddressFields($row, $rows, $rowNum, NULL, NULL) ? TRUE : $entryFound;
 
       // skip looking further in rows, if first row itself doesn't
       // have the column we need

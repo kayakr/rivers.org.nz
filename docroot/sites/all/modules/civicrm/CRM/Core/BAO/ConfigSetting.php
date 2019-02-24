@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -96,7 +96,7 @@ class CRM_Core_BAO_ConfigSetting {
       $urlVar = 'task';
     }
 
-    if ($isUpgrade && CRM_Core_DAO::checkFieldExists('civicrm_domain', 'config_backend')) {
+    if ($isUpgrade && CRM_Core_BAO_SchemaHandler::checkIfFieldExists('civicrm_domain', 'config_backend')) {
       $domain->selectAdd('config_backend');
     }
     else {
@@ -141,20 +141,22 @@ class CRM_Core_BAO_ConfigSetting {
 
     $session = CRM_Core_Session::singleton();
 
-    // on multi-lang sites based on request and civicrm_uf_match
-    if ($multiLang) {
-      $languageLimit = array();
-      if (is_array($settings->get('languageLimit'))) {
-        $languageLimit = $settings->get('languageLimit');
-      }
+    $permittedLanguages = CRM_Core_I18n::uiLanguages(TRUE);
 
+    // The locale to be used can come from various places:
+    // - the request (url)
+    // - the session
+    // - civicrm_uf_match
+    // - inherited from the CMS
+    // Only look at this if there is actually a choice of permitted languages
+    if (count($permittedLanguages) >= 2) {
       $requestLocale = CRM_Utils_Request::retrieve('lcMessages', 'String');
-      if (in_array($requestLocale, array_keys($languageLimit))) {
+      if (in_array($requestLocale, $permittedLanguages)) {
         $chosenLocale = $requestLocale;
 
         //CRM-8559, cache navigation do not respect locale if it is changed, so reseting cache.
         // Ed: This doesn't sound good.
-        CRM_Core_BAO_Cache::deleteGroup('navigation');
+        // CRM_Core_BAO_Cache::deleteGroup('navigation');
       }
       else {
         $requestLocale = NULL;
@@ -162,7 +164,7 @@ class CRM_Core_BAO_ConfigSetting {
 
       if (!$requestLocale) {
         $sessionLocale = $session->get('lcMessages');
-        if (in_array($sessionLocale, array_keys($languageLimit))) {
+        if (in_array($sessionLocale, $permittedLanguages)) {
           $chosenLocale = $sessionLocale;
         }
         else {
@@ -184,7 +186,7 @@ class CRM_Core_BAO_ConfigSetting {
         $ufm = new CRM_Core_DAO_UFMatch();
         $ufm->contact_id = $session->get('userID');
         if ($ufm->find(TRUE) &&
-          in_array($ufm->language, array_keys($languageLimit))
+          in_array($ufm->language, $permittedLanguages)
         ) {
           $chosenLocale = $ufm->language;
         }
@@ -196,7 +198,8 @@ class CRM_Core_BAO_ConfigSetting {
     // try to inherit the language from the hosting CMS
     if ($settings->get('inheritLocale')) {
       // FIXME: On multilanguage installs, CRM_Utils_System::getUFLocale() in many cases returns nothing if $dbLocale is not set
-      $dbLocale = $multiLang ? ("_" . $settings->get('lcMessages')) : '';
+      $lcMessages = $settings->get('lcMessages');
+      $dbLocale = $multiLang && $lcMessages ? "_{$lcMessages}" : '';
       $chosenLocale = CRM_Utils_System::getUFLocale();
       if ($activatedLocales and !in_array($chosenLocale, explode(CRM_Core_DAO::VALUE_SEPARATOR, $activatedLocales))) {
         $chosenLocale = NULL;
@@ -209,7 +212,7 @@ class CRM_Core_BAO_ConfigSetting {
     }
 
     // set suffix for table names - use views if more than one language
-    $dbLocale = $multiLang ? "_{$chosenLocale}" : '';
+    $dbLocale = $multiLang && $chosenLocale ? "_{$chosenLocale}" : '';
 
     // FIXME: an ugly hack to fix CRM-4041
     global $tsLocale;
@@ -259,6 +262,7 @@ class CRM_Core_BAO_ConfigSetting {
 
     // clear all caches
     CRM_Core_Config::clearDBCache();
+    Civi::cache('session')->clear();
     $moveStatus .= ts('Database cache tables cleared.') . '<br />';
 
     $resetSessionTable = CRM_Utils_Request::retrieve('resetSessionTable',

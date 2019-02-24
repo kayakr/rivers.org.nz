@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -63,7 +63,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
   public function preProcess() {
     $caseIds = CRM_Utils_Request::retrieve('caseid', 'String', $this);
     $this->_caseId = explode(',', $caseIds);
-    $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this);
+    $this->_context = CRM_Utils_Request::retrieve('context', 'Alphanumeric', $this);
     if (!$this->_context) {
       $this->_context = 'caseActivity';
     }
@@ -72,7 +72,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
 
     $result = parent::preProcess();
 
-    $scheduleStatusId = CRM_Core_OptionGroup::getValue('activity_status', 'Scheduled', 'name');
+    $scheduleStatusId = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_status_id', 'Scheduled');
     $this->assign('scheduleStatusId', $scheduleStatusId);
 
     if (!$this->_caseId && $this->_activityId) {
@@ -100,8 +100,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
     if ($this->_caseId &&
       !CRM_Core_Permission::check('access all cases and activities')
     ) {
-      $session = CRM_Core_Session::singleton();
-      $allCases = CRM_Case_BAO_Case::getCases(TRUE, $session->get('userID'), 'any');
+      $params = array('type' => 'any');
+      $allCases = CRM_Case_BAO_Case::getCases(TRUE, $params);
       if (count(array_intersect($this->_caseId, array_keys($allCases))) == 0) {
         CRM_Core_Error::fatal(ts('You are not authorized to access this page.'));
       }
@@ -178,10 +178,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
                 $atArray,
                 $this->_currentUserId
               );
-              $activities = array_keys($activities);
-              $activities = $activities[0];
+              $activityId = CRM_Utils_Array::first(array_keys($activities['data']));
               $editUrl = CRM_Utils_System::url('civicrm/case/activity',
-                "reset=1&cid={$this->_currentlyViewedContactId}&caseid={$caseId}&action=update&id={$activities}"
+                "reset=1&cid={$this->_currentlyViewedContactId}&caseid={$caseId}&action=update&id={$activityId}"
               );
             }
             CRM_Core_Error::statusBounce(ts("You can not add another '%1' activity to this case. %2",
@@ -196,6 +195,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
         }
       }
     }
+
+    // Turn off the prompt which asks the user if they want to create separate
+    // activities when specifying multiple contacts "with" a new activity.
+    // Instead, always create one activity with all contacts together.
+    $this->supportsActivitySeparation = FALSE;
 
     $session = CRM_Core_Session::singleton();
     $session->pushUserContext($url);
@@ -253,7 +257,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
       }
 
       // remove Open Case activity type since we're inside an existing case
-      $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name');
+      $openCaseID = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'Open Case');
       unset($aTypes[$openCaseID]);
       asort($aTypes);
       $this->_fields['followup_activity_type_id']['attributes'] = array('' => '- select activity type -') + $aTypes;
@@ -268,17 +272,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
     $this->assign('urlPath', 'civicrm/case/activity');
 
     $encounterMediums = CRM_Case_PseudoConstant::encounterMedium();
-    // Fixme: what's the justification for this? It seems like it is just re-adding an option in case it is the default and disabled.
-    // Is that really a big problem?
-    if ($this->_activityTypeFile == 'OpenCase') {
-      $this->_encounterMedium = CRM_Core_DAO::getFieldValue('CRM_Activity_DAO_Activity', $this->_activityId,
-        'medium_id'
-      );
+    if ($this->_activityTypeFile == 'OpenCase' && $this->_action == CRM_Core_Action::UPDATE) {
+      $this->getElement('activity_date_time')->freeze();
+
+      // Fixme: what's the justification for this? It seems like it is just re-adding an option in case it is the default and disabled.
+      // Is that really a big problem?
+      $this->_encounterMedium = CRM_Core_DAO::getFieldValue('CRM_Activity_DAO_Activity', $this->_activityId, 'medium_id');
       if (!array_key_exists($this->_encounterMedium, $encounterMediums)) {
-        $encounterMediums[$this->_encounterMedium] = CRM_Core_OptionGroup::getLabel('encounter_medium',
-          $this->_encounterMedium,
-          FALSE
-        );
+        $encounterMediums[$this->_encounterMedium] = CRM_Core_OptionGroup::getLabel('encounter_medium', $this->_encounterMedium, FALSE);
       }
     }
 
@@ -400,8 +401,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
       $params['parent_id'] = $parentId;
     }
 
-    // store the dates with proper format
-    $params['activity_date_time'] = CRM_Utils_Date::processDate($params['activity_date_time'], $params['activity_date_time_time']);
     $params['activity_type_id'] = $this->_activityTypeId;
 
     // format with contact (target contact) values
@@ -529,7 +528,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity {
       }
       // copy files attached to old activity if any, to new one,
       // as long as users have not selected the 'delete attachment' option.
-      if (empty($newActParams['is_delete_attachment'])) {
+      if (empty($newActParams['is_delete_attachment']) && ($this->_activityId != $activity->id)) {
         CRM_Core_BAO_File::copyEntityFile('civicrm_activity', $this->_activityId,
           'civicrm_activity', $activity->id
         );

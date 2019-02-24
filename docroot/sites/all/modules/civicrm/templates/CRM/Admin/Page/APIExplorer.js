@@ -278,6 +278,8 @@
     fields = [];
     joins = [];
     getFieldData = {};
+    // Sequential doesn't make sense in getsingle context, and is only a sensible default for get
+    $('label[for=sequential-checkbox]').toggle(action !== 'getsingle').find('input').prop('checked', action === 'get').change();
     // Special case for getfields
     if (action === 'getfields') {
       fields.push({
@@ -574,7 +576,6 @@
 
   /**
    * Format value to look like php code
-   * TODO: Use short array syntax when we drop support for php 5.3
    * @param val
    */
   function phpFormat(val) {
@@ -583,13 +584,13 @@
       $.each(val, function(k, v) {
         ret += (ret ? ', ' : '') + "'" + k + "' => " + phpFormat(v);
       });
-      return 'array(' + ret + ')';
+      return '[' + ret + ']';
     }
     if ($.isArray(val)) {
       $.each(val, function(k, v) {
         ret += (ret ? ', ' : '') + phpFormat(v);
       });
-      return 'array(' + ret + ')';
+      return '[' + ret + ']';
     }
     return JSON.stringify(val).replace(/\$/g, '\\$');
   }
@@ -714,7 +715,7 @@
         js = key === 'return' && action !== 'getvalue' ? JSON.stringify(evaluate(value, true)) : json,
         php = key === 'return' && action !== 'getvalue' ? phpFormat(evaluate(value, true)) : phpFormat(value);
       if (!(i++)) {
-        q.php += ", array(\n";
+        q.php += ", [\n";
         q.json += ", {\n";
       } else {
         q.json += ",\n";
@@ -731,7 +732,7 @@
       q.wpcli += key + '=' + json + ' ';
     });
     if (i) {
-      q.php += ")";
+      q.php += "]";
       q.json += "\n}";
     }
     q.php += ");";
@@ -758,7 +759,7 @@
       alert(ts('Select an entity.'));
       return;
     }
-    if (!_.includes(action, 'get') && action != 'check') {
+    if (!_.includes(action, 'get') && !_.includes(action, 'check')) {
       var msg = action === 'delete' ? ts('This will delete data from CiviCRM. Are you sure?') : ts('This will write to the database. Continue?');
       CRM.confirm({title: ts('Confirm %1', {1: action}), message: msg}).on('crmConfirm:yes', execute);
     } else {

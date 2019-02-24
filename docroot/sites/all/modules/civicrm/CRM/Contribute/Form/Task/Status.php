@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -196,7 +196,7 @@ AND    co.id IN ( $contribIDs )";
       if ((strpos($name, 'check_number_') !== FALSE) && $value) {
         $contribID = substr($name, 13);
 
-        if ($fields["payment_instrument_id_{$contribID}"] != CRM_Core_OptionGroup::getValue('payment_instrument', 'Check', 'name')) {
+        if ($fields["payment_instrument_id_{$contribID}"] != CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_Contribution', 'payment_instrument_id', 'Check')) {
           $errors["payment_instrument_id_{$contribID}"] = ts("Payment Method should be Check when a check number is entered for a contribution.");
         }
       }
@@ -305,11 +305,14 @@ AND    co.id IN ( $contribIDs )";
   }
 
   /**
-   * @param $contributionIDs
+   * @param string $contributionIDs
    *
    * @return array
    */
   public static function &getDetails($contributionIDs) {
+    if (empty($contributionIDs)) {
+      return [];
+    }
     $query = "
 SELECT    c.id              as contribution_id,
           c.contact_id      as contact_id     ,
@@ -326,7 +329,6 @@ WHERE     c.id IN ( $contributionIDs )";
     $dao = CRM_Core_DAO::executeQuery($query,
       CRM_Core_DAO::$_nullArray
     );
-    $rows = array();
 
     while ($dao->fetch()) {
       $rows[$dao->contribution_id]['component'] = $dao->participant_id ? 'event' : 'contribute';

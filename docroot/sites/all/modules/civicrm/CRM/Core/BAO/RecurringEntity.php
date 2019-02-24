@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 require_once 'packages/When/When.php';
@@ -125,6 +125,11 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
         'entity_table_col' => 'entity_table',
       ),
     );
+
+  //Define global CLASS CONSTANTS for recurring entity mode types
+  const MODE_THIS_ENTITY_ONLY = 1;
+  const MODE_NEXT_ALL_ENTITY = 2;
+  const MODE_ALL_ENTITY_IN_SERIES = 3;
 
   /**
    * Getter for status.
@@ -345,7 +350,7 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
           // skip the recursion-start-date from the list we going to generate
           $skip = TRUE;
         }
-        $baseDate = CRM_Utils_Date::processDate($result->format('Y-m-d H:i:s'));
+        $baseDate = $result->format('YmdHis');
 
         foreach ($this->dateColumns as $col) {
           $recursionDates[$count][$col] = $baseDate;
@@ -353,7 +358,7 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
         foreach ($this->intervalDateColumns as $col => $interval) {
           $newDate = new DateTime($baseDate);
           $newDate->add($interval);
-          $recursionDates[$count][$col] = CRM_Utils_Date::processDate($newDate->format('Y-m-d H:i:s'));
+          $recursionDates[$count][$col] = $newDate->format('YmdHis');
         }
         if ($exRangeStart) {
           $exRangeStartDate = CRM_Utils_Date::processDate(CRM_Utils_Array::value($exRangeStart, $recursionDates[$count]), NULL, FALSE, 'Ymd');
@@ -655,7 +660,6 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
         }
 
         $updateDAO = CRM_Core_DAO::cascadeUpdate($daoName, $obj->id, $entityID, $skipData);
-        CRM_Core_DAO::freeResult();
       }
       else {
         CRM_Core_Error::fatal("DAO Mapper missing for $entityTable.");
@@ -885,7 +889,7 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
         $repetitionStartDate = $repetitionStartDate . " " . $formParams['repetition_start_date_time'];
       }
       $repetition_start_date = new DateTime($repetitionStartDate);
-      $dbParams['start_action_date'] = CRM_Utils_Date::processDate($repetition_start_date->format('Y-m-d H:i:s'));
+      $dbParams['start_action_date'] = $repetition_start_date->format('YmdHis');
     }
 
     if (!empty($formParams['repetition_frequency_unit'])) {
@@ -1172,6 +1176,82 @@ class CRM_Core_BAO_RecurringEntity extends CRM_Core_DAO_RecurringEntity {
       }
     }
     return $result;
+  }
+
+  /**
+   * Update mode in civicrm_recurring_entity table for event related data and price set in civicrm_price_set_entity.
+   *
+   * @param int $entityId
+   *   Event id .
+   * @param string $entityTable
+   * @param string $mode
+   * @param string $linkedEntityTable
+   *   Linked entity table name for this event .
+   * @param string $priceSet
+   *   Price set of the event .
+   *
+   * @return array
+   */
+  public static function updateModeAndPriceSet($entityId, $entityTable, $mode, $linkedEntityTable, $priceSet) {
+    $finalResult = array();
+
+    if (!empty($linkedEntityTable)) {
+      $result = CRM_Core_BAO_RecurringEntity::updateModeLinkedEntity($entityId, $linkedEntityTable, $entityTable);
+    }
+
+    $dao = new CRM_Core_DAO_RecurringEntity();
+    if (!empty($result)) {
+      $dao->entity_id = $result['entityId'];
+      $dao->entity_table = $result['entityTable'];
+    }
+    else {
+      $dao->entity_id = $entityId;
+      $dao->entity_table = $entityTable;
+    }
+
+    if ($dao->find(TRUE)) {
+      $dao->mode = $mode;
+      $dao->save();
+
+      if ($priceSet) {
+        //CRM-20787 Fix
+        //I am not sure about other fields, if mode = 3 apply for an event then other fields
+        //should be save for all other series events or not so applying for price set only for now here.
+        if (CRM_Core_BAO_RecurringEntity::MODE_ALL_ENTITY_IN_SERIES === $mode) {
+          //Step-1: Get all events of series
+          $seriesEventRecords = CRM_Core_BAO_RecurringEntity::getEntitiesFor($entityId, $entityTable);
+          foreach ($seriesEventRecords as $event) {
+            //Step-2: Save price set in other series events
+            if (CRM_Price_BAO_PriceSet::removeFrom($event['table'], $event['id'])) {//Remove existing priceset
+              CRM_Core_BAO_Discount::del($event['id'], $event['table']);
+            }
+            CRM_Price_BAO_PriceSet::addTo($event['table'], $event['id'], $priceSet); //Add new price set
+          }
+        }
+
+        if (CRM_Core_BAO_RecurringEntity::MODE_NEXT_ALL_ENTITY === $mode) {
+          //Step-1: Get all events of series
+          $seriesEventRecords = CRM_Core_BAO_RecurringEntity::getEntitiesFor($entityId, $entityTable);
+          foreach ($seriesEventRecords as $event) {
+            //Step-2: Save price set in other series events
+            if ($entityId < $event["id"]) {
+              if (CRM_Price_BAO_PriceSet::removeFrom($event['table'], $event['id'])) {//Remove existing priceset
+                CRM_Core_BAO_Discount::del($event['id'], $event['table']);
+              }
+              CRM_Price_BAO_PriceSet::addTo($event['table'], $event['id'], $priceSet); //Add new price set
+            }
+          }
+        }
+      }
+
+      //CRM-20787 - Fix end
+      $finalResult['status'] = 'Done';
+    }
+    else {
+      $finalResult['status'] = 'Error';
+    }
+
+    return $finalResult;
   }
 
 }

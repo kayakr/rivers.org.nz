@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
 
@@ -68,15 +68,6 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     while ($date['minYear'] <= $count) {
       $optionYear[$date['minYear']] = $date['minYear'];
       $date['minYear']++;
-    }
-
-    // Check if CiviCampaign is a) enabled and b) has active campaigns
-    $config = CRM_Core_Config::singleton();
-    $campaignEnabled = in_array("CiviCampaign", $config->enableComponents);
-    if ($campaignEnabled) {
-      $getCampaigns = CRM_Campaign_BAO_Campaign::getPermissionedCampaigns(NULL, NULL, TRUE, FALSE, TRUE);
-      $this->activeCampaigns = $getCampaigns['campaigns'];
-      asort($this->activeCampaigns);
     }
 
     $this->_columns = array(
@@ -268,18 +259,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     );
 
     // If we have a campaign, build out the relevant elements
-    if ($campaignEnabled && !empty($this->activeCampaigns)) {
-      $this->_columns['civicrm_contribution']['fields']['campaign_id'] = array(
-        'title' => ts('Campaign'),
-        'default' => 'false',
-      );
-      $this->_columns['civicrm_contribution']['filters']['campaign_id'] = array(
-        'title' => ts('Campaign'),
-        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-        'options' => $this->activeCampaigns,
-        'type' => CRM_Utils_Type::T_INT,
-      );
-    }
+    $this->addCampaignFields('civicrm_contribution');
 
     $this->_groupFilter = TRUE;
     $this->_tagFilter = TRUE;
@@ -352,22 +332,13 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
              {$this->_aclFrom}";
 
-    if ($this->isTableSelected('civicrm_email')) {
-      $this->_from .= "
-              LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']}
-                      ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id
-                     AND {$this->_aliases['civicrm_email']}.is_primary = 1";
-    }
-    if ($this->isTableSelected('civicrm_phone')) {
-      $this->_from .= "
-              LEFT  JOIN civicrm_phone  {$this->_aliases['civicrm_phone']}
-                      ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND
-                         {$this->_aliases['civicrm_phone']}.is_primary = 1";
-    }
+    $this->joinPhoneFromContact();
+    $this->joinEmailFromContact();
+
     // for credit card type
     $this->addFinancialTrxnFromClause();
 
-    $this->addAddressFromClause();
+    $this->joinAddressFromContact();
   }
 
   public function where() {
@@ -569,9 +540,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     $graphRows['value'] = $display;
     $config = CRM_Core_Config::Singleton();
     $chartInfo = array(
-      'legend' => 'Sybunt Report',
-      'xname' => 'Year',
-      'yname' => "Amount ({$config->defaultCurrency})",
+      'legend' => ts('Sybunt Report'),
+      'xname' => ts('Year'),
+      'yname' => ts('Amount (%1)', array(1 => $config->defaultCurrency)),
     );
     if ($this->_params['charts']) {
       // build the chart.
@@ -610,7 +581,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
       // convert campaign_id to campaign title
       if (array_key_exists('civicrm_contribution_campaign_id', $row)) {
         if ($value = $row['civicrm_contribution_campaign_id']) {
-          $rows[$rowNum]['civicrm_contribution_campaign_id'] = $this->activeCampaigns[$value];
+          $rows[$rowNum]['civicrm_contribution_campaign_id'] = $this->campaigns[$value];
           $entryFound = TRUE;
         }
       }

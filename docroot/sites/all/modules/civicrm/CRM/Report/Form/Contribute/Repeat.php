@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
   protected $_amountClauseWithAND = NULL;
@@ -400,6 +400,11 @@ LEFT JOIN $this->tempTableRepeat1 {$this->_aliases['civicrm_contribution']}1
        .{$this->contributionJoinTableColumn}
 LEFT JOIN $this->tempTableRepeat2 {$this->_aliases['civicrm_contribution']}2
        ON {$this->groupByTableAlias}.$fromCol = {$this->_aliases['civicrm_contribution']}2.{$this->contributionJoinTableColumn}";
+
+    //Join temp table if report is filtered by group. This is specific to 'notin' operator and covered in unit test(ref dev/core#212)
+    if (!empty($this->_params['gid_op']) && $this->_params['gid_op'] == 'notin') {
+      $this->joinGroupTempTable('civicrm_contact', 'id', $this->_aliases['civicrm_contact']);
+    }
   }
 
   /**
@@ -413,7 +418,6 @@ LEFT JOIN $this->tempTableRepeat2 {$this->_aliases['civicrm_contribution']}2
     $temp = $this->_aliases['civicrm_contribution'];
     $this->_aliases['civicrm_contribution'] = $replaceAliasWith;
     $from = $this->_from;
-    $from .= (string) $this->getPermissionedFTQuery($this, 'civicrm_line_item_report', TRUE);
     $this->_aliases['civicrm_contribution'] = $temp;
     $this->_where = '';
     return $from;
@@ -514,9 +518,9 @@ LEFT JOIN $this->tempTableRepeat2 {$this->_aliases['civicrm_contribution']}2
   }
 
   /**
-   * @param $fields
-   * @param $files
-   * @param $self
+   * @param array $fields
+   * @param array $files
+   * @param CRM_Core_Form $self
    *
    * @return array
    */
@@ -570,7 +574,7 @@ LEFT JOIN $this->tempTableRepeat2 {$this->_aliases['civicrm_contribution']}2
     }
     else {
       foreach ($fields['fields'] as $fld_id => $value) {
-        if (!($fld_id == 'total_amount1') && !($fld_id == 'total_amount2')) {
+        if (!($fld_id == 'total_amount1') && !($fld_id == 'total_amount2') && !(substr($fld_id, 0, 7) === "custom_")) {
           $found = FALSE;
           $invlidGroups = array();
           foreach ($fields['group_bys'] as $grp_id => $val) {
@@ -826,14 +830,17 @@ GROUP BY    currency
   public function postProcess() {
     $this->beginPostProcess();
 
+    $this->buildGroupTempTable();
     $this->select();
     $this->from();
+    $this->customDataFrom();
     $this->where();
     $this->groupBy();
+    $this->orderBy();
     $this->limit();
 
     $count = 0;
-    $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
+    $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
     $dao = $this->executeReportQuery($sql);
     $rows = array();
     while ($dao->fetch()) {

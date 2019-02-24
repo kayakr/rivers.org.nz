@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -46,6 +46,9 @@
  *
  */
 class CRM_Contribute_Form_AbstractEditPayment extends CRM_Contact_Form_Task {
+
+  use CRM_Financial_Form_SalesTaxTrait;
+
   public $_mode;
 
   public $_action;
@@ -94,6 +97,15 @@ class CRM_Contribute_Form_AbstractEditPayment extends CRM_Contact_Form_Task {
    * @var int
    */
   public $_id;
+
+  /**
+   * Entity that $this->_id relates to.
+   *
+   * If set the contact id is not required in the url.
+   *
+   * @var string
+   */
+  protected $entity;
 
   /**
    * The id of the premium that we are proceessing.
@@ -202,6 +214,13 @@ class CRM_Contribute_Form_AbstractEditPayment extends CRM_Contact_Form_Task {
   public $paymentInstrumentID;
 
   /**
+   * Component - event, membership or contribution.
+   *
+   * @var string
+   */
+  protected $_component;
+
+  /**
    * Array of fields to display on billingBlock.tpl - this is not fully implemented but basically intent is the panes/fieldsets on this page should
    * be all in this array in order like
    *  'credit_card' => array('credit_card_number' ...
@@ -213,15 +232,28 @@ class CRM_Contribute_Form_AbstractEditPayment extends CRM_Contact_Form_Task {
   public $billingFieldSets = array();
 
   /**
+   * Monetary fields that may be submitted.
+   *
+   * These should get a standardised format in the beginPostProcess function.
+   *
+   * These fields are common to many forms. Some may override this.
+   */
+  protected $submittableMoneyFields = ['total_amount', 'net_amount', 'non_deductible_amount', 'fee_amount'];
+
+  /**
    * Pre process function with common actions.
    */
   public function preProcess() {
     $this->_contactID = CRM_Utils_Request::retrieve('cid', 'Positive', $this);
+    if (empty($this->_contactID) && !empty($this->_id) && $this->entity) {
+      $this->_contactID = civicrm_api3($this->entity, 'getvalue', array('id' => $this->_id, 'return' => 'contact_id'));
+    }
     $this->assign('contactID', $this->_contactID);
     CRM_Core_Resources::singleton()->addVars('coreForm', array('contact_id' => (int) $this->_contactID));
     $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, FALSE, 'add');
-    $this->_mode = empty($this->_mode) ? CRM_Utils_Request::retrieve('mode', 'String', $this) : $this->_mode;
+    $this->_mode = empty($this->_mode) ? CRM_Utils_Request::retrieve('mode', 'Alphanumeric', $this) : $this->_mode;
     $this->assign('isBackOffice', $this->isBackOffice);
+    $this->assignContactEmailDetails();
     $this->assignPaymentRelatedVariables();
   }
 
@@ -343,6 +375,11 @@ WHERE  contribution_id = {$id}
     elseif (empty($this->_paymentProcessors) || array_keys($this->_paymentProcessors) === array(0)) {
       throw new CRM_Core_Exception(ts('You will need to configure the %1 settings for your Payment Processor before you can submit a credit card transactions.', array(1 => $this->_mode)));
     }
+    //Assign submitted processor value if it is different from the loaded one.
+    if (!empty($this->_submitValues['payment_processor_id'])
+      && $this->_paymentProcessor['id'] != $this->_submitValues['payment_processor_id']) {
+      $this->_paymentProcessor = CRM_Financial_BAO_PaymentProcessor::getPayment($this->_submitValues['payment_processor_id']);
+    }
     $this->_processors = array();
     foreach ($this->_paymentProcessors as $id => $processor) {
       // @todo review this. The inclusion of this IF was to address test processors being incorrectly loaded.
@@ -375,11 +412,11 @@ WHERE  contribution_id = {$id}
   /**
    * Get current currency from DB or use default currency.
    *
-   * @param $submittedValues
+   * @param array $submittedValues
    *
-   * @return mixed
+   * @return string
    */
-  public function getCurrency($submittedValues) {
+  public function getCurrency($submittedValues = array()) {
     $config = CRM_Core_Config::singleton();
 
     $currentCurrency = CRM_Utils_Array::value('currency',
@@ -510,10 +547,6 @@ WHERE  contribution_id = {$id}
    */
   protected function assignPaymentRelatedVariables() {
     try {
-      if ($this->_contactID) {
-        list($this->userDisplayName, $this->userEmail) = CRM_Contact_BAO_Contact_Location::getEmailDetails($this->_contactID);
-        $this->assign('displayName', $this->userDisplayName);
-      }
       $this->assignProcessors();
       $this->assignBillingType();
       CRM_Core_Payment_Form::setPaymentFieldsByProcessor($this, $this->_paymentProcessor, FALSE, TRUE, CRM_Utils_Request::retrieve('payment_instrument_id', 'Integer', $this));
@@ -550,6 +583,16 @@ WHERE  contribution_id = {$id}
     $this->_params['ip_address'] = CRM_Utils_System::ipAddress();
 
     self::formatCreditCardDetails($this->_params);
+    foreach ($this->submittableMoneyFields as $moneyField) {
+      if (isset($this->_params[$moneyField])) {
+        $this->_params[$moneyField] = CRM_Utils_Rule::cleanMoney($this->_params[$moneyField]);
+      }
+    }
+    if (!empty($this->_params['contact_id']) && empty($this->_contactID)) {
+      // Contact ID has been set in the standalone form.
+      $this->_contactID = $this->_params['contact_id'];
+      $this->assignContactEmailDetails();
+    }
   }
 
   /**
@@ -684,6 +727,36 @@ WHERE  contribution_id = {$id}
     // @todo figure out & document.
     if ($this->_online) {
       $element->freeze();
+    }
+  }
+
+
+  /**
+   * Assign the values to build the payment info block.
+   *
+   * @return string $title
+   *   Block title.
+   */
+  protected function assignPaymentInfoBlock() {
+    $paymentInfo = CRM_Contribute_BAO_Contribution::getPaymentInfo($this->_id, $this->_component, TRUE);
+    $title = ts('View Payment');
+    if (!empty($this->_component) && $this->_component == 'event') {
+      $info = CRM_Event_BAO_Participant::participantDetails($this->_id);
+      $title .= " - {$info['title']}";
+    }
+    $this->assign('transaction', TRUE);
+    $this->assign('payments', $paymentInfo['transaction']);
+    $this->assign('paymentLinks', $paymentInfo['payment_links']);
+    return $title;
+  }
+
+  protected function assignContactEmailDetails() {
+    if ($this->_contactID) {
+      list($this->userDisplayName, $this->userEmail) = CRM_Contact_BAO_Contact_Location::getEmailDetails($this->_contactID);
+      if (empty($this->userDisplayName)) {
+        $this->userDisplayName = civicrm_api3('contact', 'getvalue', ['id' => $this->_contactID, 'return' => 'display_name']);
+      }
+      $this->assign('displayName', $this->userDisplayName);
     }
   }
 

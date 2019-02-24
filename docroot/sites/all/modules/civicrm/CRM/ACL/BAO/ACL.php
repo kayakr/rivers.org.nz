@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -680,8 +680,8 @@ SELECT $acl.*
    * @param bool $is_active
    *   Value we want to set the is_active field.
    *
-   * @return Object
-   *   DAO object on success, null otherwise
+   * @return bool
+   *   true if we found and updated the object, else false
    */
   public static function setIsActive($id, $is_active) {
     // note this also resets any ACL cache
@@ -774,60 +774,27 @@ SELECT g.*
  AND   g.is_active = 1
 ";
         $dao = CRM_Core_DAO::executeQuery($query);
-        $staticGroupIDs = array();
-        $cachedGroupIDs = array();
+        $groupIDs = [];
+        $groupContactCacheClause = FALSE;
         while ($dao->fetch()) {
-          // currently operation is restrcited to VIEW/EDIT
-          if ($dao->where_clause) {
-            if ($dao->select_tables) {
-              $tmpTables = array();
-              foreach (unserialize($dao->select_tables) as $tmpName => $tmpInfo) {
-                if ($tmpName == '`civicrm_group_contact-' . $dao->id . '`') {
-                  $tmpName = '`civicrm_group_contact-ACL`';
-                  $tmpInfo = str_replace('civicrm_group_contact-' . $dao->id, 'civicrm_group_contact-ACL', $tmpInfo);
-                }
-                elseif ($tmpName == '`civicrm_group_contact_cache_' . $dao->id . '`') {
-                  $tmpName = '`civicrm_group_contact_cache-ACL`';
-                  $tmpInfo = str_replace('civicrm_group_contact_cache_' . $dao->id, 'civicrm_group_contact_cache-ACL', $tmpInfo);
-                }
-                $tmpTables[$tmpName] = $tmpInfo;
-              }
-              $tables = array_merge($tables,
-                $tmpTables
-              );
+          $groupIDs[] = $dao->id;
+
+          if (($dao->saved_search_id || $dao->children || $dao->parents)) {
+            if ($dao->cache_date == NULL) {
+              CRM_Contact_BAO_GroupContactCache::load($dao);
             }
-            if ($dao->where_tables) {
-              $tmpTables = array();
-              foreach (unserialize($dao->where_tables) as $tmpName => $tmpInfo) {
-                if ($tmpName == '`civicrm_group_contact-' . $dao->id . '`') {
-                  $tmpName = '`civicrm_group_contact-ACL`';
-                  $tmpInfo = str_replace('civicrm_group_contact-' . $dao->id, 'civicrm_group_contact-ACL', $tmpInfo);
-                  $staticGroupIDs[] = $dao->id;
-                }
-                elseif ($tmpName == '`civicrm_group_contact_cache_' . $dao->id . '`') {
-                  $tmpName = '`civicrm_group_contact_cache-ACL`';
-                  $tmpInfo = str_replace('civicrm_group_contact_cache_' . $dao->id, 'civicrm_group_contact_cache-ACL', $tmpInfo);
-                  $cachedGroupIDs[] = $dao->id;
-                }
-                $tmpTables[$tmpName] = $tmpInfo;
-              }
-              $whereTables = array_merge($whereTables, $tmpTables);
-            }
+            $groupContactCacheClause = " UNION SELECT contact_id FROM civicrm_group_contact_cache WHERE group_id IN (" . implode(', ', $groupIDs) . ")";
           }
 
-          if (($dao->saved_search_id || $dao->children || $dao->parents) &&
-            $dao->cache_date == NULL
-          ) {
-            CRM_Contact_BAO_GroupContactCache::load($dao);
-          }
         }
 
-        if ($staticGroupIDs) {
-          $clauses[] = '( `civicrm_group_contact-ACL`.group_id IN (' . implode(', ', $staticGroupIDs) . ') AND `civicrm_group_contact-ACL`.status IN ("Added") )';
-        }
-
-        if ($cachedGroupIDs) {
-          $clauses[] = '`civicrm_group_contact_cache-ACL`.group_id IN (' . implode(', ', $cachedGroupIDs) . ')';
+        if ($groupIDs) {
+          $clauses[] = "(
+            `contact_a`.id IN (
+               SELECT contact_id FROM civicrm_group_contact WHERE group_id IN (" . implode(', ', $groupIDs) . ") AND status = 'Added'
+               $groupContactCacheClause
+             )
+          )";
         }
       }
     }
@@ -877,10 +844,11 @@ SELECT g.*
       $aclKeys = array_keys($acls);
       $aclKeys = implode(',', $aclKeys);
 
-      $cacheKey = "$tableName-$aclKeys";
+      $cacheKey = CRM_Core_BAO_Cache::cleanKey("$tableName-$aclKeys");
       $cache = CRM_Utils_Cache::singleton();
       $ids = $cache->get($cacheKey);
       if (!$ids) {
+        $ids = array();
         $query = "
 SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a

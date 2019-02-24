@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  * $Id$
  *
  */
@@ -77,7 +77,7 @@ class CRM_PCP_Page_PCPInfo extends CRM_Core_Page {
     $this->assign('pcp', $pcpInfo);
 
     $pcpStatus = CRM_Core_OptionGroup::values("pcp_status");
-    $approvedId = CRM_Core_OptionGroup::getValue('pcp_status', 'Approved', 'name');
+    $approvedId = CRM_Core_PseudoConstant::getKey('CRM_PCP_BAO_PCP', 'status_id', 'Approved');
 
     // check if PCP is created by anonymous user
     $anonymousPCP = CRM_Utils_Request::retrieve('ap', 'Boolean', $this);
@@ -202,8 +202,9 @@ class CRM_PCP_Page_PCPInfo extends CRM_Core_Page {
     if (!empty($entityFile)) {
       $fileInfo = reset($entityFile);
       $fileId = $fileInfo['fileID'];
+      $fileHash = CRM_Core_BAO_File::generateFileHash($this->_id, $fileId);
       $image = '<img src="' . CRM_Utils_System::url('civicrm/file',
-          "reset=1&id=$fileId&eid={$this->_id}"
+          "reset=1&id=$fileId&eid={$this->_id}&fcs={$fileHash}"
         ) . '" />';
       $this->assign('image', $image);
     }

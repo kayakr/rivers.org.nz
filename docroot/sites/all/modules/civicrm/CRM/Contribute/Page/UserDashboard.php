@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard {
 
@@ -139,11 +139,8 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
    * loads, it decides the which action has to be taken for the page.
    */
   public function run() {
-    $invoiceSettings = Civi::settings()->get('contribution_invoice_settings');
-    $invoicing = CRM_Utils_Array::value('invoicing', $invoiceSettings);
-    $defaultInvoicePage = CRM_Utils_Array::value('default_invoice_page', $invoiceSettings);
-    $this->assign('invoicing', $invoicing);
-    $this->assign('defaultInvoicePage', $defaultInvoicePage);
+    $this->assign('invoicing', CRM_Invoicing_Utils::isInvoicingEnabled());
+    $this->assign('defaultInvoicePage', CRM_Invoicing_Utils::getDefaultPaymentPage());
     parent::preProcess();
     $this->listContribution();
   }

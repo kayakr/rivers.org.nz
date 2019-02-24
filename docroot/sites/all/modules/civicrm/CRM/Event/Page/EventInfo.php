@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -59,7 +59,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page {
     }
 
     $action = CRM_Utils_Request::retrieve('action', 'String', $this, FALSE);
-    $context = CRM_Utils_Request::retrieve('context', 'String', $this, FALSE, 'register');
+    $context = CRM_Utils_Request::retrieve('context', 'Alphanumeric', $this, FALSE, 'register');
     $this->assign('context', $context);
 
     // Sometimes we want to suppress the Event Full msg
@@ -78,6 +78,10 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page {
       // form is inactive, die a fatal death
       CRM_Utils_System::setUFMessage(ts('The event you requested is currently unavailable (contact the site administrator for assistance).'));
       return CRM_Utils_System::permissionDenied();
+    }
+
+    if (!$values['event']['is_public']) {
+      CRM_Utils_System::addHTMLHead('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">');
     }
 
     if (!empty($values['event']['is_template'])) {
@@ -148,6 +152,12 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page {
             $displayOpt = CRM_Utils_Array::value('tax_display_settings', $invoiceSettings);
             $invoicing = CRM_Utils_Array::value('invoicing', $invoiceSettings);
             foreach ($fieldValues['options'] as $optionId => $optionVal) {
+              if (CRM_Utils_Array::value('visibility_id', $optionVal) != array_search('public', $visibility) &&
+                $adminFieldVisible == FALSE
+              ) {
+                continue;
+              }
+
               $values['feeBlock']['isDisplayAmount'][$fieldCnt] = CRM_Utils_Array::value('is_display_amounts', $fieldValues);
               if ($invoicing && isset($optionVal['tax_amount'])) {
                 $values['feeBlock']['value'][$fieldCnt] = CRM_Price_BAO_PriceField::getTaxLabel($optionVal, 'amount', $displayOpt, $taxTerm);
@@ -266,8 +276,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page {
     );
 
     $allowRegistration = FALSE;
+    $isEventOpenForRegistration = CRM_Event_BAO_Event::validRegistrationRequest($values['event'], $this->_id);
     if (!empty($values['event']['is_online_registration'])) {
-      if (CRM_Event_BAO_Event::validRegistrationRequest($values['event'], $this->_id)) {
+      if ($isEventOpenForRegistration == 1) {
         // we always generate urls for the front end in joomla
         $action_query = $action === CRM_Core_Action::PREVIEW ? "&action=$action" : '';
         $url = CRM_Utils_System::url('civicrm/event/register',
@@ -333,8 +344,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page {
           $statusMessage = ts('Event is currently full, but you can register and be a part of waiting list.');
         }
       }
-
-      CRM_Core_Session::setStatus($statusMessage);
+      if ($isEventOpenForRegistration == 1) {
+        CRM_Core_Session::setStatus($statusMessage);
+      }
     }
     // we do not want to display recently viewed items, so turn off
     $this->assign('displayRecent', FALSE);

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  * $Id$
  *
  */
@@ -256,10 +256,10 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             'title' => ts('Relationship End Date'),
           ),
           'is_permission_a_b' => array(
-            'title' => ts('Is permission A over B?'),
+            'title' => ts('Permission A has to access B'),
           ),
           'is_permission_b_a' => array(
-            'title' => ts('Is permission B over A?'),
+            'title' => ts('Permission B has to access A'),
           ),
           'description' => array(
             'title' => ts('Description'),
@@ -304,24 +304,20 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             'title' => ts('End Date'),
             'type' => CRM_Utils_Type::T_DATE,
           ),
+          'active_period_date' => array(
+            'title' => ts('Active Period'),
+            'type' => CRM_Utils_Type::T_DATE,
+          ),
           'is_permission_a_b' => array(
             'title' => ts('Does contact A have permission over contact B?'),
-            'operatorType' => CRM_Report_Form::OP_SELECT,
-            'options' => array(
-              '' => ts('- Any -'),
-              1 => ts('Yes'),
-              0 => ts('No'),
-            ),
+            'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+            'options' => CRM_Contact_BAO_Relationship::buildOptions('is_permission_a_b'),
             'type' => CRM_Utils_Type::T_INT,
           ),
           'is_permission_b_a' => array(
             'title' => ts('Does contact B have permission over contact A?'),
-            'operatorType' => CRM_Report_Form::OP_SELECT,
-            'options' => array(
-              '' => ts('- Any -'),
-              1 => ts('Yes'),
-              0 => ts('No'),
-            ),
+            'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+            'options' => CRM_Contact_BAO_Relationship::buildOptions('is_permission_b_a'),
             'type' => CRM_Utils_Type::T_INT,
           ),
         ),
@@ -330,10 +326,6 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
           'start_date' => array(
             'title' => ts('Start Date'),
             'name' => 'start_date',
-          ),
-          'active_period_date' => array(
-            'title' => ts('Active Period'),
-            'type' => CRM_Utils_Type::T_DATE,
           ),
         ),
         'grouping' => 'relation-fields',
@@ -590,10 +582,10 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     $isStatusFilter = FALSE;
     $relStatus = NULL;
     if (CRM_Utils_Array::value('is_active_value', $this->_params) == '1') {
-      $relStatus = 'Is equal to Active';
+      $relStatus = ts('Is equal to Active');
     }
     elseif (CRM_Utils_Array::value('is_active_value', $this->_params) == '0') {
-      $relStatus = 'Is equal to Inactive';
+      $relStatus = ts('Is equal to Inactive');
     }
     if (!empty($statistics['filters'])) {
       foreach ($statistics['filters'] as $id => $value) {
@@ -646,9 +638,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     $this->_groupBy = CRM_Contact_BAO_Query::getGroupByFromSelectColumns($this->_selectClauses, $groupBy);
   }
 
-  public function postProcess() {
-    $this->beginPostProcess();
-
+  public function beginPostProcessCommon() {
     $originalRelationshipTypeIdValue = CRM_Utils_Array::value('relationship_type_id_value', $this->_params);
     if ($originalRelationshipTypeIdValue) {
       $relationshipTypes = array();
@@ -663,11 +653,16 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
       $this->relationType = $direction[0];
       $this->_params['relationship_type_id_value'] = $relationshipTypes;
     }
+  }
+
+  public function postProcess() {
+    $this->beginPostProcess();
 
     $this->buildACLClause(array(
       $this->_aliases['civicrm_contact'],
       $this->_aliases['civicrm_contact_b'],
     ));
+
     $sql = $this->buildQuery();
     $this->buildRows($sql, $rows);
 
@@ -725,23 +720,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         $entryFound = TRUE;
       }
 
-      // Handle country
-      // @todo use alterDisplayAddressFields function
-      if (array_key_exists('civicrm_address_country_id', $row)) {
-        if ($value = $row['civicrm_address_country_id']) {
-          $rows[$rowNum]['civicrm_address_country_id'] = CRM_Core_PseudoConstant::country($value, FALSE);
-        }
-        $entryFound = TRUE;
-      }
-
-      // Handle state/province
-      // @todo use alterDisplayAddressFields function
-      if (array_key_exists('civicrm_address_state_province_id', $row)) {
-        if ($value = $row['civicrm_address_state_province_id']) {
-          $rows[$rowNum]['civicrm_address_state_province_id'] = CRM_Core_PseudoConstant::stateProvince($value, FALSE);
-        }
-        $entryFound = TRUE;
-      }
+      $entryFound = $this->alterDisplayAddressFields($row, $rows, $rowNum, NULL, NULL) ? TRUE : $entryFound;
 
       // Handle contact name A
       // @todo refactor into separate function
@@ -789,12 +768,38 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         $entryFound = TRUE;
       }
 
+      // Handle permissioned relationships
+      if (array_key_exists('civicrm_relationship_is_permission_a_b', $row)) {
+        $rows[$rowNum]['civicrm_relationship_is_permission_a_b']
+          = ts(self::permissionedRelationship($row['civicrm_relationship_is_permission_a_b']));
+        $entryFound = TRUE;
+      }
+
+      if (array_key_exists('civicrm_relationship_is_permission_b_a', $row)) {
+        $rows[$rowNum]['civicrm_relationship_is_permission_b_a']
+          = ts(self::permissionedRelationship($row['civicrm_relationship_is_permission_b_a']));
+        $entryFound = TRUE;
+      }
+
       // skip looking further in rows, if first row itself doesn't
       // have the column we need
       if (!$entryFound) {
         break;
       }
     }
+  }
+
+  /**
+   * Convert values to permissioned relationship descriptions
+   * @param  [int] $key
+   * @return [string]
+   */
+  public static function permissionedRelationship($key) {
+    static $lookup;
+    if (!$lookup) {
+      $lookup = CRM_Contact_BAO_Relationship::buildOptions("is_permission_a_b");
+    };
+    return CRM_Utils_Array::value($key, $lookup);
   }
 
   /**

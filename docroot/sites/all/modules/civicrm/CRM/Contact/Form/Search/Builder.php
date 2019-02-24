@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -91,19 +91,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
    */
   public function buildQuickForm() {
     $fields = self::fields();
-    // Get fields of type date
-    // FIXME: This is a hack until our fields contain this meta-data
-    $dateFields = array();
-    $stringFields = array();
     $searchByLabelFields = array();
+    // This array contain list of available fields and their corresponding data type,
+    //  later assigned as json string, to be used to filter list of mysql operators
+    $fieldNameTypes = [];
     foreach ($fields as $name => $field) {
-      if (strpos($name, '_date') || CRM_Utils_Array::value('data_type', $field) == 'Date') {
-        $dateFields[] = $name;
-      }
-      // it's necessary to know which of the fields are from string data type
-      if (isset($field['type']) && $field['type'] === CRM_Utils_Type::T_STRING) {
-        $stringFields[] = $name;
-      }
+      // Assign date type to respective field name, which will be later used to modify operator list
+      $fieldNameTypes[$name] = CRM_Utils_Type::typeToString(CRM_Utils_Array::value('type', $field));
       // it's necessary to know which of the fields are searchable by label
       if (isset($field['searchByLabel']) && $field['searchByLabel']) {
         $searchByLabelFields[] = $name;
@@ -116,12 +110,10 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
         'searchBuilder' => array(
           // Index of newly added/expanded block (1-based index)
           'newBlock' => $this->get('newBlock'),
-          'dateFields' => $dateFields,
           'fieldOptions' => self::fieldOptions(),
-          'stringFields' => $stringFields,
           'searchByLabelFields' => $searchByLabelFields,
+          'fieldTypes' => $fieldNameTypes,
           'generalOperators' => array('' => ts('-operator-')) + CRM_Core_SelectValues::getSearchBuilderOperators(),
-          'stringOperators' => array('' => ts('-operator-')) + CRM_Core_SelectValues::getSearchBuilderOperators(CRM_Utils_Type::T_STRING),
         ),
       ));
     //get the saved search mapping id
@@ -284,6 +276,12 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
             }
             elseif (trim($v[2])) {
               //else check value for rest of the Operators
+              if ($type == 'Date' || $type == 'Timestamp') {
+                $v[2] = CRM_Utils_Date::processDate($v[2]);
+                if ($type == 'Date') {
+                  $v[2] = substr($v[2], 0, 8);
+                }
+              }
               $error = CRM_Utils_Type::validate($v[2], $type, FALSE);
               if ($error != $v[2]) {
                 $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter a valid value.");
@@ -475,8 +473,10 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
             $options[substr($field, 0, -3)] = $entity;
           }
         }
-        elseif (!empty($info['data_type']) && in_array($info['data_type'], array('StateProvince', 'Country'))) {
-          $options[$field] = $entity;
+        elseif (!empty($info['data_type'])) {
+          if (in_array($info['data_type'], array('StateProvince', 'Country'))) {
+            $options[$field] = $entity;
+          }
         }
         elseif (in_array(substr($field, 0, 3), array(
               'is_',

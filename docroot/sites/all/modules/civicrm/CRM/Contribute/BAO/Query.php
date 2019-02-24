@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
 
@@ -186,7 +186,7 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
       case 'contribution_date_high_time':
         // process to / from date
         $query->dateQueryBuilder($values,
-          'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date'
+          'civicrm_contribution', 'contribution_date', 'receive_date', ts('Contribution Date')
         );
         return;
 
@@ -225,6 +225,17 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
         }
         $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause("civicrm_contribution.receipt_date", $op);
         $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+        return;
+
+      case 'contribution_cancel_date':
+      case 'contribution_cancel_date_low':
+      case 'contribution_cancel_date_low_time':
+      case 'contribution_cancel_date_high':
+      case 'contribution_cancel_date_high_time':
+        // process to / from date
+        $query->dateQueryBuilder($values,
+          'civicrm_contribution', 'contribution_cancel_date', 'cancel_date', ts('Cancelled / Refunded Date')
+        );
         return;
 
       case 'financial_type_id':
@@ -364,12 +375,25 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
         $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
         return;
 
+      case 'contribution_recur_payment_processor_id':
+        $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause("civicrm_contribution_recur.payment_processor_id", $op, $value, "String");
+        $paymentProcessors = civicrm_api3('PaymentProcessor', 'get', array());
+        $paymentProcessorNames = array();
+        foreach ($value as $paymentProcessorId) {
+          $paymentProcessorNames[] = $paymentProcessors['values'][$paymentProcessorId]['name'];
+        }
+        $query->_qill[$grouping][] = ts("Recurring Contribution Payment Processor %1 %2", array(1 => $op, 2 => implode(', ', $paymentProcessorNames)));
+        $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
+        return;
+
       case 'contribution_recur_processor_id':
       case 'contribution_recur_trxn_id':
         $fieldName = str_replace('contribution_recur_', '', $name);
         $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause("civicrm_contribution_recur.{$fieldName}",
           $op, $value, "String"
         );
+        $recurFields = CRM_Contribute_DAO_ContributionRecur::fields();
+        $query->_qill[$grouping][] = ts("Recurring Contribution %1 %2 '%3'", array(1 => $recurFields[$fieldName]['title'], 2 => $op, 3 => $value));
         $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
         return;
 
@@ -383,6 +407,13 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
           $query->_qill[$grouping][] = ts("All recurring contributions regardless of payments");
           self::$_contribRecurPayment = FALSE;
         }
+        $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
+        return;
+
+      case 'contribution_recur_contribution_status_id':
+        $query->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause("civicrm_contribution_recur.contribution_status_id", $op, $value, 'String');
+        list($op, $value) = CRM_Contact_BAO_Query::buildQillForFieldValue('CRM_Contribute_DAO_ContributionRecur', 'contribution_status_id', $value, $op, $pseudoExtraParam);
+        $query->_qill[$grouping][] = ts("Recurring Contribution Status %1 '%2'", array(1 => $op, 2 => $value));
         $query->_tables['civicrm_contribution_recur'] = $query->_whereTables['civicrm_contribution_recur'] = 1;
         return;
 
@@ -475,7 +506,9 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
           return;
         }
         $whereTable = $fields[$fldName];
-        $value = trim($value);
+        if (!is_array($value)) {
+          $value = trim($value);
+        }
 
         $dataType = "String";
         if (!empty($whereTable['type'])) {
@@ -723,8 +756,11 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
    *
    * The default return properties array returns far too many fields for 'everyday use. Every field you add to this array
    * kills a small kitten so add carefully.
+   *
+   * @param array $queryParams
+   * @return array
    */
-  public static function selectorReturnProperties() {
+  public static function selectorReturnProperties($queryParams) {
     $properties = array(
       'contact_type' => 1,
       'contact_sub_type' => 1,
@@ -751,7 +787,7 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
       'cancel_date' => 1,
       'contribution_recur_id' => 1,
     );
-    if (self::isSoftCreditOptionEnabled()) {
+    if (self::isSoftCreditOptionEnabled($queryParams)) {
       $properties = array_merge($properties, self::softCreditReturnProperties());
     }
 
@@ -814,6 +850,7 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
         'trxn_id' => 1,
         // join
         'invoice_id' => 1,
+        'invoice_number' => 1,
         // added
         'currency' => 1,
         // to
@@ -894,6 +931,10 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
     $form->add('text', 'contribution_amount_high', ts('To'), array('size' => 8, 'maxlength' => 8));
     $form->addRule('contribution_amount_high', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
 
+    $form->addField('cancel_reason', array('entity' => 'Contribution'));
+    CRM_Core_Form_Date::buildDateRange($form, 'contribution_cancel_date', 1, '_low', '_high', ts('From:'), FALSE);
+    $form->addElement('hidden', 'contribution_cancel_date_range_error');
+
     // Adding select option for curreny type -- CRM-4711
     $form->add('select', 'contribution_currency_type',
       ts('Currency Type'),
@@ -916,8 +957,11 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
       FALSE, array('class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => ts('- any -'))
     );
 
-    $form->addSelect('payment_instrument_id',
-      array('entity' => 'contribution', 'multiple' => 'multiple', 'label' => ts('Payment Method'), 'option_url' => NULL, 'placeholder' => ts('- any -'))
+    // use contribution_payment_instrument_id instead of payment_instrument_id
+    // Contribution Edit form (pop-up on contribution/Contact(display Result as Contribution) open on search form),
+    // then payment method change action not working properly because of same html ID present two time on one page
+    $form->addSelect('contribution_payment_instrument_id',
+      array('entity' => 'contribution', 'field' => 'payment_instrument_id', 'multiple' => 'multiple', 'label' => ts('Payment Method'), 'option_url' => NULL, 'placeholder' => ts('- any -'))
     );
 
     $form->add('select',
@@ -926,8 +970,6 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
       CRM_Contribute_PseudoConstant::pcPage(), FALSE, array('class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => ts('- any -')));
 
     $statusValues = CRM_Core_PseudoConstant::get('CRM_Contribute_DAO_Contribution', 'contribution_status_id');
-    // Remove status values that are only used for recurring contributions or pledges (In Progress, Overdue).
-    unset($statusValues['5'], $statusValues['6']);
     $form->add('select', 'contribution_status_id',
       ts('Contribution Status'), $statusValues,
       FALSE, array('class' => 'crm-select2', 'multiple' => 'multiple')
@@ -1068,11 +1110,12 @@ class CRM_Contribute_BAO_Query extends CRM_Core_BAO_Query {
   public static function formRule($fields, $files, $form) {
     $errors = array();
 
-    if (empty($fields['contribution_date_high']) || empty($fields['contribution_date_low'])) {
-      return TRUE;
+    if (!empty($fields['contribution_date_high']) && !empty($fields['contribution_date_low'])) {
+      CRM_Utils_Rule::validDateRange($fields, 'contribution_date', $errors, ts('Date Received'));
     }
-
-    CRM_Utils_Rule::validDateRange($fields, 'contribution_date', $errors, ts('Date Received'));
+    if (!empty($fields['contribution_cancel_date_high']) && !empty($fields['contribution_cancel_date_low'])) {
+      CRM_Utils_Rule::validDateRange($fields, 'contribution_cancel_date', $errors, ts('Cancel Date'));
+    }
 
     return empty($errors) ? TRUE : $errors;
   }

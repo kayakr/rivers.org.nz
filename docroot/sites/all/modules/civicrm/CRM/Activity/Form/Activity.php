@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -119,6 +119,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
 
   protected $unsavedWarn = TRUE;
 
+  /*
+   * Is it possible to create separate activities with this form?
+   *
+   * When TRUE, the form will ask whether the user wants to create separate
+   * activities (if the user has specified multiple contacts in the "with"
+   * field).
+   *
+   * When FALSE, the form will create one activity with all contacts together
+   * and won't ask the user anything.
+   *
+   * Note: This is a class property so that child classes can turn off this
+   * behavior (e.g. in CRM_Case_Form_Activity)
+   *
+   * @var boolean
+   */
+  protected $supportsActivitySeparation = TRUE;
+
   /**
    * Explicitly declare the entity api name.
    *
@@ -146,9 +163,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
         ),
       ),
       'duration' => array(
-        'type' => 'text',
+        'type' => 'number',
         'label' => ts('Duration'),
-        'attributes' => array('size' => 4, 'maxlength' => 8),
+        'attributes' => array('class' => 'four', 'min' => 1),
         'required' => FALSE,
       ),
       'location' => array(
@@ -189,6 +206,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
           'create' => TRUE,
           'api' => array('params' => array('is_deceased' => 0)),
         ),
+      ),
+      'activity_date_time' => array(
+        'type' => 'datepicker',
+        'label' => ts('Date'),
+        'required' => TRUE,
       ),
       'followup_assignee_contact_id' => array(
         'type' => 'entityRef',
@@ -238,11 +260,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
 
     // Give the context.
     if (!isset($this->_context)) {
-      $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this);
+      $this->_context = CRM_Utils_Request::retrieve('context', 'Alphanumeric', $this);
       if (CRM_Contact_Form_Search::isSearchContext($this->_context)) {
         $this->_context = 'search';
       }
-      elseif (!in_array($this->_context, array('dashlet', 'dashletFullscreen'))
+      elseif (!in_array($this->_context, array('dashlet', 'case', 'dashletFullscreen'))
         && $this->_currentlyViewedContactId
       ) {
         $this->_context = 'activity';
@@ -291,6 +313,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
       CRM_Activity_BAO_Activity::checkPermission($this->_activityId, CRM_Core_Action::UPDATE)
     ) {
       $this->assign('permission', 'edit');
+      $this->assign('allow_edit_inbound_emails', CRM_Activity_BAO_Activity::checkEditInboundEmailsPermissions());
     }
 
     if (!$this->_activityTypeId && $this->_activityId) {
@@ -312,7 +335,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     // Set title.
     if (isset($activityTName)) {
       $activityName = CRM_Utils_Array::value($this->_activityTypeId, $activityTName);
-      $this->assign('pageTitle', ts('%1 Activity', array(1 => $activityName)));
 
       if ($this->_currentlyViewedContactId) {
         $displayName = CRM_Contact_BAO_Contact::displayName($this->_currentlyViewedContactId);
@@ -499,11 +521,34 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
         $params = array('id' => $this->_activityId);
         CRM_Activity_BAO_Activity::retrieve($params, $this->_values);
       }
+
       $this->set('values', $this->_values);
     }
 
     if ($this->_action & CRM_Core_Action::UPDATE) {
+      // We filter out alternatives, in case this is a stored e-mail, before sending to front-end
+      if (isset($this->_values['details'])) {
+        $this->_values['details'] = CRM_Utils_String::stripAlternatives($this->_values['details']) ?: '';
+      }
+
+      if ($this->_activityTypeName === 'Inbound Email' &&
+        !CRM_Core_Permission::check('edit inbound email basic information and content')
+      ) {
+        $this->_fields['details']['type'] = 'static';
+      }
+
       CRM_Core_Form_RecurringEntity::preProcess('civicrm_activity');
+    }
+
+    if ($this->_action & CRM_Core_Action::VIEW) {
+      $url = CRM_Utils_System::url(implode("/", $this->urlPath), "reset=1&id={$this->_activityId}&action=view&cid={$this->_values['source_contact_id']}");
+      CRM_Utils_Recent::add($this->_values['subject'],
+        $url,
+        $this->_values['id'],
+        'Activity',
+        $this->_values['source_contact_id'],
+        $this->_values['source_contact']
+      );
     }
   }
 
@@ -519,16 +564,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     $defaults = $this->_values + CRM_Core_Form_RecurringEntity::setDefaultValues();
     // if we're editing...
     if (isset($this->_activityId)) {
-      if (empty($defaults['activity_date_time'])) {
-        list($defaults['activity_date_time'], $defaults['activity_date_time_time']) = CRM_Utils_Date::setDateDefaults(NULL, 'activityDateTime');
-      }
-      elseif ($this->_action & CRM_Core_Action::UPDATE) {
-        $this->assign('current_activity_date_time', $defaults['activity_date_time']);
-        list($defaults['activity_date_time'],
-          $defaults['activity_date_time_time']
-          ) = CRM_Utils_Date::setDateDefaults($defaults['activity_date_time'], 'activityDateTime');
-        list($defaults['repetition_start_date'], $defaults['repetition_start_date_time']) = CRM_Utils_Date::setDateDefaults($defaults['activity_date_time'], 'activityDateTime');
-      }
 
       if ($this->_context != 'standalone') {
         $this->assign('target_contact_value',
@@ -553,9 +588,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
 
       $defaults['source_contact_id'] = $this->_sourceContactId;
       $defaults['target_contact_id'] = $this->_targetContactId;
+    }
 
-      list($defaults['activity_date_time'], $defaults['activity_date_time_time'])
-        = CRM_Utils_Date::setDateDefaults(NULL, 'activityDateTime');
+    if (empty($defaults['activity_date_time'])) {
+      $defaults['activity_date_time'] = date('Y-m-d H:i:s');
     }
 
     if ($this->_activityTypeId) {
@@ -702,15 +738,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     }
     $this->assign('surveyActivity', $this->_isSurveyActivity);
 
-    // this option should be available only during add mode
-    if ($this->_action != CRM_Core_Action::UPDATE) {
-      $this->add('advcheckbox', 'is_multi_activity', ts('Create a separate activity for each contact.'));
+    // Add the "Activity Separation" field
+    $actionIsAdd = $this->_action != CRM_Core_Action::UPDATE;
+    $separationIsPossible = $this->supportsActivitySeparation;
+    if ($actionIsAdd && $separationIsPossible) {
+      $this->addRadio(
+        'separation',
+        ts('Activity Separation'),
+        array(
+          'separate' => ts('Create separate activities for each contact'),
+          'combined' => ts('Create one activity with all contacts together'),
+        )
+      );
     }
 
     $this->addRule('duration',
       ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger'
     );
-    $this->addDateTime('activity_date_time', ts('Date'), TRUE, array('formatType' => 'activityDateTime'));
 
     // Add followup date.
     $this->addDateTime('followup_date', ts('in'), FALSE, array('formatType' => 'activityDateTime'));
@@ -784,12 +828,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
 
     $this->addFormRule(array('CRM_Activity_Form_Activity', 'formRule'), $this);
 
-    if (Civi::settings()->get('activity_assignee_notification')) {
-      $this->assign('activityAssigneeNotification', TRUE);
-    }
-    else {
+    $doNotNotifyAssigneeFor = (array) Civi::settings()->get('do_not_notify_assignees_for');
+    if (($this->_activityTypeId && in_array($this->_activityTypeId, $doNotNotifyAssigneeFor)) || !Civi::settings()->get('activity_assignee_notification')) {
       $this->assign('activityAssigneeNotification', FALSE);
     }
+    else {
+      $this->assign('activityAssigneeNotification', TRUE);
+    }
+    $this->assign('doNotNotifyAssigneeFor', $doNotNotifyAssigneeFor);
   }
 
   /**
@@ -832,6 +878,16 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     if ((!empty($fields['followup_activity_subject']) || !empty($fields['followup_date'])) && empty($fields['followup_activity_type_id'])) {
       $errors['followup_activity_subject'] = ts('Follow-up Activity type is a required field.');
     }
+
+    // Check that a value has been set for the "activity separation" field if needed
+    $separationIsPossible = $self->supportsActivitySeparation;
+    $actionIsAdd = $self->_action == CRM_Core_Action::ADD;
+    $hasMultipleTargetContacts = !empty($fields['target_contact_id']) && strpos($fields['target_contact_id'], ',') !== FALSE;
+    $separationFieldIsEmpty = empty($fields['separation']);
+    if ($separationIsPossible && $actionIsAdd && $hasMultipleTargetContacts && $separationFieldIsEmpty) {
+      $errors['separation'] = ts('Activity Separation is a required field.');
+    }
+
     return $errors;
   }
 
@@ -887,9 +943,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
       );
     }
 
-    // store the date with proper format
-    $params['activity_date_time'] = CRM_Utils_Date::processDate($params['activity_date_time'], $params['activity_date_time_time']);
-
     // format params as arrays
     foreach (array('target', 'assignee', 'followup_assignee') as $name) {
       if (!empty($params["{$name}_contact_id"])) {
@@ -915,6 +968,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
       'civicrm_activity',
       $this->_activityId
     );
+
+    $params['is_multi_activity'] = CRM_Utils_Array::value('separation', $params) == 'separate';
 
     $activity = array();
     if (!empty($params['is_multi_activity']) &&
@@ -1047,7 +1102,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     // send copy to assignee contacts.CRM-4509
     $mailStatus = '';
 
-    if (Civi::settings()->get('activity_assignee_notification')) {
+    if (Civi::settings()->get('activity_assignee_notification')
+      && !in_array($activity->activity_type_id, Civi::settings()->get('do_not_notify_assignees_for'))) {
       $activityIDs = array($activity->id);
       if ($followupActivity) {
         $activityIDs = array_merge($activityIDs, array($followupActivity->id));

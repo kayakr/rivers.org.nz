@@ -1,9 +1,9 @@
 <?php
 /*
   +--------------------------------------------------------------------+
-  | CiviCRM version 4.7                                                |
+  | CiviCRM version 5                                                  |
   +--------------------------------------------------------------------+
-  | Copyright CiviCRM LLC (c) 2004-2017                                |
+  | Copyright CiviCRM LLC (c) 2004-2019                                |
   +--------------------------------------------------------------------+
   | This file is a part of CiviCRM.                                    |
   |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Contribute_Form_AdditionalInfo {
 
@@ -96,7 +96,7 @@ class CRM_Contribute_Form_AdditionalInfo {
 
     $attributes = CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution');
 
-    $form->addDateTime('thankyou_date', ts('Thank-you Sent'), FALSE, array('formatType' => 'activityDateTime'));
+    $form->addField('thankyou_date', array('entity' => 'contribution'), FALSE, FALSE);
 
     // add various amounts
     $nonDeductAmount = &$form->add('text', 'non_deductible_amount', ts('Non-deductible Amount'),
@@ -115,13 +115,6 @@ class CRM_Contribute_Form_AdditionalInfo {
       $feeAmount->freeze();
     }
 
-    $netAmount = &$form->add('text', 'net_amount', ts('Net Amount'),
-      $attributes['net_amount']
-    );
-    $form->addRule('net_amount', ts('Please enter a valid monetary value for Net Amount.'), 'money');
-    if ($form->_online) {
-      $netAmount->freeze();
-    }
     $element = &$form->add('text', 'invoice_id', ts('Invoice ID'),
       $attributes['invoice_id']
     );
@@ -161,7 +154,6 @@ class CRM_Contribute_Form_AdditionalInfo {
 
     $statusName = CRM_Contribute_PseudoConstant::contributionStatus(NULL, 'name');
     if ($form->_id && $form->_values['contribution_status_id'] == array_search('Cancelled', $statusName)) {
-      $netAmount->freeze();
       $feeAmount->freeze();
     }
 
@@ -209,7 +201,7 @@ class CRM_Contribute_Form_AdditionalInfo {
     );
 
     $productDetails = array();
-    CRM_Contribute_BAO_ManagePremiums::retrieve($premiumParams, $productDetails);
+    CRM_Contribute_BAO_Product::retrieve($premiumParams, $productDetails);
     $dao->financial_type_id = CRM_Utils_Array::value('financial_type_id', $productDetails);
     if (!empty($options[$selectedProductID])) {
       $dao->product_option = $options[$selectedProductID][$selectedProductOptionID];
@@ -254,6 +246,10 @@ class CRM_Contribute_Form_AdditionalInfo {
    * @param int $contributionNoteID
    */
   public static function processNote($params, $contactID, $contributionID, $contributionNoteID = NULL) {
+    if (CRM_Utils_System::isNull($params['note']) && $contributionNoteID) {
+      CRM_Core_BAO_Note::del($contributionNoteID);
+      return;
+    }
     //process note
     $noteParams = array(
       'entity_table' => 'civicrm_contribution',
@@ -281,7 +277,6 @@ class CRM_Contribute_Form_AdditionalInfo {
       'non_deductible_amount',
       'total_amount',
       'fee_amount',
-      'net_amount',
       'trxn_id',
       'invoice_id',
       'creditnote_id',

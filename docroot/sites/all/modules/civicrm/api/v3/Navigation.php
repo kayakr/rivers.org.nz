@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -88,17 +88,6 @@ function civicrm_api3_navigation_get($params) {
 }
 
 /**
- * Adjust metadata for navigation create action.
- *
- * @param array $params
- */
-function _civicrm_api3_navigation_create_spec(&$params) {
-  $params['domain_id']['api.default'] = CRM_Core_Config::domainID();
-  $params['domain_id']['type'] = CRM_Utils_Type::T_INT;
-  $params['domain_id']['title'] = 'Domain ID';
-}
-
-/**
  * Create navigation item.
  *
  * @param array $params
@@ -109,7 +98,7 @@ function _civicrm_api3_navigation_create_spec(&$params) {
  */
 function civicrm_api3_navigation_create($params) {
   civicrm_api3_verify_one_mandatory($params, NULL, array('name', 'label'));
-  return _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params);
+  return _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params, 'Navigation');
 }
 
 /**

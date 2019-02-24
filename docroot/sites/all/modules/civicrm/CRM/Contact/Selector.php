@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -240,6 +240,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
   }
 
   /**
+   * This method set cache key, later used in test environment
+   *
+   * @param string $key
+   */
+  public function setKey($key) {
+    $this->_key = $key;
+  }
+
+  /**
    * This method returns the links that are given for each search row.
    * currently the links added for each row are
    *
@@ -407,7 +416,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
           ),
         );
 
-        $locationTypes = CRM_Core_PseudoConstant::get('CRM_Core_DAO_Address', 'location_type_id');
+        $locationTypes = CRM_Core_DAO_Address::buildOptions('location_type_id', 'validate');
 
         foreach ($this->_fields as $name => $field) {
           if (!empty($field['in_selector']) &&
@@ -483,7 +492,16 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
           if (trim($phoneType) && !is_numeric($phoneType) && strtolower($phoneType) != $fld) {
             $title .= "-{$phoneType}";
           }
-          $title .= " ($loc)";
+          // fetch Location type label from name as $loc, which will be later used in column header
+          $title .= sprintf(" (%s)",
+            CRM_Core_PseudoConstant::getLabel(
+              'CRM_Core_DAO_Address',
+              'location_type_id',
+              CRM_Core_PseudoConstant::getKey('CRM_Core_DAO_Address', 'location_type_id', $loc)
+            )
+          );
+          // use field name instead of table alias
+          $prop = $fld;
         }
         elseif (isset($this->_query->_fields[$prop]) && isset($this->_query->_fields[$prop]['title'])) {
           $title = $this->_query->_fields[$prop]['title'];
@@ -545,7 +563,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
    *   the total number of rows for this action
    */
   public function &getRows($action, $offset, $rowCount, $sort, $output = NULL) {
-
     if (($output == CRM_Core_Selector_Controller::EXPORT ||
         $output == CRM_Core_Selector_Controller::SCREEN
       ) &&
@@ -561,11 +578,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     // and contain the search criteria (parameters)
     // note that the default action is basic
     if ($rowCount) {
+      /** @var CRM_Core_PrevNextCache_Interface $prevNext */
+      $prevNext = Civi::service('prevnext');
       $cacheKey = $this->buildPrevNextCache($sort);
-      $result = $this->_query->getCachedContacts($cacheKey, $offset, $rowCount, $includeContactIds);
+      $cids = $prevNext->fetch($cacheKey, $offset, $rowCount);
+      $resultSet = empty($cids) ? [] : $this->_query->getCachedContacts($cids, $includeContactIds)->fetchGenerator();
     }
     else {
-      $result = $this->_query->searchQuery($offset, $rowCount, $sort, FALSE, $includeContactIds);
+      $resultSet = $this->_query->searchQuery($offset, $rowCount, $sort, FALSE, $includeContactIds)->fetchGenerator();
     }
 
     // process the result of the query
@@ -654,7 +674,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
       );
     }
 
-    while ($result->fetch()) {
+    foreach ($resultSet as $result) {
       $row = array();
       $this->_query->convertToPseudoNames($result);
       // the columns we are interested in
@@ -864,7 +884,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     // check for current != previous to ensure cache is not reset if paging is done without changing
     // sort criteria
     if (!$pageNum || (!empty($currentSortID) && $currentSortID != $previousSortID)) {
-      CRM_Core_BAO_PrevNextCache::deleteItem(NULL, $cacheKey, 'civicrm_contact');
+      Civi::service('prevnext')->deleteItem(NULL, $cacheKey, 'civicrm_contact');
       // this means it's fresh search, so set pageNum=1
       if (!$pageNum) {
         $pageNum = 1;
@@ -883,10 +903,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     $sortByCharacter = CRM_Utils_Request::retrieve('sortByCharacter', 'String');
 
     //for text field pagination selection save
-    $countRow = CRM_Core_BAO_PrevNextCache::getCount($cacheKey, NULL, "entity_table = 'civicrm_contact'");
+    $countRow = Civi::service('prevnext')->getCount($cacheKey);
     // $sortByCharacter triggers a refresh in the prevNext cache
     if ($sortByCharacter && $sortByCharacter != 'all') {
-      $cacheKey .= "_alphabet";
       $this->fillupPrevNextCache($sort, $cacheKey, 0, max(self::CACHE_SIZE, $pageSize));
     }
     elseif (($firstRecord + $pageSize) >= $countRow) {
@@ -1005,14 +1024,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     // For custom searches, use the contactIDs method
     if (is_a($this, 'CRM_Contact_Selector_Custom')) {
       $sql = $this->_search->contactIDs($start, $end, $sort, TRUE);
-      $replaceSQL = "SELECT contact_a.id as contact_id";
       $coreSearch = FALSE;
     }
     // For core searches use the searchQuery method
     else {
       $sql = $this->_query->searchQuery($start, $end, $sort, FALSE, $this->_query->_includeContactIds,
         FALSE, TRUE, TRUE);
-      $replaceSQL = "SELECT contact_a.id as id";
     }
 
     // CRM-9096
@@ -1024,26 +1041,23 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     // the other alternative of running the FULL query will just be incredibly inefficient
     // and slow things down way too much on large data sets / complex queries
 
-    $insertSQL = "
-INSERT INTO civicrm_prevnext_cache ( entity_table, entity_id1, entity_id2, cacheKey, data )
-SELECT DISTINCT 'civicrm_contact', contact_a.id, contact_a.id, '$cacheKey', contact_a.display_name
-";
+    $selectSQL = "SELECT DISTINCT %1, contact_a.id, contact_a.sort_name";
 
-    $sql = str_replace($replaceSQL, $insertSQL, $sql);
-
-    $errorScope = CRM_Core_TemporaryErrorScope::ignoreException();
-    $result = CRM_Core_DAO::executeQuery($sql);
-    unset($errorScope);
-
-    if (is_a($result, 'DB_Error')) {
-      // check if we get error during core search
+    $sql = str_ireplace(array("SELECT contact_a.id as contact_id", "SELECT contact_a.id as id"), $selectSQL, $sql);
+    try {
+      Civi::service('prevnext')->fillWithSql($cacheKey, $sql, [1 => [$cacheKey, 'String']]);
+    }
+    catch (CRM_Core_Exception $e) {
       if ($coreSearch) {
         // in the case of error, try rebuilding cache using full sql which is used for search selector display
         // this fixes the bugs reported in CRM-13996 & CRM-14438
         $this->rebuildPreNextCache($start, $end, $sort, $cacheKey);
       }
       else {
-        // return if above query fails
+        // This will always show for CiviRules :-( as a) it orders by 'rule_label'
+        // which is not available in the query & b) it uses contact not contact_a
+        // as an alias.
+        // CRM_Core_Session::setStatus(ts('Query Failed'));
         return;
       }
     }
@@ -1071,18 +1085,17 @@ SELECT DISTINCT 'civicrm_contact', contact_a.id, contact_a.id, '$cacheKey', cont
     $dao = CRM_Core_DAO::executeQuery($sql);
 
     // build insert query, note that currently we build cache for 500 (self::CACHE_SIZE) contact records at a time, hence below approach
-    $insertValues = array();
+    $rows = [];
     while ($dao->fetch()) {
-      $insertValues[] = "('civicrm_contact', {$dao->contact_id}, {$dao->contact_id}, '{$cacheKey}', '" . CRM_Core_DAO::escapeString($dao->sort_name) . "')";
+      $rows[] = [
+        'entity_table' => 'civicrm_contact',
+        'entity_id1' => $dao->contact_id,
+        'entity_id2' => $dao->contact_id,
+        'data' => $dao->sort_name,
+      ];
     }
 
-    //update pre/next cache using single insert query
-    if (!empty($insertValues)) {
-      $sql = 'INSERT INTO civicrm_prevnext_cache ( entity_table, entity_id1, entity_id2, cacheKey, data ) VALUES
-' . implode(',', $insertValues);
-
-      $result = CRM_Core_DAO::executeQuery($sql);
-    }
+    Civi::service('prevnext')->fillWithArray($cacheKey, $rows);
   }
 
   /**
@@ -1182,14 +1195,13 @@ SELECT DISTINCT 'civicrm_contact', contact_a.id, contact_a.id, '$cacheKey', cont
 
   /**
    * @param array $params
-   * @param $action
    * @param int $sortID
    * @param null $displayRelationshipType
    * @param string $queryOperator
    *
    * @return CRM_Contact_DAO_Contact
    */
-  public function contactIDQuery($params, $action, $sortID, $displayRelationshipType = NULL, $queryOperator = 'AND') {
+  public function contactIDQuery($params, $sortID, $displayRelationshipType = NULL, $queryOperator = 'AND') {
     $sortOrder = &$this->getSortOrder($this->_action);
     $sort = new CRM_Utils_Sort($sortOrder, $sortID);
 

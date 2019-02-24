@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -62,15 +62,12 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate {
   public static function setDefaultValues(&$form) {
     $defaults = array();
 
-    $openCaseActivityType = CRM_Core_OptionGroup::getValue('activity_type',
-      'Open Case',
-      'name'
-    );
+    $openCaseActivityType = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_type_id', 'Open Case');
     $caseId = CRM_Utils_Array::first($form->_caseId);
     $openCaseParams = array('activity_type_id' => $openCaseActivityType);
     $openCaseInfo = CRM_Case_BAO_Case::getCaseActivityDates($caseId, $openCaseParams, TRUE);
     if (empty($openCaseInfo)) {
-      list($defaults['start_date'], $defaults['start_date_time']) = CRM_Utils_Date::setDateDefaults();
+      $defaults['start_date'] = date('Y-m-d H:i:s');
     }
     else {
       // We know there can only be one result
@@ -79,7 +76,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate {
       // store activity id for updating it later
       $form->openCaseActivityId = $openCaseInfo['id'];
 
-      list($defaults['start_date'], $defaults['start_date_time']) = CRM_Utils_Date::setDateDefaults($openCaseInfo['activity_date'], 'activityDateTime');
+      $defaults['start_date'] = $openCaseInfo['activity_date'];
     }
     return $defaults;
   }
@@ -94,7 +91,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate {
 
     $currentStartDate = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case', $caseId, 'start_date');
     $form->assign('current_start_date', $currentStartDate);
-    $form->addDate('start_date', ts('New Start Date'), FALSE, array('formatType' => 'activityDateTime'));
+    $form->add('datepicker', 'start_date', ts('New Start Date'), [], TRUE);
   }
 
   /**
@@ -135,10 +132,6 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate {
    * @param $activity
    */
   public static function endPostProcess(&$form, &$params, $activity) {
-    if (!empty($params['start_date'])) {
-      $params['start_date'] = CRM_Utils_Date::processDate($params['start_date'], $params['start_date_time']);
-    }
-
     $caseType = CRM_Utils_Array::first($form->_caseType);
     $caseId = CRM_Utils_Array::first($form->_caseId);
 
@@ -156,16 +149,16 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate {
 
     $config = CRM_Core_Config::singleton();
 
-    $params['status_id'] = CRM_Core_OptionGroup::getValue('activity_status', 'Completed', 'name');
+    $params['status_id'] = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'activity_status_id', 'Completed');
     $activity->status_id = $params['status_id'];
-    $params['priority_id'] = CRM_Core_OptionGroup::getValue('priority', 'Normal', 'name');
+    $params['priority_id'] = CRM_Core_PseudoConstant::getKey('CRM_Activity_BAO_Activity', 'priority_id', 'Normal');
     $activity->priority_id = $params['priority_id'];
 
     // 1. save activity subject with new start date
     $currentStartDate = CRM_Utils_Date::customFormat(CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',
       $caseId, 'start_date'
     ), $config->dateformatFull);
-    $newStartDate = CRM_Utils_Date::customFormat(CRM_Utils_Date::mysqlToIso($params['start_date']), $config->dateformatFull);
+    $newStartDate = CRM_Utils_Date::customFormat($params['start_date'], $config->dateformatFull);
     $subject = 'Change Case Start Date from ' . $currentStartDate . ' to ' . $newStartDate;
     $activity->subject = $subject;
     $activity->save();

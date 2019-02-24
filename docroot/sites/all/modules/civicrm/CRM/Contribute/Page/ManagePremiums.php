@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -52,7 +52,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic {
    *   Classname of BAO.
    */
   public function getBAOName() {
-    return 'CRM_Contribute_BAO_ManagePremiums';
+    return 'CRM_Contribute_BAO_Product';
   }
 
   /**
@@ -108,7 +108,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic {
     $id = $this->getIdAndAction();
 
     // what action to take ?
-    if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::PREVIEW)) {
+    if (!($this->_action & CRM_Core_Action::BROWSE)) {
       $this->edit($this->_action, $id, TRUE);
     }
     // finally browse the custom groups
@@ -150,10 +150,9 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic {
         'Premium',
         $dao->id
       );
-      //Financial Type
+      // Financial Type
       if (!empty($dao->financial_type_id)) {
-        require_once 'CRM/Core/DAO.php';
-        $premiums[$dao->id]['financial_type_id'] = CRM_Core_DAO::getFieldValue('CRM_Financial_DAO_FinancialType', $dao->financial_type_id, 'name');
+        $premiums[$dao->id]['financial_type'] = CRM_Core_PseudoConstant::getLabel('CRM_Contribute_BAO_Product', 'financial_type_id', $dao->financial_type_id);
       }
     }
     $this->assign('rows', $premiums);

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 
 /**
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 
 /**
@@ -48,6 +48,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
    * @var float
    */
   public $_totalAmount;
+
+  /**
+   * Monetary fields that may be submitted.
+   *
+   * These should get a standardised format in the beginPostProcess function.
+   *
+   * These fields are common to many forms. Some may override this.
+   */
+  protected $submittableMoneyFields = ['total_amount', 'net_amount', 'non_deductible_amount', 'fee_amount', 'tax_amount', 'amount'];
 
   /**
    * Set variables up before form is built.
@@ -199,12 +208,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $this->assignToTemplate();
 
     if ($this->_values['event']['is_monetary'] &&
-      ($this->_params[0]['amount'] || $this->_params[0]['amount'] == 0)
+      ($this->_params[0]['amount'] || $this->_params[0]['amount'] == 0) &&
+      !$this->_requireApproval
     ) {
       $this->_amount = array();
 
       $taxAmount = 0;
       foreach ($this->_params as $k => $v) {
+        $this->cleanMoneyFields($v);
         if ($v == 'skip') {
           continue;
         }
@@ -398,6 +409,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $now = date('YmdHis');
 
     $this->_params = $this->get('params');
+    $this->cleanMoneyFields($this->_params);
+
     if (!empty($this->_params[0]['contact_id'])) {
       // unclear when this would be set & whether it could be checked in getContactID.
       // perhaps it relates to when cid is in the url
@@ -534,13 +547,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
           $value['participant_status_id'] = $value['participant_status'] = array_search('Awaiting approval', $waitingStatuses);
         }
 
-        //there might be case user seleted pay later and
+        //there might be case user selected pay later and
         //now becomes part of run time waiting list.
         $value['is_pay_later'] = FALSE;
       }
-
-      // required only if paid event
-      if ($this->_values['event']['is_monetary'] && !($this->_allowWaitlist || $this->_requireApproval)) {
+      elseif ($this->_values['event']['is_monetary']) {
+        // required only if paid event
         if (is_array($this->_paymentProcessor)) {
           $payment = $this->_paymentProcessor['object'];
         }
@@ -786,7 +798,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
                 if ($participantNum === NULL) {
                   break;
                 }
-                //unset current particpant so we don't check them again
+                //unset current participant so we don't check them again
                 unset($copyParticipantCountLines[$participantNum]);
               }
             }
@@ -819,7 +831,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
 
           // call postprocess hook before leaving
           $this->postProcessHook();
-          // this does not return
 
           $this->processPayment($payment, $primaryParticipant);
         }
@@ -837,14 +848,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
         NULL, $primaryContactId, $isTest,
         TRUE
       );
-      //lets send  mails to all with meaningful text, CRM-4320.
+      //let's send mails to all with meaningful text, CRM-4320.
       $this->assign('isOnWaitlist', $this->_allowWaitlist);
       $this->assign('isRequireApproval', $this->_requireApproval);
 
       //need to copy, since we are unsetting on the way.
       $copyParticipantCount = $participantCount;
 
-      //lets carry all paticipant params w/ values.
+      //let's carry all participant params w/ values.
       foreach ($additionalIDs as $participantID => $contactId) {
         $participantNum = NULL;
         if ($participantID == $registerByID) {
@@ -939,8 +950,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
    * @param int $contactID
    * @param bool $pending
    * @param bool $isAdditionalAmount
+   * @param array $paymentProcessor
    *
    * @return \CRM_Contribute_BAO_Contribution
+   * @throws \CRM_Core_Exception
    */
   public static function processContribution(
     &$form, $params, $result, $contactID,
@@ -1039,8 +1052,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     }
 
     $contribParams['skipLineItem'] = 1;
+    $contribParams['skipCleanMoney'] = 1;
     // create contribution record
-    $contribution = CRM_Contribute_BAO_Contribution::add($contribParams, $ids);
+    $contribution = CRM_Contribute_BAO_Contribution::add($contribParams);
     // CRM-11124
     CRM_Event_BAO_Participant::createDiscountTrxn($form->_eventId, $contribParams, NULL, CRM_Price_BAO_PriceSet::parseFirstPriceSetValueIDFromParams($params));
 
@@ -1296,7 +1310,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
     $_REQUEST['id'] = $form->_eventId = $params['id'];
     $form->controller = new CRM_Event_Controller_Registration();
     $form->_params = $params['params'];
-    $form->_amount = $form->_totalAmount = CRM_Utils_Array::value('totalAmount', $params);
+    // This happens in buildQuickForm so emulate here.
+    $form->_amount = $form->_totalAmount = CRM_Utils_Rule::cleanMoney(CRM_Utils_Array::value('totalAmount', $params));
     $form->set('params', $params['params']);
     $form->_values['custom_pre_id'] = array();
     $form->_values['custom_post_id'] = array();
@@ -1330,6 +1345,21 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration {
       CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/event/register', "id={$this->_eventId}"));
     }
     return array();
+  }
+
+  /**
+   * Clean money fields from the form.
+   *
+   * @param array $params
+   */
+  protected function cleanMoneyFields(&$params) {
+    foreach ($this->submittableMoneyFields as $moneyField) {
+      foreach ($params as $index => $paramField) {
+        if (isset($paramField[$moneyField])) {
+          $params[$index][$moneyField] = CRM_Utils_Rule::cleanMoney($paramField[$moneyField]);
+        }
+      }
+    }
   }
 
 }

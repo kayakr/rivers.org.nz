@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -42,7 +42,7 @@
  *   api result array
  */
 function civicrm_api3_contribution_page_create($params) {
-  $result = _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params);
+  $result = _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params, 'ContributionPage');
   CRM_Contribute_PseudoConstant::flush('contributionPageAll');
   CRM_Contribute_PseudoConstant::flush('contributionPageActive');
   return $result;
@@ -104,6 +104,26 @@ function civicrm_api3_contribution_page_submit($params) {
   return civicrm_api3_create_success($result, $params, 'ContributionPage', 'submit');
 }
 
+/**
+ * Validate ContributionPage submission parameters.
+ *
+ * @param array $params
+ *   Array per getfields metadata.
+ *
+ * @return array
+ *   API result array
+ */
+function civicrm_api3_contribution_page_validate($params) {
+  $form = new CRM_Contribute_Form_Contribution_Main();
+  $form->controller = new CRM_Core_Controller();
+  $form->set('id', $params['id']);
+  $form->preProcess();
+  $errors = CRM_Contribute_Form_Contribution_Main::formRule($params, [], $form);
+  if ($errors === TRUE) {
+    $errors = [];
+  }
+  return civicrm_api3_create_success($errors, $params, 'ContributionPage', 'validate');
+}
 
 /**
  * Set default getlist parameters.

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -45,6 +45,16 @@ function civicrm_api3_contribution_create(&$params) {
   $values = array();
   _civicrm_api3_custom_format_params($params, $values, 'Contribution');
   $params = array_merge($params, $values);
+  // The BAO should not clean money - it should be done in the form layer & api wrapper
+  // (although arguably the api should expect pre-cleaned it seems to do some cleaning.)
+  if (empty($params['skipCleanMoney'])) {
+    foreach (['total_amount', 'net_amount', 'fee_amount'] as $field) {
+      if (isset($params[$field])) {
+        $params[$field] = CRM_Utils_Rule::cleanMoney($params[$field]);
+      }
+    }
+  }
+  $params['skipCleanMoney'] = TRUE;
 
   if (CRM_Financial_BAO_FinancialType::isACLFinancialTypeStatus()) {
     if (empty($params['id'])) {
@@ -96,6 +106,7 @@ function _civicrm_api3_contribution_create_spec(&$params) {
   $params['total_amount']['api.required'] = 1;
   $params['payment_instrument_id']['api.aliases'] = array('payment_instrument');
   $params['receive_date']['api.default'] = 'now';
+  $params['receive_date']['api.required'] = TRUE;
   $params['payment_processor'] = array(
     'name' => 'payment_processor',
     'title' => 'Payment Processor ID',
@@ -424,7 +435,8 @@ function civicrm_api3_contribution_transact($params) {
   $paymentProcessor = CRM_Financial_BAO_PaymentProcessor::getPayment($params['payment_processor'], $params['payment_processor_mode']);
   $paymentProcessor['object']->doPayment($params);
 
-  $params['payment_instrument_id'] = CRM_Core_DAO::getFieldValue('CRM_Financial_DAO_PaymentProcessorType', $paymentProcessor['payment_processor_type_id'], 'payment_type') == 1 ? 'Credit Card' : 'Debit Card';
+  $params['payment_instrument_id'] = $paymentProcessor['object']->getPaymentInstrumentID();
+
   return civicrm_api('Contribution', 'create', $params);
 }
 

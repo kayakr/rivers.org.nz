@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -43,7 +43,7 @@
  * This provides greater consistency/predictability after flushing.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Core_PseudoConstant {
 
@@ -156,12 +156,6 @@ class CRM_Core_PseudoConstant {
   private static $greeting;
 
   /**
-   * Default Greetings
-   * @var array
-   */
-  private static $greetingDefaults;
-
-  /**
    * Extensions of type module
    * @var array
    */
@@ -176,7 +170,7 @@ class CRM_Core_PseudoConstant {
   /**
    * Low-level option getter, rarely accessed directly.
    * NOTE: Rather than calling this function directly use CRM_*_BAO_*::buildOptions()
-   * @see http://wiki.civicrm.org/confluence/display/CRMDOC/Pseudoconstant+%28option+list%29+Reference
+   * @see https://docs.civicrm.org/dev/en/latest/framework/pseudoconstant/
    *
    * NOTE: If someone undertakes a refactoring of this, please consider the use-case of
    * the Setting.getoptions API. There is no DAO/field, but it would be nice to use the
@@ -198,6 +192,7 @@ class CRM_Core_PseudoConstant {
    * - onlyActive boolean return only the action option values
    * - fresh      boolean ignore cache entries and go back to DB
    * @param string $context : Context string
+   * @see CRM_Core_DAO::buildOptionsContext
    *
    * @return array|bool
    *   array on success, FALSE on error.
@@ -206,10 +201,14 @@ class CRM_Core_PseudoConstant {
   public static function get($daoName, $fieldName, $params = array(), $context = NULL) {
     CRM_Core_DAO::buildOptionsContext($context);
     $flip = !empty($params['flip']);
+    // Historically this was 'false' but according to the notes in
+    // CRM_Core_DAO::buildOptionsContext it should be context dependent.
+    // timidly changing for 'search' only to fix world_region in search options.
+    $localizeDefault = in_array($context, ['search']) ? TRUE : FALSE;
     // Merge params with defaults
     $params += array(
       'grouping' => FALSE,
-      'localize' => FALSE,
+      'localize' => $localizeDefault,
       'onlyActive' => ($context == 'validate' || $context == 'get') ? FALSE : TRUE,
       'fresh' => FALSE,
       'context' => $context,
@@ -383,11 +382,8 @@ class CRM_Core_PseudoConstant {
           // Localize results
           if (!empty($params['localize']) || $pseudoconstant['table'] == 'civicrm_country' || $pseudoconstant['table'] == 'civicrm_state_province') {
             $I18nParams = array();
-            if ($pseudoconstant['table'] == 'civicrm_country') {
-              $I18nParams['context'] = 'country';
-            }
-            if ($pseudoconstant['table'] == 'civicrm_state_province') {
-              $I18nParams['context'] = 'province';
+            if (isset($fieldSpec['localize_context'])) {
+              $I18nParams['context'] = $fieldSpec['localize_context'];
             }
             $i18n = CRM_Core_I18n::singleton();
             $i18n->localizeArray($output, $I18nParams);
@@ -541,10 +537,10 @@ class CRM_Core_PseudoConstant {
     $key = 'id',
     $force = NULL
   ) {
-    $cacheKey = "CRM_PC_{$name}_{$all}_{$key}_{$retrieve}_{$filter}_{$condition}_{$orderby}";
+    $cacheKey = CRM_Core_BAO_Cache::cleanKey("CRM_PC_{$name}_{$all}_{$key}_{$retrieve}_{$filter}_{$condition}_{$orderby}");
     $cache = CRM_Utils_Cache::singleton();
     $var = $cache->get($cacheKey);
-    if ($var && empty($force)) {
+    if ($var !== NULL && empty($force)) {
       return $var;
     }
 
@@ -585,7 +581,6 @@ class CRM_Core_PseudoConstant {
    * Flush given pseudoconstant so it can be reread from db.
    * nex time it's requested.
    *
-   *
    * @param bool|string $name pseudoconstant to be flushed
    */
   public static function flush($name = 'cache') {
@@ -594,6 +589,9 @@ class CRM_Core_PseudoConstant {
     }
     if ($name == 'cache') {
       CRM_Core_OptionGroup::flushAll();
+      if (isset(\Civi::$statics[__CLASS__])) {
+        unset(\Civi::$statics[__CLASS__]);
+      }
     }
   }
 
@@ -781,6 +779,32 @@ WHERE  id = %1";
   }
 
   /**
+   * Get all the State/Province abbreviations from the database for the specified country.
+   *
+   * @param int $countryID
+   *
+   * @return array
+   *   array of all State/Province abbreviations for the given country.
+   */
+  public static function stateProvinceAbbreviationForCountry($countryID) {
+    if (!isset(\Civi::$statics[__CLASS__]['stateProvinceAbbreviationForCountry'][$countryID])) {
+      \Civi::$statics[__CLASS__]['stateProvinceAbbreviationForCountry'][$countryID] = array();
+    }
+    self::populate(\Civi::$statics[__CLASS__]['stateProvinceAbbreviationForCountry'][$countryID], 'CRM_Core_DAO_StateProvince', TRUE, 'abbreviation', 'is_active', "country_id = " . (int) $countryID, 'abbreviation');
+    return \Civi::$statics[__CLASS__]['stateProvinceAbbreviationForCountry'][$countryID];
+  }
+
+  /**
+   * Get all the State/Province abbreviations from the database for the default country.
+   *
+   * @return array
+   *   array of all State/Province abbreviations for the given country.
+   */
+  public static function stateProvinceAbbreviationForDefaultCountry() {
+    return CRM_Core_PseudoConstant::stateProvinceAbbreviationForCountry(Civi::settings()->get('defaultContactCountry'));
+  }
+
+  /**
    * Get all the countries from database.
    *
    * The static array country is returned, and if it's
@@ -908,6 +932,11 @@ WHERE  id = %1";
    *   array reference of all groups.
    */
   public static function allGroup($groupType = NULL, $excludeHidden = TRUE) {
+    if ($groupType === 'validate') {
+      // validate gets passed through from getoptions. Handle in the deprecated
+      // fn rather than change the new pattern.
+      $groupType = NULL;
+    }
     $condition = CRM_Contact_BAO_Group::groupTypeCondition($groupType, $excludeHidden);
     $groupKey = ($groupType ? $groupType : 'null') . !empty($excludeHidden);
 
@@ -1052,275 +1081,13 @@ WHERE  id = %1";
    */
   public static function &currencyCode() {
     if (!self::$currencyCode) {
-      self::$currencyCode = array(
-        'AFN',
-        'ALL',
-        'DZD',
-        'USD',
-        'EUR',
-        'AOA',
-        'XCD',
-        'XCD',
-        'ARS',
-        'AMD',
-        'AWG',
-        'AUD',
-        'EUR',
-        'AZM',
-        'BSD',
-        'BHD',
-        'BDT',
-        'BBD',
-        'BYR',
-        'EUR',
-        'BZD',
-        'XOF',
-        'BMD',
-        'INR',
-        'BTN',
-        'BOB',
-        'BOV',
-        'BAM',
-        'BWP',
-        'NOK',
-        'BRL',
-        'USD',
-        'BND',
-        'BGN',
-        'XOF',
-        'BIF',
-        'KHR',
-        'XAF',
-        'CAD',
-        'CVE',
-        'KYD',
-        'XAF',
-        'XAF',
-        'CLP',
-        'CLF',
-        'CNY',
-        'AUD',
-        'AUD',
-        'COP',
-        'COU',
-        'KMF',
-        'XAF',
-        'CDF',
-        'NZD',
-        'CRC',
-        'XOF',
-        'HRK',
-        'CUP',
-        'CYP',
-        'CZK',
-        'DKK',
-        'DJF',
-        'XCD',
-        'DOP',
-        'USD',
-        'EGP',
-        'SVC',
-        'USD',
-        'XAF',
-        'ERN',
-        'EEK',
-        'ETB',
-        'FKP',
-        'DKK',
-        'FJD',
-        'EUR',
-        'EUR',
-        'EUR',
-        'XPF',
-        'EUR',
-        'XAF',
-        'GMD',
-        'GEL',
-        'EUR',
-        'GHC',
-        'GIP',
-        'EUR',
-        'DKK',
-        'XCD',
-        'EUR',
-        'USD',
-        'GTQ',
-        'GNF',
-        'GWP',
-        'XOF',
-        'GYD',
-        'HTG',
-        'USD',
-        'AUD',
-        'EUR',
-        'HNL',
-        'HKD',
-        'HUF',
-        'ISK',
-        'INR',
-        'IDR',
-        'XDR',
-        'IRR',
-        'IQD',
-        'EUR',
-        'ILS',
-        'EUR',
-        'JMD',
-        'JPY',
-        'JOD',
-        'KZT',
-        'KES',
-        'AUD',
-        'KPW',
-        'KRW',
-        'KWD',
-        'KGS',
-        'LAK',
-        'LVL',
-        'LBP',
-        'ZAR',
-        'LSL',
-        'LRD',
-        'LYD',
-        'CHF',
-        'LTL',
-        'EUR',
-        'MOP',
-        'MKD',
-        'MGA',
-        'MWK',
-        'MYR',
-        'MVR',
-        'XOF',
-        'MTL',
-        'USD',
-        'EUR',
-        'MRO',
-        'MUR',
-        'EUR',
-        'MXN',
-        'MXV',
-        'USD',
-        'MDL',
-        'EUR',
-        'MNT',
-        'XCD',
-        'MAD',
-        'MZM',
-        'MMK',
-        'ZAR',
-        'NAD',
-        'AUD',
-        'NPR',
-        'EUR',
-        'ANG',
-        'XPF',
-        'NZD',
-        'NIO',
-        'XOF',
-        'NGN',
-        'NZD',
-        'AUD',
-        'USD',
-        'NOK',
-        'OMR',
-        'PKR',
-        'USD',
-        'PAB',
-        'USD',
-        'PGK',
-        'PYG',
-        'PEN',
-        'PHP',
-        'NZD',
-        'PLN',
-        'EUR',
-        'USD',
-        'QAR',
-        'EUR',
-        'ROL',
-        'RON',
-        'RUB',
-        'RWF',
-        'SHP',
-        'XCD',
-        'XCD',
-        'EUR',
-        'XCD',
-        'WST',
-        'EUR',
-        'STD',
-        'SAR',
-        'XOF',
-        'CSD',
-        'EUR',
-        'SCR',
-        'SLL',
-        'SGD',
-        'SKK',
-        'SIT',
-        'SBD',
-        'SOS',
-        'ZAR',
-        'EUR',
-        'LKR',
-        'SDD',
-        'SRD',
-        'NOK',
-        'SZL',
-        'SEK',
-        'CHF',
-        'CHW',
-        'CHE',
-        'SYP',
-        'TWD',
-        'TJS',
-        'TZS',
-        'THB',
-        'USD',
-        'XOF',
-        'NZD',
-        'TOP',
-        'TTD',
-        'TND',
-        'TRY',
-        'TRL',
-        'TMM',
-        'USD',
-        'AUD',
-        'UGX',
-        'UAH',
-        'AED',
-        'GBP',
-        'USD',
-        'USS',
-        'USN',
-        'USD',
-        'UYU',
-        'UZS',
-        'VUV',
-        'VEB',
-        'VND',
-        'USD',
-        'USD',
-        'XPF',
-        'MAD',
-        'YER',
-        'ZMK',
-        'ZWD',
-        'XAU',
-        'XBA',
-        'XBB',
-        'XBC',
-        'XBD',
-        'XPD',
-        'XPT',
-        'XAG',
-        'XFU',
-        'XFO',
-        'XTS',
-        'XXX',
-      );
+
+      $query = "SELECT name FROM civicrm_currency";
+      $dao = CRM_Core_DAO::executeQuery($query);
+      $currencyCode = array();
+      while ($dao->fetch()) {
+        self::$currencyCode[] = $dao->name;
+      }
     }
     return self::$currencyCode;
   }
@@ -1650,6 +1417,10 @@ WHERE  id = %1
    *   array reference of all greetings.
    */
   public static function greeting($filter, $columnName = 'label') {
+    if (!isset(Civi::$statics[__CLASS__]['greeting'])) {
+      Civi::$statics[__CLASS__]['greeting'] = array();
+    }
+
     $index = $filter['greeting_type'] . '_' . $columnName;
 
     // also add contactType to the array
@@ -1658,11 +1429,7 @@ WHERE  id = %1
       $index .= '_' . $contactType;
     }
 
-    if (NULL === self::$greeting) {
-      self::$greeting = array();
-    }
-
-    if (!CRM_Utils_Array::value($index, self::$greeting)) {
+    if (!CRM_Utils_Array::value($index, Civi::$statics[__CLASS__]['greeting'])) {
       $filterCondition = NULL;
       if ($contactType) {
         $filterVal = 'v.filter =';
@@ -1682,40 +1449,10 @@ WHERE  id = %1
         $filterCondition .= "AND (v.filter = 0 OR {$filterVal}) ";
       }
 
-      self::$greeting[$index] = CRM_Core_OptionGroup::values($filter['greeting_type'], NULL, NULL, NULL, $filterCondition, $columnName);
+      Civi::$statics[__CLASS__]['greeting'][$index] = CRM_Core_OptionGroup::values($filter['greeting_type'], NULL, NULL, NULL, $filterCondition, $columnName);
     }
 
-    return self::$greeting[$index];
-  }
-
-  /**
-   * Construct array of default greeting values for contact type.
-   *
-   *
-   * @return array
-   *   array reference of default greetings.
-   */
-  public static function &greetingDefaults() {
-    if (!self::$greetingDefaults) {
-      $defaultGreetings = array();
-      $contactTypes = self::get('CRM_Contact_DAO_Contact', 'contact_type', array(
-          'keyColumn' => 'id',
-          'labelColumn' => 'name',
-        ));
-
-      foreach ($contactTypes as $filter => $contactType) {
-        $filterCondition = " AND (v.filter = 0 OR v.filter = $filter) AND v.is_default = 1 ";
-
-        foreach (CRM_Contact_BAO_Contact::$_greetingTypes as $greeting) {
-          $tokenVal = CRM_Core_OptionGroup::values($greeting, NULL, NULL, NULL, $filterCondition, 'label');
-          $defaultGreetings[$contactType][$greeting] = $tokenVal;
-        }
-      }
-
-      self::$greetingDefaults = $defaultGreetings;
-    }
-
-    return self::$greetingDefaults;
+    return Civi::$statics[__CLASS__]['greeting'][$index];
   }
 
   /**
@@ -1833,6 +1570,19 @@ WHERE  id = %1
     }
 
     return Civi::$statics[__CLASS__]['taxRates'];
+  }
+
+  /**
+   * Get participant status class options.
+   *
+   * @return array
+   */
+  public static function emailOnHoldOptions() {
+    return array(
+      '0' => ts('No'),
+      '1' => ts('On Hold Bounce'),
+      '2' => ts('On Hold Opt Out'),
+    );
   }
 
 }

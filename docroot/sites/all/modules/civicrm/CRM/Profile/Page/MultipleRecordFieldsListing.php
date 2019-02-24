@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  *
  */
 class CRM_Profile_Page_MultipleRecordFieldsListing extends CRM_Core_Page_Basic {
@@ -199,10 +199,10 @@ class CRM_Profile_Page_MultipleRecordFieldsListing extends CRM_Core_Page_Basic {
     elseif ($this->_pageViewType == 'customDataView') {
       // require custom group id for _pageViewType of customDataView
       $customGroupId = $this->_customGroupId;
+      $this->assign('customGroupId', $customGroupId);
       $reached = CRM_Core_BAO_CustomGroup::hasReachedMaxLimit($customGroupId, $this->_contactId);
       if (!$reached) {
         $this->assign('contactId', $this->_contactId);
-        $this->assign('customGroupId', $customGroupId);
         $this->assign('ctype', $this->_contactType);
       }
       $this->assign('reachedMax', $reached);
@@ -341,7 +341,7 @@ class CRM_Profile_Page_MultipleRecordFieldsListing extends CRM_Core_Page_Basic {
               // TODO: Not all widget types and validation rules are supported by crmEditable so some fields will not be in-place editable
               $fieldAttributes = array('class' => "crmf-custom_{$fieldId}_$recId");
               $editable = FALSE;
-              if (!$options[$fieldId]['attributes']['is_view'] && $linkAction & CRM_Core_Action::UPDATE) {
+              if (!$options[$fieldId]['attributes']['is_view'] && $this->_pageViewType == 'customDataView' && $linkAction & CRM_Core_Action::UPDATE) {
                 $spec = $options[$fieldId]['attributes'];
                 switch ($spec['html_type']) {
                   case 'Text':

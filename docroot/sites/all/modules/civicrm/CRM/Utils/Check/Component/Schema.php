@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2016                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2016
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
 class CRM_Utils_Check_Component_Schema extends CRM_Utils_Check_Component {
 
@@ -37,6 +37,11 @@ class CRM_Utils_Check_Component_Schema extends CRM_Utils_Check_Component {
    */
   public function checkIndices() {
     $messages = array();
+
+    // CRM-21298: The "Update Indices" tool that this check suggests is
+    // unreliable. Bypass this check until CRM-20817 and CRM-20533 are resolved.
+    return $messages;
+
     $missingIndices = CRM_Core_BAO_SchemaHandler::getMissingIndices();
     if ($missingIndices) {
       $html = '';
@@ -77,7 +82,7 @@ class CRM_Utils_Check_Component_Schema extends CRM_Utils_Check_Component {
     $logging = new CRM_Logging_Schema();
     $missingLogTables = $logging->getMissingLogTables();
 
-    if ($missingLogTables) {
+    if (Civi::settings()->get('logging') && $missingLogTables) {
       $msg = new CRM_Utils_Check_Message(
         __FUNCTION__,
         ts("You don't have logging enabled on some tables. This may cause errors on performing insert/update operation on them."),

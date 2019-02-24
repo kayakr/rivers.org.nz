@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,13 +28,8 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
- * $Id$
- *
+ * @copyright CiviCRM LLC (c) 2004-2019
  */
-
-// $Id: example.drush.inc,v 1.5 2009/09/30 13:15:54 weitzman Exp $
-
 
 /**
  * @file
@@ -199,12 +194,14 @@ function civicrm_drush_command() {
     'description' => 'Exports the CiviCRM DB as SQL using mysqldump.',
     'examples' => array(
       'drush civicrm-sql-dump --result-file=../CiviCRM.sql' => 'Save SQL dump to the directory above Drupal root.',
+      'drush civicrm-sql-dump --extra-options=--quick' => 'Pass the --quick option to mysqldump to help with large tables.',
     ),
     'options' => array(
       'data-only' => 'Dump data without statements to create any of the schema.',
       'gzip' => 'Compress the dump using the gzip program which must be in your $PATH.',
       'result-file' => 'Save to a file.',
       'tables-list' => 'comma-separated list of tables to transfer.',
+      'extra-options' => 'Add custom options to the dump command.',
     ),
   );
   $items['civicrm-sql-query'] = array(
@@ -228,6 +225,13 @@ function civicrm_drush_command() {
     'description' => "Open a SQL command-line interface using CiviCRM's credentials.",
     'aliases' => array('cvsqlc'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+  );
+  $items['civicrm-sql-rebuild-triggers'] = array(
+    'description' => 'Rebuild SQL triggers',
+    'aliases' => array('cvsqlrt'),
+    'options' => array(
+      'table' => 'Specific table to target. If omitted, triggers for all tables are rebuilt.',
+    ),
   );
   $items['civicrm-process-mail-queue'] = array(
     'description' => "Process pending CiviMail mailing jobs.",
@@ -1083,13 +1087,6 @@ function drush_civicrm_restore() {
 }
 
 /**
- * ?? for command 'civicrm-civimail'
- */
-function drush_civicrm_civimail_cron() {
-  civicrm_api('Mailing', 'Process', array('version' => 3));
-}
-
-/**
  * Implementation of command 'civicrm-member-records'
  */
 function drush_civicrm_member_records() {
@@ -1182,6 +1179,8 @@ function drush_civicrm_pre_civicrm_sqldump() {
  * Implementation of command 'civicrm-sql-dump'
  */
 function drush_civicrm_sqldump() {
+  $extra_options = drush_get_option('extra-options', '');
+  drush_set_option('extra', '--routines ' . $extra_options);
   if (version_compare(DRUSH_VERSION, 7, '>=')) {
     drush_sql_dump();
   }
@@ -1524,7 +1523,8 @@ function drush_civicrm_api() {
   array_shift($args);
 
   // Parse $params
-  switch (drush_get_option('in', 'args')) {
+  $format = drush_get_option('in', 'args');
+  switch ($format) {
     case 'args':
       $params = $DEFAULTS;
       foreach ($args as $arg) {
@@ -1556,8 +1556,12 @@ function drush_civicrm_api() {
   );
 
   $result = civicrm_api($entity, $action, $params);
+  if (!empty($result['is_error'])) {
+    drush_set_error('CIVICRM api error', $result['error_message']);
+  }
 
-  switch (drush_get_option('out', 'pretty')) {
+  $format = drush_get_option('out', 'pretty');
+  switch ($format) {
     case 'pretty':
       drush_print_r($result);
       break;
@@ -1600,4 +1604,34 @@ function drush_civicrm_sync_users_contacts() {
     );
   drush_print(dt($status));
   return $result;
+}
+
+function drush_civicrm_sql_rebuild_triggers() {
+  $table = drush_get_option('table', NULL);
+  civicrm_initialize();
+  $triggerService = Civi::service('sql_triggers');
+  $triggerService->rebuild($table, TRUE);
+  if (\Civi::settings()->get('logging_no_trigger_permission')) {
+    $file = $triggerService->getFile();
+    drush_print("Trigger SQL written to $file");
+  }
+  else {
+    drush_print("Triggers rebuilt");
+  }
+}
+
+/**
+ * Callback function for civicrm-process-mail-queue.
+ *
+ * Call the process_mailing job to process any outstanding mailing jobs. This
+ * command will need to be run as a user with the correct permissions to
+ * process mailings.
+ *
+ * @see civicrm_drush_command()
+ */
+function drush_civicrm_process_mail_queue() {
+  $init = _civicrm_init();
+  $facility = new CRM_Core_JobManager();
+  $facility->setSingleRunParams('Job', 'process_mailing', array(), 'Started by drush');
+  $facility->executeJobByAction('Job', 'process_mailing');
 }

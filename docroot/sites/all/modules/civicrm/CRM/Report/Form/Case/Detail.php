@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.7                                                |
+ | CiviCRM version 5                                                  |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2017                                |
+ | Copyright CiviCRM LLC (c) 2004-2019                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2017
+ * @copyright CiviCRM LLC (c) 2004-2019
  * $Id$
  *
  */
@@ -36,13 +36,7 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
 
   protected $_relField = FALSE;
 
-  protected $_addressField = FALSE;
-
-  protected $_emailField = FALSE;
-
-  protected $_phoneField = FALSE;
-
-  protected $_worldRegionField = FALSE;
+  protected $_addressField = TRUE;
 
   protected $_activityLast = FALSE;
 
@@ -185,6 +179,12 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
             'type' => CRM_Utils_Type::T_INT,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => $this->rel_types,
+          ),
+          'is_active' => array(
+            'title' => ts('Active Role?'),
+            'type' => CRM_Utils_Type::T_BOOLEAN,
+            'default' => TRUE,
+            'options' => CRM_Core_SelectValues::boolean(),
           ),
         ),
       ),
@@ -344,19 +344,10 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
     foreach ($this->_columns as $tableName => $table) {
       if (array_key_exists('fields', $table)) {
         foreach ($table['fields'] as $fieldName => $field) {
-          if ($tableName == 'civicrm_address') {
-            $this->_addressField = TRUE;
-          }
           if (!empty($field['required']) ||
             !empty($this->_params['fields'][$fieldName])
           ) {
-            if ($tableName == 'civicrm_email') {
-              $this->_emailField = TRUE;
-            }
-            elseif ($tableName == 'civicrm_phone') {
-              $this->_phoneField = TRUE;
-            }
-            elseif ($tableName == 'civicrm_relationship') {
+            if ($tableName == 'civicrm_relationship') {
               $this->_relField = TRUE;
             }
             if ($fieldName == 'sort_name') {
@@ -414,25 +405,11 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
 ";
     }
 
-    if ($this->_addressField) {
-      $this->_from .= "
-             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
-                    ON {$conact}.id = {$this->_aliases['civicrm_address']}.contact_id AND
-                       {$this->_aliases['civicrm_address']}.is_primary = 1 ";
-    }
-    if ($this->_emailField) {
-      $this->_from .= "
-             LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']}
-                   ON {$conact}.id = {$this->_aliases['civicrm_email']}.contact_id AND
-                       {$this->_aliases['civicrm_email']}.is_primary = 1 ";
-    }
-    if ($this->_phoneField) {
-      $this->_from .= "
-             LEFT JOIN  civicrm_phone {$this->_aliases['civicrm_phone']}
-                       ON ( {$conact}.id = {$this->_aliases['civicrm_phone']}.contact_id AND
-                          {$this->_aliases['civicrm_phone']}.is_primary = 1) ";
-    }
-    if ($this->_worldRegionField) {
+    $this->joinAddressFromContact();
+    $this->joinPhoneFromContact();
+    $this->joinEmailFromContact();
+
+    if ($this->isTableSelected('civicrm_worldregion')) {
       $this->_from .= "
              LEFT JOIN civicrm_country {$this->_aliases['civicrm_country']}
                    ON {$this->_aliases['civicrm_country']}.id ={$this->_aliases['civicrm_address']}.country_id
@@ -549,6 +526,9 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
 
     if ($this->_caseTypeNameOrderBy) {
       $this->_orderBy = str_replace('case_civireport.case_type_name', 'civireport_case_types.title', $this->_orderBy);
+      if (isset($this->_sections['civicrm_case_case_type_name'])) {
+        $this->_sections['civicrm_case_case_type_name']['dbAlias'] = 'civireport_case_types.title';
+      }
     }
   }
 
@@ -598,15 +578,9 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
   }
 
   public function checkEnabledFields() {
-    if (isset($this->_params['worldregion_id_value']) &&
-      !empty($this->_params['worldregion_id_value'])
-    ) {
-      $this->_addressField = TRUE;
-      $this->_worldRegionField = TRUE;
-    }
-
-    if (isset($this->_params['case_role_value'])
-      && !empty($this->_params['case_role_value'])
+    if ((isset($this->_params['case_role_value'])
+        && !empty($this->_params['case_role_value'])) ||
+        (isset($this->_params['is_active_value']))
     ) {
       $this->_relField = TRUE;
     }
@@ -683,18 +657,6 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
         }
         $entryFound = TRUE;
       }
-      if (array_key_exists('civicrm_address_country_id', $row)) {
-        if ($value = $row['civicrm_address_country_id']) {
-          $rows[$rowNum]['civicrm_address_country_id'] = CRM_Core_PseudoConstant::country($value, FALSE);
-        }
-        $entryFound = TRUE;
-      }
-      if (array_key_exists('civicrm_address_state_province_id', $row)) {
-        if ($value = $row['civicrm_address_state_province_id']) {
-          $rows[$rowNum]['civicrm_address_state_province_id'] = CRM_Core_PseudoConstant::stateProvince($value, FALSE);
-        }
-        $entryFound = TRUE;
-      }
       if (array_key_exists('civicrm_activity_last_last_activity_activity_subject', $row) &&
         empty($row['civicrm_activity_last_last_activity_activity_subject'])
       ) {
@@ -748,6 +710,7 @@ class CRM_Report_Form_Case_Detail extends CRM_Report_Form {
         $entryFound = TRUE;
       }
 
+      $entryFound = $this->alterDisplayAddressFields($row, $rows, $rowNum, NULL, NULL) ? TRUE : $entryFound;
       if (!$entryFound) {
         break;
       }
