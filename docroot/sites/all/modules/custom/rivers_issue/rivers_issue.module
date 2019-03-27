@@ -29,7 +29,7 @@ function rivers_issue_block_view($delta = '') {
     case 'rivers_issue':
       $block['subject'] = t('Hot Issues');
       $block['content'] = '<ul>
-  <li><a href="/news/2015/kaituna-river-access-coroners-inquest-re-louise-jull">Kaituna river access</a></li>
+  <li><a href="/issue/kaituna-river-access">Kaituna river access</a></li>
 <!--  <li><a href="/article/rma-reform-vs-recreation">RMA reform vs recreation</a></li>-->
   <li><a href="/issue/waitaha-hydro">Waitaha hydro</a></li>
   <li><a href="/article/hurunui-water-project">Hurunui Water Project</a></li>
