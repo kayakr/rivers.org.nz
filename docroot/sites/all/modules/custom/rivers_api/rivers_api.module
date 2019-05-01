@@ -192,10 +192,31 @@ function rivers_api_node_view($node, $view_mode, $langcode) {
       '@nid' => $node->nid,
       '@accept' => $_SERVER['HTTP_ACCEPT'],
     ), WATCHDOG_DEBUG);
-    if (substr($_SERVER['HTTP_ACCEPT'], 0, 12) == 'application/') {
-      // Return via services, force path to be Section node.
-      $_GET['node_view_redirect'] = 1;
-      drupal_add_http_header('X-Node-View-Redirect', '1');
+
+    $api = false;
+    $mimetypes = array(
+      'text/html' => false,
+      'application/json' => true,
+      'application/hal+json' => true,
+      'application/vnd.rivers.v0.0.1.hal+json' => true,
+      'application/vnd.rivers.v0.0.2.hal+json' => true,
+    );
+
+    // Scan incoming Accept header for mimetypes served by api.
+    // @todo switch to uuids.
+    foreach ($mimetypes as $mimetype => $serve_via_api) {
+      if (strpos($mimetype, $_SERVER['HTTP_ACCEPT']) !== false) {
+        flog_it(__FUNCTION__ . ': adding Vary header');
+        drupal_add_http_header('Vary', 'Accept', TRUE);
+        $api = $serve_via_api;
+      }
+    }
+
+    if ($api) {
+      //$_GET['node_view_redirect'] = 1;
+      //drupal_add_http_header('X-Node-View-Redirect', '1');
+      // @todo: add additional headers so that redirect is not cached...
+      // otherwise visitors requesting HTML get redirected.
 
       $_GET['q'] = 'api/section/' . $node->nid;
       $endpoint_name = 'rivers_api';
