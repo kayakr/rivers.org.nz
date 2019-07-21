@@ -46,6 +46,7 @@
 @media screen and (min-width: 992px) {
   .navbar #block-search-form {
     float: right;
+    width: 200px;
   }
 }
 
