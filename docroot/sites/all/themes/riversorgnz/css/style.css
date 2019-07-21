@@ -42,6 +42,12 @@
     display: none;
   }
 }
+/* This should be served from https://cdn.jsdelivr.net/npm/@unicorn-fail/drupal-bootstrap-styles@0.0.2/dist/3.3.1/7.x-3.x/drupal-bootstrap.css but is blocked on Catalyst? */
+@media screen and (min-width: 992px) {
+  .navbar #block-search-form {
+    float: right;
+  }
+}
 
 /* xs, Mobile nav */
 #navbar {
