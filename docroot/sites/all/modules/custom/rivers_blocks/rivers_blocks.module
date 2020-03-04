@@ -27,6 +27,11 @@ function rivers_blocks_block_info() {
     'cache' => DRUPAL_CACHE_GLOBAL, // change to DRUPAL_CACHE_GLOBAL when done.
   );
 
+  $blocks['whitewater_nz'] = array(
+    'info' => t('whitewater.nz promo'),
+    'cache' => DRUPAL_NO_CACHE, // change to DRUPAL_CACHE_GLOBAL when done.
+  );
+
   return $blocks;
 }
 
@@ -57,7 +62,11 @@ function rivers_blocks_block_view($delta = '') {
         <li>API for river section data is in development.</li>
       </ul>  
 	<p>Most things should <em>just work</em> but if you notice an issue please <a href="mailto:webmaster[at]rivers.org.nz?subject=rivers.org.nz">get in touch</a> or add an issue directly at Gitlab <a href="https://gitlab.com/kayakr/rivers.org.nz">https://gitlab.com/kayakr/rivers.org.nz</a>. Enjoy!</p>');
+      return $block;
 
+    case 'whitewater_nz':
+      $block['subject'] = 'Whitewater NZ launches new website';
+      $block['content'] = '<p>Get your whitewater news and events from <a href="https://whitewater.nz/">whitewater.nz</a></p>';
       return $block;
   }
 }

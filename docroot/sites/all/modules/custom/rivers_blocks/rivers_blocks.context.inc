@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * rivers_blocks.context.inc
@@ -26,9 +27,9 @@ function rivers_blocks_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'rivers_blocks-rivers_welcome_d7' => array(
+        'rivers_blocks-whitewater_nz' => array(
           'module' => 'rivers_blocks',
-          'delta' => 'rivers_welcome_d7',
+          'delta' => 'whitewater_nz',
           'region' => 'help',
           'weight' => '-10',
         ),

@@ -419,3 +419,21 @@ div.geshifilter pre {
   border: none;
   background: transparent;
 }
+
+/* whitewater.nz promo */
+.front .alert-info {
+  background: url("/sites/all/modules/custom/rivers_blocks/img/banner-1.jpg");
+  color: white;
+  border: none;
+}
+.front .alert-info p,
+.front .alert-info ul {
+  font-size: 18px;
+}
+.front .alert-info a {
+  color: white;
+  text-decoration: underline;
+}
+.front .alert-info > .glyphicon {
+  display: none;
+}
