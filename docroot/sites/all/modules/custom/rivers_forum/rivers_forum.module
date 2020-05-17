@@ -36,12 +36,12 @@ function rivers_forum_menu() {
 function rivers_forum_redirect() {
 
   $url = 'https://whitewater.nz/market-place/?from=' . $_GET['q'];
-  header('Location: ' . $url, TRUE, 301);
 
   if (user_access('administer nodes')) {
     drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
   }
   else {
+    header('Location: ' . $url, TRUE, 301);
     // The "Location" header sends a redirect status code to the HTTP daemon. In
     // some cases this can be wrong, so we make sure none of the code below the
     // drupal_goto() call gets executed upon redirection.

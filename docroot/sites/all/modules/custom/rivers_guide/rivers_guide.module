@@ -46,12 +46,12 @@ function rivers_guide_menu() {
  */
 function rivers_guide_redirect() {
   $url = 'https://riverguide.co.nz/?from=' . $_GET['q'];
-  header('Location: ' . $url, TRUE, 301);
 
   if (user_access('administer nodes')) {
     drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
   }
   else {
+    header('Location: ' . $url, TRUE, 301);
     // The "Location" header sends a redirect status code to the HTTP daemon. In
     // some cases this can be wrong, so we make sure none of the code below the
     // drupal_goto() call gets executed upon redirection.
@@ -415,12 +415,13 @@ function rivers_guide_node_view($node, $view_mode, $langcode) {
   }
   // Redirect to riverguide
   $url = 'https://riverguide.co.nz/?from=' . drupal_get_path_alias($_GET['q']);
-  header('Location: ' . $url, TRUE, 301);
 
   if (user_access('administer nodes')) {
     drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+    return;
   }
   else {
+    header('Location: ' . $url, TRUE, 301);
     // The "Location" header sends a redirect status code to the HTTP daemon. In
     // some cases this can be wrong, so we make sure none of the code below the
     // drupal_goto() call gets executed upon redirection.
