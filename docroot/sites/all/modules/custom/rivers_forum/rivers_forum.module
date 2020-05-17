@@ -7,6 +7,50 @@
 include_once 'rivers_forum.features.inc';
 
 /**
+ * Define handler for redirect to whitewater.nz
+ *
+ * Implements hook_menu()
+ */
+function rivers_forum_menu() {
+
+  $items['forum'] = array(
+    'title' => 'Whitewater NZ',
+    'page callback' => 'rivers_forum_redirect',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['forums'] = array(
+    'title' => 'Whitewater NZ',
+    'page callback' => 'rivers_forum_redirect',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * During development, direct to appropriate homepage.
+ */
+function rivers_forum_redirect() {
+
+  $url = 'https://whitewater.nz/market-place/?from=' . $_GET['q'];
+  header('Location: ' . $url, TRUE, 301);
+
+  if (user_access('administer nodes')) {
+    drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+  }
+  else {
+    // The "Location" header sends a redirect status code to the HTTP daemon. In
+    // some cases this can be wrong, so we make sure none of the code below the
+    // drupal_goto() call gets executed upon redirection.
+    drupal_exit($url);
+  }
+}
+
+
+/**
  * Implements hook_block_info().
  */
 function rivers_forum_block_info() {
@@ -36,7 +80,8 @@ function rivers_forum_block_view($delta = '') {
  * @return string
  */
 function rivers_forum_list() {
-  $forums = forum_forum_load();
+  return '<p>Forums are now on whitewater.nz/forums</p>';
+  /*$forums = forum_forum_load();
   // Assume only single forum tree in operation.
   $forums_list = array();
   if (isset($forums->forums) && count($forums->forums)) {
@@ -53,6 +98,7 @@ function rivers_forum_list() {
     }
   }
   return theme('item_list', array('items' => $forums_list));
+  */
 }
 
 /**

@@ -25,6 +25,41 @@
 include_once 'rivers_guide.features.inc';
 
 /**
+ * Define handler for redirect to riversguide.
+ *
+ * Implements hook_menu()
+ */
+function rivers_guide_menu() {
+
+  $items['nz'] = array(
+    'title' => 'Whitewater NZ',
+    'page callback' => 'rivers_guide_redirect',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Redirect river guide to Whitewater NZ
+ */
+function rivers_guide_redirect() {
+  $url = 'https://riverguide.co.nz/?from=' . $_GET['q'];
+  header('Location: ' . $url, TRUE, 301);
+
+  if (user_access('administer nodes')) {
+    drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+  }
+  else {
+    // The "Location" header sends a redirect status code to the HTTP daemon. In
+    // some cases this can be wrong, so we make sure none of the code below the
+    // drupal_goto() call gets executed upon redirection.
+    drupal_exit($url);
+  }
+}
+
+/**
  * Implements hook_block_info().
  */
 function rivers_guide_block_info() {
@@ -377,6 +412,19 @@ function rivers_guide_node_view($node, $view_mode, $langcode) {
     if (substr($_SERVER['HTTP_ACCEPT'], 0, 9) == 'text/html') {
       drupal_add_http_header('Vary', 'Accept', TRUE);
     }
+  }
+  // Redirect to riverguide
+  $url = 'https://riverguide.co.nz/?from=' . drupal_get_path_alias($_GET['q']);
+  header('Location: ' . $url, TRUE, 301);
+
+  if (user_access('administer nodes')) {
+    drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+  }
+  else {
+    // The "Location" header sends a redirect status code to the HTTP daemon. In
+    // some cases this can be wrong, so we make sure none of the code below the
+    // drupal_goto() call gets executed upon redirection.
+    drupal_exit($url);
   }
 }
 

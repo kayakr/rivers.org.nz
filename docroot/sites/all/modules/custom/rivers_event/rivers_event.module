@@ -5,3 +5,40 @@
  */
 
 include_once 'rivers_event.features.inc';
+
+
+/**
+ * Define handler for redirect to whitewater.nz
+ *
+ * Implements hook_menu()
+ */
+function rivers_event_menu() {
+
+  $items['event'] = array(
+    'title' => 'Whitewater NZ',
+    'page callback' => 'rivers_event_redirect',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * During development, direct to appropriate homepage.
+ */
+function rivers_event_redirect() {
+
+  $url = 'https://whitewater.nz/events/?from=' . $_GET['q'];
+  header('Location: ' . $url, TRUE, 301);
+
+  if (user_access('administer nodes')) {
+    drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+  }
+  else {
+    // The "Location" header sends a redirect status code to the HTTP daemon. In
+    // some cases this can be wrong, so we make sure none of the code below the
+    // drupal_goto() call gets executed upon redirection.
+    drupal_exit($url);
+  }
+}
