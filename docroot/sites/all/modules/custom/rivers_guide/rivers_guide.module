@@ -408,24 +408,26 @@ function rivers_guide_menu_breadcrumb_alter(&$active_trail, $item) {
  * Implements hook_node_view().
  */
 function rivers_guide_node_view($node, $view_mode, $langcode) {
-  if ($node->type == 'section' && $view_mode == 'full') {
-    if (substr($_SERVER['HTTP_ACCEPT'], 0, 9) == 'text/html') {
-      drupal_add_http_header('Vary', 'Accept', TRUE);
+  if ($node->type == 'section') {
+    if ($node->type == 'section' && $view_mode == 'full') {
+      if (substr($_SERVER['HTTP_ACCEPT'], 0, 9) == 'text/html') {
+        drupal_add_http_header('Vary', 'Accept', TRUE);
+      }
     }
-  }
-  // Redirect to riverguide
-  $url = 'https://riverguide.co.nz/?from=' . drupal_get_path_alias($_GET['q']);
+    // Redirect to riverguide
+    $url = 'https://riverguide.co.nz/?from=' . drupal_get_path_alias($_GET['q']);
 
-  if (user_access('administer nodes')) {
-    drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
-    return;
-  }
-  else {
-    header('Location: ' . $url, TRUE, 301);
-    // The "Location" header sends a redirect status code to the HTTP daemon. In
-    // some cases this can be wrong, so we make sure none of the code below the
-    // drupal_goto() call gets executed upon redirection.
-    drupal_exit($url);
+    if (user_access('administer nodes')) {
+      drupal_set_message(t('Would be redirecting to @url', array('@url' => $url)), 'warning');
+      return;
+    }
+    else {
+      header('Location: ' . $url, TRUE, 301);
+      // The "Location" header sends a redirect status code to the HTTP daemon. In
+      // some cases this can be wrong, so we make sure none of the code below the
+      // drupal_goto() call gets executed upon redirection.
+      drupal_exit($url);
+    }
   }
 }
 
